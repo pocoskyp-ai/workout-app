@@ -1,0 +1,1363 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Мой план тренировок</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --bg:#08090B;
+  --surface:#0F1014;
+  --card:#13141A;
+  --card2:#1A1B24;
+  --border:#1E2030;
+  --border2:#252840;
+  --text:#EEEEF5;
+  --muted:#555870;
+  --faint:#32344A;
+  --mon:#B8FF00;
+  --mon-dim:rgba(184,255,0,0.08);
+  --mon-glow:rgba(184,255,0,0.15);
+  --wed:#38CFFF;
+  --wed-dim:rgba(56,207,255,0.08);
+  --wed-glow:rgba(56,207,255,0.15);
+  --fri:#FF7240;
+  --fri-dim:rgba(255,114,64,0.08);
+  --fri-glow:rgba(255,114,64,0.15);
+  --gold:#FFB830;
+  --accent:#B8FF00;
+}
+
+html{scroll-behavior:smooth}
+
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Manrope',sans-serif;
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+/* ─── NOISE OVERLAY ─── */
+body::before{
+  content:'';
+  position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:0;opacity:0.6;
+}
+
+/* ─── HERO ─── */
+.hero{
+  position:relative;
+  padding:52px 20px 36px;
+  text-align:center;
+  overflow:hidden;
+}
+.hero-glow{
+  position:absolute;top:-80px;left:50%;transform:translateX(-50%);
+  width:500px;height:260px;
+  background:radial-gradient(ellipse,rgba(184,255,0,0.10) 0%,transparent 70%);
+  pointer-events:none;
+}
+.hero-line{
+  font-size:11px;font-weight:700;
+  letter-spacing:5px;text-transform:uppercase;
+  color:var(--mon);margin-bottom:14px;
+  opacity:0.8;
+}
+.hero-title{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(64px,18vw,100px);
+  line-height:0.88;letter-spacing:3px;
+  color:var(--text);
+}
+.hero-title em{color:var(--mon);font-style:normal}
+.hero-sub{
+  margin-top:16px;font-size:13px;
+  color:var(--muted);font-weight:500;
+  letter-spacing:0.5px;
+}
+.hero-chips{
+  display:flex;justify-content:center;
+  gap:8px;margin-top:18px;flex-wrap:wrap;
+}
+.chip{
+  background:var(--card2);
+  border:1px solid var(--border2);
+  border-radius:100px;
+  padding:5px 14px;font-size:12px;
+  font-weight:600;color:#888;
+}
+.chip b{color:var(--mon)}
+
+/* ─── RULE BOX ─── */
+.rule-box{
+  margin:4px 16px 24px;
+  background:linear-gradient(135deg,rgba(184,255,0,0.07),rgba(184,255,0,0.02));
+  border:1px solid rgba(184,255,0,0.2);
+  border-radius:18px;padding:20px 22px;
+  position:relative;overflow:hidden;
+}
+.rule-box::before{
+  content:'⚡';
+  position:absolute;right:18px;top:14px;
+  font-size:36px;opacity:0.06;
+}
+.rule-title{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:20px;letter-spacing:1px;
+  color:var(--mon);margin-bottom:10px;
+}
+.rule-body{
+  font-size:13.5px;color:#9999BB;line-height:1.75;
+}
+.rule-body b{color:var(--text)}
+.rule-body .hl{
+  display:inline-block;
+  background:rgba(184,255,0,0.12);
+  color:var(--mon);border-radius:5px;
+  padding:1px 8px;font-weight:700;
+  font-size:12px;margin:0 2px;
+}
+
+/* ─── REST TABLE ─── */
+.rest-section{
+  margin:0 16px 28px;
+}
+.section-title{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:22px;letter-spacing:1.5px;
+  color:var(--text);margin-bottom:12px;
+  padding-left:2px;
+}
+.section-title span{color:var(--mon)}
+.rest-grid{
+  display:grid;gap:8px;
+}
+.rest-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:14px;padding:14px 16px;
+  display:flex;align-items:center;gap:14px;
+}
+.rest-icon{
+  width:40px;height:40px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:20px;flex-shrink:0;
+}
+.rest-info{flex:1}
+.rest-label{font-weight:700;font-size:14px;color:var(--text)}
+.rest-desc{font-size:12px;color:var(--muted);margin-top:2px;line-height:1.5}
+.rest-time{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:26px;letter-spacing:1px;
+  color:var(--mon);
+}
+
+/* ─── PROGRESSION BOX ─── */
+.prog-section{margin:0 16px 32px}
+.prog-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:14px;padding:14px 16px;
+  margin-bottom:8px;
+  display:flex;gap:12px;align-items:flex-start;
+}
+.prog-num{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:32px;line-height:1;
+  color:var(--faint);flex-shrink:0;min-width:28px;
+}
+.prog-text{font-size:13px;color:#9999BB;line-height:1.65}
+.prog-text b{color:var(--text)}
+
+/* ─── TABS ─── */
+.tabs-wrap{
+  position:sticky;top:0;z-index:50;
+  background:var(--bg);
+  padding:12px 16px;
+  border-bottom:1px solid var(--border);
+}
+.tabs{display:flex;gap:8px}
+.tab-btn{
+  flex:1;padding:12px 6px;
+  border-radius:12px;border:1.5px solid var(--border);
+  background:var(--card);
+  color:var(--muted);
+  font-family:'Manrope',sans-serif;
+  font-size:11px;font-weight:700;
+  text-transform:uppercase;letter-spacing:0.8px;
+  cursor:pointer;transition:all 0.2s;
+  text-align:center;line-height:1.4;
+  -webkit-tap-highlight-color:transparent;
+}
+.tab-btn.t-mon{background:var(--mon-dim);border-color:var(--mon);color:var(--mon)}
+.tab-btn.t-wed{background:var(--wed-dim);border-color:var(--wed);color:var(--wed)}
+.tab-btn.t-fri{background:var(--fri-dim);border-color:var(--fri);color:var(--fri)}
+
+/* ─── DAY PANEL ─── */
+.day-panel{display:none;padding:20px 16px 60px}
+.day-panel.active{display:block}
+
+.day-head{margin-bottom:22px}
+.day-name{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:52px;letter-spacing:2px;line-height:1;
+}
+.day-focus{
+  font-size:11px;font-weight:700;
+  letter-spacing:2.5px;text-transform:uppercase;
+  color:var(--muted);margin-top:5px;
+}
+.day-overview{
+  display:flex;gap:8px;margin-top:14px;flex-wrap:wrap;
+}
+.ov-chip{
+  background:var(--card2);border:1px solid var(--border2);
+  border-radius:8px;padding:5px 12px;
+  font-size:11px;font-weight:700;color:#777;
+}
+
+/* ─── EXERCISE CARD ─── */
+.ex{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:18px;
+  margin-bottom:10px;
+  overflow:hidden;
+  transition:border-color 0.25s,box-shadow 0.25s;
+}
+.ex.open{
+  border-color:var(--day-color);
+  box-shadow:0 0 0 1px var(--day-color),0 8px 32px rgba(0,0,0,0.4);
+}
+
+.ex-top{
+  display:flex;align-items:center;
+  padding:16px;gap:14px;
+  cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+  user-select:none;
+}
+.ex-idx{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:26px;color:var(--day-color);
+  opacity:0.4;min-width:30px;
+  transition:opacity 0.2s;
+}
+.ex.open .ex-idx{opacity:1}
+.ex-main{flex:1}
+.ex-name{font-weight:800;font-size:15.5px;color:var(--text);line-height:1.3}
+.ex-tags{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+.tag{
+  border-radius:6px;padding:3px 10px;
+  font-size:11px;font-weight:700;
+  color:#888;background:var(--card2);
+  border:1px solid var(--border2);
+}
+.tag.hi{
+  background:color-mix(in srgb,var(--day-color) 12%,transparent);
+  color:var(--day-color);
+  border-color:color-mix(in srgb,var(--day-color) 30%,transparent);
+}
+.ex-chevron{
+  font-size:20px;color:var(--muted);
+  transition:transform 0.25s;flex-shrink:0;
+}
+.ex.open .ex-chevron{transform:rotate(180deg)}
+
+/* ─── DETAILS ─── */
+.ex-body{
+  max-height:0;overflow:hidden;
+  transition:max-height 0.4s cubic-bezier(0.4,0,0.2,1);
+}
+.ex.open .ex-body{max-height:1200px}
+.ex-inner{
+  padding:0 16px 20px;
+  border-top:1px solid var(--border);
+  padding-top:18px;
+}
+
+.info-block{margin-bottom:20px}
+.info-block:last-child{margin-bottom:0}
+
+.info-label{
+  font-size:10px;font-weight:800;
+  letter-spacing:3px;text-transform:uppercase;
+  color:var(--day-color);
+  margin-bottom:9px;
+  display:flex;align-items:center;gap:8px;
+}
+.info-label::after{
+  content:'';flex:1;height:1px;
+  background:color-mix(in srgb,var(--day-color) 20%,transparent);
+}
+
+.info-text{
+  font-size:13.5px;color:#A0A0C0;
+  line-height:1.8;
+}
+.info-text b{color:var(--text)}
+
+.steps-list{list-style:none;display:flex;flex-direction:column;gap:8px}
+.steps-list li{
+  display:flex;gap:10px;
+  font-size:13.5px;color:#A0A0C0;line-height:1.7;
+}
+.step-dot{
+  width:20px;height:20px;border-radius:50%;
+  background:color-mix(in srgb,var(--day-color) 15%,transparent);
+  border:1px solid color-mix(in srgb,var(--day-color) 35%,transparent);
+  color:var(--day-color);
+  font-size:10px;font-weight:800;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;margin-top:2px;
+}
+
+.err-list{list-style:none;display:flex;flex-direction:column;gap:7px}
+.err-list li{
+  display:flex;gap:9px;align-items:flex-start;
+  font-size:13px;color:#A0A0C0;line-height:1.6;
+}
+.err-badge{
+  background:rgba(255,80,80,0.12);
+  color:#FF6B6B;border-radius:5px;
+  font-size:10px;font-weight:800;
+  padding:2px 7px;flex-shrink:0;
+  letter-spacing:0.5px;margin-top:1px;
+}
+
+.tip-list{list-style:none;display:flex;flex-direction:column;gap:7px}
+.tip-list li{
+  display:flex;gap:9px;align-items:flex-start;
+  font-size:13px;color:#A0A0C0;line-height:1.6;
+}
+.tip-badge{
+  border-radius:5px;
+  font-size:10px;font-weight:800;
+  padding:2px 7px;flex-shrink:0;
+  letter-spacing:0.5px;margin-top:1px;
+  background:color-mix(in srgb,var(--day-color) 12%,transparent);
+  color:var(--day-color);
+}
+
+.prog-pill{
+  display:inline-flex;align-items:center;gap:7px;
+  background:color-mix(in srgb,var(--day-color) 10%,transparent);
+  border:1px solid color-mix(in srgb,var(--day-color) 25%,transparent);
+  border-radius:10px;padding:10px 14px;
+  font-size:13px;color:#B0B0D0;line-height:1.6;
+  width:100%;
+}
+.prog-pill::before{
+  content:'↑';
+  font-weight:800;color:var(--day-color);
+  font-size:14px;flex-shrink:0;
+}
+
+/* ─── STATS BAR ─── */
+.stats-bar{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:8px;margin-bottom:20px;
+}
+.stat{
+  background:var(--card2);border:1px solid var(--border);
+  border-radius:12px;padding:12px;text-align:center;
+}
+.stat-val{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:28px;letter-spacing:1px;
+  color:var(--day-color);line-height:1;
+}
+.stat-key{font-size:10px;color:var(--muted);font-weight:700;
+  letter-spacing:1.5px;text-transform:uppercase;margin-top:4px;}
+
+/* ─── FOOTER ─── */
+.footer{
+  text-align:center;
+  padding:16px 20px 50px;
+  color:var(--muted);font-size:12px;line-height:2;
+  border-top:1px solid var(--border);
+}
+.footer b{color:#444}
+
+/* ─── INTRO PAGE ─── */
+#intro-panel{display:block}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-line">Персональный план тренировок</div>
+  <div class="hero-title">МОЙ<br><em>ПЛАН</em></div>
+  <div class="hero-sub">Гантели до 15 кг · Турник · Брусья · 3×/неделю</div>
+  <div class="hero-chips">
+    <div class="chip"><b>Пн</b> Толчок</div>
+    <div class="chip"><b>Ср</b> Тяга</div>
+    <div class="chip"><b>Пт</b> Ноги</div>
+    <div class="chip">Двойная прогрессия</div>
+  </div>
+</div>
+
+<!-- ГЛАВНОЕ ПРАВИЛО -->
+<div class="rule-box">
+  <div class="rule-title">Главное правило — двойная прогрессия</div>
+  <div class="rule-body">
+    Работаешь в диапазоне повторов, например <span class="hl">8→12</span>. Как только <b>все подходы</b> дошли до верхней границы — следующая тренировка усложняешь: <b>больше вес</b> или <b>сложнее вариация</b>. Без этого тело адаптируется и прогресс останавливается навсегда.
+  </div>
+</div>
+
+<!-- ВРЕМЯ ОТДЫХА -->
+<div class="rest-section">
+  <div class="section-title">Время <span>отдыха</span></div>
+  <div class="rest-grid">
+    <div class="rest-card">
+      <div class="rest-icon" style="background:rgba(184,255,0,0.08)">🏋️</div>
+      <div class="rest-info">
+        <div class="rest-label">Базовые упражнения с весом тела</div>
+        <div class="rest-desc">Брусья, подтягивания — нервная система устаёт сильно</div>
+      </div>
+      <div class="rest-time">2.5–3м</div>
+    </div>
+    <div class="rest-card">
+      <div class="rest-icon" style="background:rgba(56,207,255,0.08)">💪</div>
+      <div class="rest-info">
+        <div class="rest-label">Базовые с гантелями</div>
+        <div class="rest-desc">Жим, тяга, приседания, румынская тяга</div>
+      </div>
+      <div class="rest-time">90–120с</div>
+    </div>
+    <div class="rest-card">
+      <div class="rest-icon" style="background:rgba(255,114,64,0.08)">🎯</div>
+      <div class="rest-info">
+        <div class="rest-label">Изоляция</div>
+        <div class="rest-desc">Подъёмы в стороны, разведения, французский жим</div>
+      </div>
+      <div class="rest-time">60–75с</div>
+    </div>
+    <div class="rest-card">
+      <div class="rest-icon" style="background:rgba(255,184,48,0.08)">⚡</div>
+      <div class="rest-info">
+        <div class="rest-label">Пресс и икры</div>
+        <div class="rest-desc">Восстанавливаются быстро — им нужен объём</div>
+      </div>
+      <div class="rest-time">30–45с</div>
+    </div>
+  </div>
+</div>
+
+<!-- ПРОГРЕССИЯ -->
+<div class="prog-section">
+  <div class="section-title">Как <span>прогрессировать</span></div>
+  <div class="prog-card">
+    <div class="prog-num">1</div>
+    <div class="prog-text">Дошёл до верхней границы повторов во <b>всех подходах</b> → следующая тренировка с <b>бо́льшим весом</b></div>
+  </div>
+  <div class="prog-card">
+    <div class="prog-num">2</div>
+    <div class="prog-text">Нет гантелей тяжелее → добавляй <b>темп</b>: 3 сек вниз, пауза 1–2 сек, взрыв вверх. Это сложнее, чем кажется</div>
+  </div>
+  <div class="prog-card">
+    <div class="prog-num">3</div>
+    <div class="prog-text">Темп не спасает → переходи на <b>более сложную вариацию</b> упражнения (указана в каждой карточке)</div>
+  </div>
+  <div class="prog-card">
+    <div class="prog-num">4</div>
+    <div class="prog-text">Веди <b>дневник</b> — записывай вес и повторы после каждой тренировки. Без этого ты просто не знаешь, прогрессируешь ли</div>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tabs-wrap">
+  <div class="tabs">
+    <button class="tab-btn t-mon" onclick="showDay('mon')">Пн<br>Толчок</button>
+    <button class="tab-btn" onclick="showDay('wed')">Ср<br>Тяга</button>
+    <button class="tab-btn" onclick="showDay('fri')">Пт<br>Ноги</button>
+  </div>
+</div>
+
+<!-- ═══════════ ПОНЕДЕЛЬНИК ═══════════ -->
+<div class="day-panel active" id="panel-mon" style="--day-color:var(--mon)">
+  <div class="day-head">
+    <div class="day-name" style="color:var(--mon)">ПОНЕДЕЛЬНИК</div>
+    <div class="day-focus">Грудь · Плечи · Трицепс · Пресс</div>
+    <div class="day-overview">
+      <div class="ov-chip">6 упражнений</div>
+      <div class="ov-chip">~55–65 мин</div>
+      <div class="ov-chip">19 подходов</div>
+    </div>
+  </div>
+
+  <div class="stats-bar">
+    <div class="stat"><div class="stat-val">4</div><div class="stat-key">Осн. подходы</div></div>
+    <div class="stat"><div class="stat-val">6→10</div><div class="stat-key">Базовые повт</div></div>
+    <div class="stat"><div class="stat-val">Пн</div><div class="stat-key">День</div></div>
+  </div>
+
+  <!-- 1 БРУСЬЯ -->
+  <div class="ex">
+    <div class="ex-top" onclick="toggle(this)">
+      <div class="ex-idx">01</div>
+      <div class="ex-main">
+        <div class="ex-name">Брусья с наклоном вперёд</div>
+        <div class="ex-tags">
+          <div class="tag hi">4 подхода</div>
+          <div class="tag hi">6 → 10 повт</div>
+          <div class="tag">Отдых 2.5–3 мин</div>
+          <div class="tag">Грудь + трицепс</div>
+        </div>
+      </div>
+      <div class="ex-chevron">▾</div>
+    </div>
+    <div class="ex-body">
+      <div class="ex-inner">
+        <div class="info-block">
+          <div class="info-label">Техника выполнения</div>
+          <ul class="steps-list">
+            <li><span class="step-dot">1</span>Возьмись за брусья, наклони тело вперёд под <b>30–45°</b> — чем больше наклон, тем больше грудь. Ноги скрещены и слегка позади</li>
+            <li><span class="step-dot">2</span>Медленно опускайся <b>2–3 секунды</b> пока плечи не окажутся чуть ниже локтей</li>
+            <li><span class="step-dot">3</span>Мощно выжимай себя вверх, <b>не распрямляя</b> руки до конца — держи напряжение в груди</li>
+            <li><span class="step-dot">4</span>Локти под углом ~<b>45°</b> к телу весь подход</li>
+          </ul>
+        </div>
+        <div class="info-block">
+          <div class="info-label">Нюансы</div>
+          <ul class="tip-list">
+            <li><span class="tip-badge">✓</span>Взгляд вниз-вперёд, не задирай голову вверх</li>
+            <li><span class="tip-badge">✓</span>Выдох при подъёме, вдох при опускании</li>
+            <li><span class="tip-badge">✓</span>Представь что хочешь свести руки впереди — это активирует грудь</li>
+          </ul>
+        </div>
+        <div class="info-block">
+          <div class="info-label">Частые ошибки</div>
+          <ul class="err-list">
+            <li><span class="err-badge">!</span>Тело вертикально — так нагрузка идёт в трицепс, а не грудь</li>
+            <li><span class="err-badge">!</span>Локти разведены сильно в стороны — перегруз плечевого сустава</li>
+            <li><span class="err-badge">!</span>Рывок вверх из нижней точки — теряется напряжение</li>
+            <li><span class="err-badge">!</span>Слишком глубокое опускание при дискомфорте в плечах — стоп до боли</li>
+          </ul>
+        </div>
+        <div class="info-block">
+          <div class="info-label">Прогрессия</div>
+          <div class="prog-pill">10 повт во всех подходах → держи гантель между колен или надень рюкзак с весом</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2 ЖИМ ЛЁЖА -->
+  <div class="ex">
+    <div class="ex-top" onclick="toggle(this)">
+      <div class="ex-idx">02</div>
+      <div class="ex-main">
+        <div class="ex-name">Жим гантелей лёжа</div>
+        <div class="ex-tags">
+          <div class="tag hi">3 подхода</div>
+          <div class="tag hi">8 → 12 повт</div>
+          <div class="tag">Отдых 90–120 сек</div>
+          <div class="tag">Грудь + передняя дельта</div>
+        </div>
+      </div>
+      <div class="ex-chevron">▾</div>
+    </div>
+    <div class="ex-body">
+      <div class="ex-inner">
+        <div class="info-block">
+          <div class="info-label">Техника выполнения</div>
+          <ul class="steps-list">
+            <li><span class="step-dot">1</span>Лягай на пол (или скамью), гантели над грудью нейтральным хватом (ладони друг к другу) или прямым</li>
+            <li><span class="step-dot">2</span>Лопатки сведены и прижаты — создаёт платформу, защищает плечи</li>
+            <li><span class="step-dot">3</span>Опускай по дуге <b>3 секунды</b>, локти под углом ~<b>60–70°</b> к корпусу</li>
+            <li><span class="step-dot">4</span>В нижней точке предплечья вертикальны, <b>пауза 1 сек</b></li>
+            <li><span class="step-dot">5</span>Выжимай вверх, слегка сводя гантели. Не стукай их вверху</li>
+          </ul>
+        </div>
+        <div class="info-block">
+          <div class="info-label">Нюансы</div>
+          <ul class="tip-list">
+            <li><span class="tip-badge">✓</span>Небольшой прогиб поясницы — это нормально и даже помогает</li>
+            <li><span class="tip-badge">✓</span>Темп 3-1-1 (вниз-пауза-вверх) — при 15 кг это будет тяжело</li>
+            <li><span class="tip-badge">✓</span>Представляй что хочешь свести локти — включает грудь</li>
+          </ul>
+        </div>
+        <div class="info-block">
+          <div class="info-label">Частые ошибки</div>
+          <ul class="err-list">
+            <li><span class="err-badge">!</span>Локти под 90° к корпусу — давление идёт на плечевой сустав</li>
+            <li><span class="err-badge">!</span>Гантели слишком широко разведены в нижней точке</li>
+            <li><span class="err-badge">!</span>Нет паузы внизу — теряется лучшая часть нагрузки</li>
+          </ul>
+        </div>
+        <div class="info-block">
+          <div class="info-label">Прогрессия при 15 кг максимум</div>
+          <div class="prog-pill">12 повт → темп 4 сек вниз + пауза 2 сек. Потом → отжимания с руками на гантелях с рюкзаком</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3 ЖИМ СИДЯ -->
+  <div class="ex">
+    <div class="ex-top" onclick="toggle(this)">
+      <div class="ex-idx">03</div>
+      <div class="ex-main">
+        <div class="ex-name">Жим гантелей сидя</div>
+        <div class="ex-tags">
+          <div class="tag hi">3 подхода</div>
+          <div class="tag hi">8 → 12 повт</div>
+          <div class="tag">Отдых 90–120 сек</div>
+          <div class="tag">Плечи + верхняя грудь</div>
+        </div>
+      </div>
+      <div class="ex-chevron">▾</div>
+    </div>
+    <div class="ex-body">
+      <div class="ex-inner">
+        <div class="info-block">
+          <div class="info-label">Техника выполнения</div>
+          <ul class="steps-list">
+            <li><span class="step-dot">1</span>Сядь прямо, спина ровная, кор напряжён. Гантели на уровне ушей, локти чуть ниже плеч</li>
+            <li><span class="step-dot">2</span>Жми вверх и чуть вперёд. Не доводи до полного разгиба — держи мышцы в напряжении</li>
+            <li><span class="step-dot">3</span>Опускай подконтрольно <b>2–3 секунды</b></li>
+          </ul>
+        </div>
+        <div class="info-block">
+          <div class="info-label">Нюансы</div>
+          <ul class="tip-list">
+            <li><span class="tip-badge">✓</span>Угол локтей ~75° к телу, не 90° — так безопаснее для ротаторов</li>
+            <li><span class="tip-badge">✓</span>Выдох наверху, вдох при опускании</li>
+            <li><span class="tip-badge">✓</span>Не заваливай поясницу сильно назад — потеряешь устойчивость</li>
+          </ul>
+        </div>
+        <div class="info-block">
+          <div class="info-label">Частые ошибки</div>
+          <ul class="err-list">
+            <li><span class="err-badge">!</span>Жим строго за голову — нагружает шею и плечевой сустав</li>
+            <li><span class="err-badge">!</span>Полное разгибание вверху — убирает нагрузку</li>
+            <li><span class="err-badge">!</span>Голова уходит вперёд — следи за осанкой</li>
+          </ul>
+        </div>
+        <div class="info-block">
+          <div class="info-label">Прогрессия</div>
+          <div class="prog-pill">12 повт → увеличь вес. Нет тяжелее — пауза 2 сек в нижней точке каждого повтора</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4 ПОДЪЁМ В СТОРОНЫ -->
+  <div class="ex">
+    <div class="ex-top" onclick="toggle(this)">
+      <div class="ex-idx">04</div>
+      <div class="ex-main">
+        <div class="ex-name">Подъём гантелей в стороны</div>
+        <div class="ex-tags">
+          <div class="tag hi">3 подхода</div>
+          <div class="tag hi">12 → 15 повт</div>
+          <div class="tag">Отдых 60–75 сек</div>
+          <div class="tag">Средняя дельта</div>
+        </div>
+      </div>
+      <div class="ex-chevron">▾</div>
+    </div>
+    <div class="ex-body">
+      <div class="ex-inner">
+        <div class="info-block">
+          <div class="info-label">Техника выполнения</div>
+          <ul class="steps-list">
+            <li><span class="step-dot">1</span>Стой ровно, наклон корпуса 10–15° вперёд, гантели вдоль тела</li>
+            <li><span class="step-dot">2</span>Поднимай руки в стороны <b>строго до параллели с полом</b> — не выше</li>
+            <li><span class="step-dot">3</span>Локти слегка согнуты и <b>ведут</b> движение — не запястья</li>
+            <li><span class="step-dot">4</span>Мизинец чуть выше большого пальца в верхней точке</li>
+            <li><span class="step-dot">5</span>Опускай медленно — <b>3 секунды</b> вниз</li>
+          </ul>
+        </div>
+        <div class="info-block">
+          <div class="info-label">Нюансы</div>
+          <ul class="tip-list">
+            <li><span class="tip-badge">✓</span>Вес лёгкий — это изоляция, не сила. 5–8 кг чаще всего достаточно</li>
+            <li><span class="tip-badge">✓</span>Небольшой наклон убирает трапецию из работы</li>
+            <li><span class="tip-badge">✓</span>Пауза 1 сек вверху = дополнительное жжение = рост</li>
+          </ul>
+        </div>
+        <div class="info-block">
+          <div class="info-label">Частые ошибки</div>
+          <ul class="err-list">
+            <li><span class="err-badge">!</span>Подъём выше параллели — перегруз надостной мышцы плеча</li>
+            <li><span class="err-badge">!</span>Рывки и покачивание корпусом — нет нагрузки на дельту</li>
+            <li><span class="err-badge">!</span>Слишком тяжёлый вес — трапеция перехватывает всё</li>
+          </ul>
+        </div>
+        <div class="info-block">
+          <div class="info-label">Прогрессия</div>
+          <div class="prog-pill">15 повт → добавь 1–2 кг или держи паузу 2 сек в верхней точке</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5 ФРАНЦУЗСКИЙ ЖИМ -->
+  <div class="ex">
+    <div class="ex-top" onclick="toggle(this)">
+      <div class="ex-idx">05</div>
+      <div class="ex-main">
+        <div class="ex-name">Французский жим с гантелей лёжа</div>
+        <div class="ex-tags">
+          <div class="tag hi">3 подхода</div>
+          <div class="tag hi">10 → 14 повт</div>
+          <div class="tag">Отдых 60–75 сек</div>
+          <div class="tag">Трицепс</div>
+        </div>
+      </div>
+      <div class="ex-chevron">▾</div>
+    </div>
+    <div class="ex-body">
+      <div class="ex-inner">
+        <div class="info-block">
+          <div class="info-label">Техника выполнения</div>
+          <ul class="steps-list">
+            <li><span class="step-dot">1</span>Ляг на пол. Одна гантель двумя руками или две гантели параллельным хватом над грудью</li>
+            <li><span class="step-dot">2</span>Локти направлены строго в потолок — они <b>неподвижная ось</b> движения</li>
+            <li><span class="step-dot">3</span>Сгибай только предплечья, опускай гантель ко лбу за <b>2–3 секунды</b></li>
+            <li><span class="step-dot">4</span>Выжимай обратно только за счёт трицепса, не помогай плечами</li>
+          </ul>
+        </div>
+        <div class="info-block">
+          <div class="info-label">Нюансы</div>
+          <ul class="tip-list">
+            <li><span class="tip-badge">✓</span>Начинай с лёгкого веса — чистота важнее нагрузки</li>
+            <li><span class="tip-badge">✓</span>Если есть два варианта — с одной гантелей двумя руками или с двумя — оба рабочие</li>
+            <li><span class="tip-badge">✓</span>При малейшем дискомфорте в локте — снижай вес сразу</li>
+          </ul>
+        </div>
+        <div class="info-block">
+          <div class="info-label">Частые ошибки</div>
+          <ul class="err-list">
+            <li><span class="err-badge">!</span>Локти разъезжаются в стороны — нагрузка уходит</li>
+            <li><span class="err-badge">!</span>Плечи помогают движению — это уже не французский жим</li>
+            <li><span class="err-badge">!</span>Слишком тяжело → боль в локте. Никогда не игнорируй</li>
+          </ul>
+        </div>
+        <div class="info-block">
+          <div class="info-label">Прогрессия</div>
+          <div class="prog-pill">14 повт → добавь 1–2 кг. Внимательно следи за ощущениями в локте — это приоритет</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6 ПОДЪЁМ НОГ ПН -->
+  <div class="ex">
+    <div class="ex-top" onclick="toggle(this)">
+      <div class="ex-idx">06</div>
+      <div class="ex-main">
+        <div class="ex-name">Подъём ног в висе на турнике</div>
+        <div class="ex-tags">
+          <div class="tag hi">3 подхода</div>
+          <div class="tag hi">10 → 15 повт</div>
+          <div class="tag">Отдых 45 сек</div>
+          <div class="tag">Нижний пресс</div>
+        </div>
+      </div>
+      <div class="ex-chevron">▾</div>
+    </div>
+    <div class="ex-body">
+      <div class="ex-inner">
+        <div class="info-block">
+          <div class="info-label">Техника выполнения</div>
+          <ul class="steps-list">
+            <li><span class="step-dot">1</span>Виси на турнике на вытянутых руках, тело неподвижно</li>
+            <li><span class="step-dot">2</span>Поднимай прямые ноги до параллели с полом — держи колени слегка согнутыми если тяжело</li>
+            <li><span class="step-dot">3</span>В верхней точке <b>подкручивай таз</b> вверх — это включает нижний пресс</li>
+            <li><span class="step-dot">4</span>Опускай медленно и <b>с нуля</b> — без раскачки</li>
+          </ul>
+        </div>
+        <div class="info-block">
+          <div class="info-label">Нюансы</div>
+          <ul class="tip-list">
+            <li><span class="tip-badge">✓</span>Каждый повтор из полной остановки — инерция убивает нагрузку</li>
+            <li><span class="tip-badge">✓</span>Сложно — начни с согнутыми коленями, постепенно выпрямляй</li>
+          </ul>
+        </div>
+        <div class="info-block">
+          <div class="info-label">Частые ошибки</div>
+          <ul class="err-list">
+            <li><span class="err-badge">!</span>Раскачка корпуса — маятник обнуляет нагрузку на пресс</li>
+            <li><span class="err-badge">!</span>Подъём за счёт бёдер без подкрутки таза — работают сгибатели, не пресс</li>
+          </ul>
+        </div>
+        <div class="info-block">
+          <div class="info-label">Прогрессия</div>
+          <div class="prog-pill">15 повт → поднимай выше (ноги к перекладине). Потом — с утяжелителями на лодыжках</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ СРЕДА ═══════════ -->
+<div class="day-panel" id="panel-wed" style="--day-color:var(--wed)">
+  <div class="day-head">
+    <div class="day-name" style="color:var(--wed)">СРЕДА</div>
+    <div class="day-focus">Спина · Бицепс · Задняя дельта · Кор</div>
+    <div class="day-overview">
+      <div class="ov-chip">6 упражнений</div>
+      <div class="ov-chip">~60–70 мин</div>
+      <div class="ov-chip">19 подходов</div>
+    </div>
+  </div>
+
+  <div class="stats-bar">
+    <div class="stat"><div class="stat-val">4</div><div class="stat-key">Осн. подходы</div></div>
+    <div class="stat"><div class="stat-val">6→10</div><div class="stat-key">Базовые повт</div></div>
+    <div class="stat"><div class="stat-val">Ср</div><div class="stat-key">День</div></div>
+  </div>
+
+  <!-- 1 ПОДТЯГИВАНИЯ ШИРОКИМ -->
+  <div class="ex">
+    <div class="ex-top" onclick="toggle(this)">
+      <div class="ex-idx">01</div>
+      <div class="ex-main">
+        <div class="ex-name">Подтягивания широким хватом</div>
+        <div class="ex-tags">
+          <div class="tag hi">4 подхода</div>
+          <div class="tag hi">6 → 10 повт</div>
+          <div class="tag">Отдых 2.5–3 мин</div>
+          <div class="tag">Широчайшие + бицепс</div>
+        </div>
+      </div>
+      <div class="ex-chevron">▾</div>
+    </div>
+    <div class="ex-body">
+      <div class="ex-inner">
+        <div class="info-block">
+          <div class="info-label">Техника выполнения</div>
+          <ul class="steps-list">
+            <li><span class="step-dot">1</span>Хват шире плеч, ладони от себя. <b>Полный разгиб</b> рук в нижней точке — обязательно</li>
+            <li><span class="step-dot">2</span>Активируй лопатки вниз-назад перед началом — это защитит плечи</li>
+            <li><span class="step-dot">3</span>Тяни <b>грудь к перекладине</b>, слегка прогибаясь. Думай «привожу локти к карманам»</li>
+            <li><span class="step-dot">4</span>В верхней точке задержись <b>1 сек</b>, сожми лопатки</li>
+            <li><span class="step-dot">5</span>Опускайся <b>3 секунды</b> до полного разгиба</li>
+          </ul>
+        </div>
+        <div class="info-block">
+          <div class="info-label">Нюансы</div>
+          <ul class="tip-list">
+            <li><span class="tip-badge">✓</span>Небольшой прогиб и грудь вперёд = больше работы широчайших</li>
+            <li><span class="tip-badge">✓</span>Полная амплитуда вниз — половина роста именно там</li>
+            <li><span class="tip-badge">✓</span>Выдох при подъёме, вдох при опускании</li>
+          </ul>
+        </div>
+        <div class="info-block">
+          <div class="info-label">Частые ошибки</div>
+          <ul class="err-list">
+            <li><span class="err-badge">!</span>Подбородок тянется к турнику — работает шея, не спина</li>
+            <li><span class="err-badge">!</span>Раскачка — снижает нагрузку, риск травмы</li>
+            <li><span class="err-badge">!</span>Срезание амплитуды внизу — нет роста</li>
+          </ul>
+        </div>
+        <div class="info-block">
+          <div class="info-label">Прогрессия</div>
+          <div class="prog-pill">10 повт → рюкзак с весом. Или пауза 3 сек вверху в каждом повторе</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2 ТЯГА ГАНТЕЛИ -->
+  <div class="ex">
+    <div class="ex-top" onclick="toggle(this)">
+      <div class="ex-idx">02</div>
+      <div class="ex-main">
+        <div class="ex-name">Тяга гантели в наклоне одной рукой</div>
+        <div class="ex-tags">
+          <div class="tag hi">3 подхода</div>
+          <div class="tag hi">8 → 12 повт</div>
+          <div class="tag">Отдых 90–120 сек</div>
+          <div class="tag">Спина + бицепс</div>
+        </div>
+      </div>
+      <div class="ex-chevron">▾</div>
+    </div>
+    <div class="ex-body">
+      <div class="ex-inner">
+        <div class="info-block">
+          <div class="info-label">Техника выполнения</div>
+          <ul class="steps-list">
+            <li><span class="step-dot">1</span>Упрись коленом и рукой в опору (стул, кровать). Спина параллельна полу</li>
+            <li><span class="step-dot">2</span>В нижней точке позволь лопатке уехать вперёд — <b>растяжка</b> широчайшей</li>
+            <li><span class="step-dot">3</span>Тяни гантель к <b>бедру</b>, не к плечу. Думай «тяну локоть»</li>
+            <li><span class="step-dot">4</span>В верхней точке <b>пауза 2 сек</b> — сожми лопатку к позвоночнику</li>
+            <li><span class="step-dot">5</span>Опускай <b>3 секунды</b> с контролем</li>
+          </ul>
+        </div>
+        <div class="info-block">
+          <div class="info-label">Нюансы</div>
+          <ul class="tip-list">
+            <li><span class="tip-badge">✓</span>Пауза + медленный темп при 15 кг — это будет по-настоящему тяжело</li>
+            <li><span class="tip-badge">✓</span>Не крути корпус в сторону — это читинг, убирает нагрузку</li>
+            <li><span class="tip-badge">✓</span>Полный диапазон движения лопатки = вдвое больше работы</li>
+          </ul>
+        </div>
+        <div class="info-block">
+          <div class="info-label">Частые ошибки</div>
+          <ul class="err-list">
+            <li><span class="err-badge">!</span>Тяга к плечу — включается бицепс, не спина</li>
+            <li><span class="err-badge">!</span>Скруглённая спина — риск для поясницы</li>
+            <li><span class="err-badge">!</span>Нет паузы вверху — тянешь для галочки</li>
+          </ul>
+        </div>
+        <div class="info-block">
+          <div class="info-label">Прогрессия при 15 кг максимум</div>
+          <div class="prog-pill">12 повт → темп 4 сек вниз + пауза 3 сек вверху. Потом — одноногая вариация стоя</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3 ПОДТЯГИВАНИЯ ОБРАТНЫМ -->
+  <div class="ex">
+    <div class="ex-top" onclick="toggle(this)">
+      <div class="ex-idx">03</div>
+      <div class="ex-main">
+        <div class="ex-name">Подтягивания обратным хватом</div>
+        <div class="ex-tags">
+          <div class="tag hi">3 подхода</div>
+          <div class="tag hi">6 → 10 повт</div>
+          <div class="tag">Отдых 2–2.5 мин</div>
+          <div class="tag">Бицепс + низ спины</div>
+        </div>
+      </div>
+      <div class="ex-chevron">▾</div>
+    </div>
+    <div class="ex-body">
+      <div class="ex-inner">
+        <div class="info-block">
+          <div class="info-label">Техника выполнения</div>
+          <ul class="steps-list">
+            <li><span class="step-dot">1</span>Хват чуть уже плеч, ладони <b>к себе</b>. Полный разгиб внизу</li>
+            <li><span class="step-dot">2</span>Тяни себя вверх, локти идут <b>строго вниз</b> и слегка вперёд</li>
+            <li><span class="step-dot">3</span>Подбородок над перекладиной. Пауза <b>1 сек</b> вверху</li>
+            <li><span class="step-dot">4</span>Разгибайся полностью вниз <b>3 секунды</b></li>
+          </ul>
+        </div>
+        <div class="info-block">
+          <div class="info-label">Нюансы</div>
+          <ul class="tip-list">
+            <li><span class="tip-badge">✓</span>Обратный хват = больший диапазон для бицепса чем прямой</li>
+            <li><span class="tip-badge">✓</span>Не позволяй плечам подниматься к ушам внизу — активируй лопатки</li>
+            <li><span class="tip-badge">✓</span>Это «бицепс + нижняя часть широчайших» — другое ощущение чем широкий хват</li>
+          </ul>
+        </div>
+        <div class="info-block">
+          <div class="info-label">Частые ошибки</div>
+          <ul class="err-list">
+            <li><span class="err-badge">!</span>Локти разъезжаются в стороны — теряется нагрузка на бицепс</li>
+            <li><span class="err-badge">!</span>Срезание амплитуды внизу — самая частая ошибка</li>
+          </ul>
+        </div>
+        <div class="info-block">
+          <div class="info-label">Прогрессия</div>
+          <div class="prog-pill">10 повт → медленное опускание 5 сек. Потом — рюкзак с весом</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4 РАЗВЕДЕНИЕ В НАКЛОНЕ -->
+  <div class="ex">
+    <div class="ex-top" onclick="toggle(this)">
+      <div class="ex-idx">04</div>
+      <div class="ex-main">
+        <div class="ex-name">Разведение гантелей в наклоне</div>
+        <div class="ex-tags">
+          <div class="tag hi">3 подхода</div>
+          <div class="tag hi">12 → 16 повт</div>
+          <div class="tag">Отдых 60–75 сек</div>
+          <div class="tag">Задняя дельта + трапеция</div>
+        </div>
+      </div>
+      <div class="ex-chevron">▾</div>
+    </div>
+    <div class="ex-body">
+      <div class="ex-inner">
+        <div class="info-block">
+          <div class="info-label">Техника выполнения</div>
+          <ul class="steps-list">
+            <li><span class="step-dot">1</span>Наклонись вперёд до параллели с полом. Спина прямая, взгляд в пол</li>
+            <li><span class="step-dot">2</span>Гантели свисают перед собой, локти слегка согнуты</li>
+            <li><span class="step-dot">3</span>Разводи руки в стороны — мизинец чуть <b>выше большого пальца</b></li>
+            <li><span class="step-dot">4</span>Пауза <b>1 сек</b> вверху, опускай медленно — <b>3 секунды</b></li>
+          </ul>
+        </div>
+        <div class="info-block">
+          <div class="info-label">Нюансы</div>
+          <ul class="tip-list">
+            <li><span class="tip-badge">✓</span>Вес очень лёгкий — 5–8 кг. Это изоляция, не сила</li>
+            <li><span class="tip-badge">✓</span>Наклон должен быть близко к 90° иначе работает боковая, а не задняя дельта</li>
+            <li><span class="tip-badge">✓</span>Шея нейтральна — не задирай голову</li>
+          </ul>
+        </div>
+        <div class="info-block">
+          <div class="info-label">Частые ошибки</div>
+          <ul class="err-list">
+            <li><span class="err-badge">!</span>Слишком тяжело → трапеция перехватывает всю нагрузку</li>
+            <li><span class="err-badge">!</span>Недостаточный наклон — другая мышца</li>
+            <li><span class="err-badge">!</span>Нет паузы вверху — половина эффекта пропадает</li>
+          </ul>
+        </div>
+        <div class="info-block">
+          <div class="info-label">Прогрессия</div>
+          <div class="prog-pill">16 повт → добавь 1–2 кг. Или пауза 2 сек вверху</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5 ГИПЕРЭКСТЕНЗИЯ -->
+  <div class="ex">
+    <div class="ex-top" onclick="toggle(this)">
+      <div class="ex-idx">05</div>
+      <div class="ex-main">
+        <div class="ex-name">Гиперэкстензия</div>
+        <div class="ex-tags">
+          <div class="tag hi">3 подхода</div>
+          <div class="tag hi">15 → 20 повт</div>
+          <div class="tag">Отдых 60 сек</div>
+          <div class="tag">Поясница + ягодицы + бицепс бедра</div>
+        </div>
+      </div>
+      <div class="ex-chevron">▾</div>
+    </div>
+    <div class="ex-body">
+      <div class="ex-inner">
+        <div class="info-block">
+          <div class="info-label">Техника выполнения</div>
+          <ul class="steps-list">
+            <li><span class="step-dot">1</span>Ляг на живот, руки за голову или вытянуты вперёд. Ноги зафиксированы (под диван, попроси держать)</li>
+            <li><span class="step-dot">2</span>Поднимай корпус до прямой линии с ногами — <b>не переразгибайся</b></li>
+            <li><span class="step-dot">3</span>Задержись <b>1–2 секунды</b> вверху, медленно опускайся</li>
+          </ul>
+        </div>
+        <div class="info-block">
+          <div class="info-label">Нюансы</div>
+          <ul class="tip-list">
+            <li><span class="tip-badge">✓</span>Крайне важное упражнение для здоровья поясницы — не пропускай</li>
+            <li><span class="tip-badge">✓</span>Для усиления — держи гантель на груди 5–7.5 кг</li>
+            <li><span class="tip-badge">✓</span>Чем медленнее, тем лучше — быстро = читинг</li>
+          </ul>
+        </div>
+        <div class="info-block">
+          <div class="info-label">Частые ошибки</div>
+          <ul class="err-list">
+            <li><span class="err-badge">!</span>Переразгиб вверху — резкая нагрузка на позвоночник</li>
+            <li><span class="err-badge">!</span>Быстрые повторения — без контроля, без эффекта</li>
+          </ul>
+        </div>
+        <div class="info-block">
+          <div class="info-label">Прогрессия</div>
+          <div class="prog-pill">20 повт → держи гантель 5–7.5 кг на груди</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6 КОСЫЕ В ВИСЕ -->
+  <div class="ex">
+    <div class="ex-top" onclick="toggle(this)">
+      <div class="ex-idx">06</div>
+      <div class="ex-main">
+        <div class="ex-name">Подъём ног в висе на косые</div>
+        <div class="ex-tags">
+          <div class="tag hi">3 подхода</div>
+          <div class="tag hi">12 повт на сторону</div>
+          <div class="tag">Отдых 45 сек</div>
+          <div class="tag">Косые мышцы живота</div>
+        </div>
+      </div>
+      <div class="ex-chevron">▾</div>
+    </div>
+    <div class="ex-body">
+      <div class="ex-inner">
+        <div class="info-block">
+          <div class="info-label">Техника выполнения</div>
+          <ul class="steps-list">
+            <li><span class="step-dot">1</span>Виси на турнике, тело полностью неподвижно</li>
+            <li><span class="step-dot">2</span>Поднимай ноги с отклонением в сторону — таз слегка поворачивается</li>
+            <li><span class="step-dot">3</span>Чередуй: влево, вниз, вправо, вниз — это одно повторение на каждую сторону</li>
+            <li><span class="step-dot">4</span>Опускай с контролем — <b>без раскачки</b></li>
+          </ul>
+        </div>
+        <div class="info-block">
+          <div class="info-label">Нюансы</div>
+          <ul class="tip-list">
+            <li><span class="tip-badge">✓</span>Каждый подъём с нуля — без маятника</li>
+            <li><span class="tip-badge">✓</span>Сложно — начни с согнутыми коленями</li>
+          </ul>
+        </div>
+        <div class="info-block">
+          <div class="info-label">Частые ошибки</div>
+          <ul class="err-list">
+            <li><span class="err-badge">!</span>Вращение только за счёт инерции — кор не работает</li>
+            <li><span class="err-badge">!</span>Слишком быстро — теряется нагрузка</li>
+          </ul>
+        </div>
+        <div class="info-block">
+          <div class="info-label">Прогрессия</div>
+          <div class="prog-pill">С согнутыми ногами → прямые ноги → утяжелители на лодыжках</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ ПЯТНИЦА ═══════════ -->
+<div class="day-panel" id="panel-fri" style="--day-color:var(--fri)">
+  <div class="day-head">
+    <div class="day-name" style="color:var(--fri)">ПЯТНИЦА</div>
+    <div class="day-focus">Ноги · Ягодицы · Икры · Пресс</div>
+    <div class="day-overview">
+      <div class="ov-chip">4 упражнения</div>
+      <div class="ov-chip">~40–50 мин</div>
+      <div class="ov-chip">12 подходов</div>
+    </div>
+  </div>
+
+  <div class="stats-bar">
+    <div class="stat"><div class="stat-val">3</div><div class="stat-key">Подходы баз.</div></div>
+    <div class="stat"><div class="stat-val">10→15</div><div class="stat-key">Осн. диапазон</div></div>
+    <div class="stat"><div class="stat-val">Пт</div><div class="stat-key">День</div></div>
+  </div>
+
+  <!-- 1 ПРИСЕДАНИЯ -->
+  <div class="ex">
+    <div class="ex-top" onclick="toggle(this)">
+      <div class="ex-idx">01</div>
+      <div class="ex-main">
+        <div class="ex-name">Приседания с гантелями</div>
+        <div class="ex-tags">
+          <div class="tag hi">3 подхода</div>
+          <div class="tag hi">10 → 15 повт</div>
+          <div class="tag">Отдых 90–120 сек</div>
+          <div class="tag">Квадрицепс + ягодицы</div>
+        </div>
+      </div>
+      <div class="ex-chevron">▾</div>
+    </div>
+    <div class="ex-body">
+      <div class="ex-inner">
+        <div class="info-block">
+          <div class="info-label">Техника выполнения</div>
+          <ul class="steps-list">
+            <li><span class="step-dot">1</span>Гантели в опущенных руках по бокам. Ноги чуть шире плеч, носки развёрнуты 15–30°</li>
+            <li><span class="step-dot">2</span>Вдох, опускайся <b>3 секунды</b> пока бёдра не достигнут параллели с полом или ниже</li>
+            <li><span class="step-dot">3</span>Пятки прижаты к полу всё время. Колени идут <b>строго над носками</b></li>
+            <li><span class="step-dot">4</span>Выдыхай и вставай через пятки, не заваливай колени внутрь</li>
+          </ul>
+        </div>
+        <div class="info-block">
+          <div class="info-label">Нюансы</div>
+          <ul class="tip-list">
+            <li><span class="tip-badge">✓</span>Взгляд прямо или чуть вверх — не смотри в пол</li>
+            <li><span class="tip-badge">✓</span>Грудь высоко, поясница нейтральна весь подход</li>
+            <li><span class="tip-badge">✓</span>Пятки отрываются — подложи что-то тонкое под них или работай над голеностопом</li>
+          </ul>
+        </div>
+        <div class="info-block">
+          <div class="info-label">Частые ошибки</div>
+          <ul class="err-list">
+            <li><span class="err-badge">!</span>Колени заваливаются внутрь — главный риск травмы колена</li>
+            <li><span class="err-badge">!</span>Полуприсед — квадрицепс и ягодицы почти не работают</li>
+            <li><span class="err-badge">!</span>Округлённая спина — нагрузка переходит на диски</li>
+          </ul>
+        </div>
+        <div class="info-block">
+          <div class="info-label">Прогрессия при 15 кг максимум</div>
+          <div class="prog-pill">15 повт → пауза 3 сек внизу каждого повтора. Потом — гантели на плечах или рюкзак с весом</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2 РУМЫНСКАЯ ТЯГА -->
+  <div class="ex">
+    <div class="ex-top" onclick="toggle(this)">
+      <div class="ex-idx">02</div>
+      <div class="ex-main">
+        <div class="ex-name">Румынская тяга с гантелями</div>
+        <div class="ex-tags">
+          <div class="tag hi">3 подхода</div>
+          <div class="tag hi">8 → 12 повт</div>
+          <div class="tag">Отдых 2 мин</div>
+          <div class="tag">Бицепс бедра + ягодицы</div>
+        </div>
+      </div>
+      <div class="ex-chevron">▾</div>
+    </div>
+    <div class="ex-body">
+      <div class="ex-inner">
+        <div class="info-block">
+          <div class="info-label">Техника выполнения</div>
+          <ul class="steps-list">
+            <li><span class="step-dot">1</span>Гантели перед бёдрами, хват нейтральный. Стоишь ровно</li>
+            <li><span class="step-dot">2</span>Отводи <b>таз назад</b> (не сгибай поясницу вниз!) — гантели скользят вдоль ног</li>
+            <li><span class="step-dot">3</span>Колени слегка согнуты — <b>10–15°</b>. Это не приседание</li>
+            <li><span class="step-dot">4</span>Когда чувствуешь сильное натяжение по задней поверхности бедра — <b>стоп</b></li>
+            <li><span class="step-dot">5</span>Возвращайся напрягая ягодицы, выдох при подъёме</li>
+          </ul>
+        </div>
+        <div class="info-block">
+          <div class="info-label">Нюансы</div>
+          <ul class="tip-list">
+            <li><span class="tip-badge">✓</span>Гантели всегда близко к телу — чем дальше, тем больше нагрузка на поясницу</li>
+            <li><span class="tip-badge">✓</span>Спина прямая всё время — нейтральный позвоночник</li>
+            <li><span class="tip-badge">✓</span>Пробуй на одной ноге — мощная версия для баланса и нагрузки</li>
+          </ul>
+        </div>
+        <div class="info-block">
+          <div class="info-label">Частые ошибки</div>
+          <ul class="err-list">
+            <li><span class="err-badge">!</span>Округление поясницы — одна из главных причин травм спины</li>
+            <li><span class="err-badge">!</span>Гантели далеко от ног — огромный рычаг на позвоночник</li>
+            <li><span class="err-badge">!</span>Опускание слишком глубоко — переходишь в становую, другое упражнение</li>
+          </ul>
+        </div>
+        <div class="info-block">
+          <div class="info-label">Прогрессия при 15 кг максимум</div>
+          <div class="prog-pill">12 повт → одноногая румынская тяга. Гораздо сложнее без добавления веса</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3 ИКРЫ -->
+  <div class="ex">
+    <div class="ex-top" onclick="toggle(this)">
+      <div class="ex-idx">03</div>
+      <div class="ex-main">
+        <div class="ex-name">Подъём на носки на одной ноге</div>
+        <div class="ex-tags">
+          <div class="tag hi">3 подхода</div>
+          <div class="tag hi">12 → 18 повт</div>
+          <div class="tag">Отдых 45 сек</div>
+          <div class="tag">Икры</div>
+        </div>
+      </div>
+      <div class="ex-chevron">▾</div>
+    </div>
+    <div class="ex-body">
+      <div class="ex-inner">
+        <div class="info-block">
+          <div class="info-label">Техника выполнения</div>
+          <ul class="steps-list">
+            <li><span class="step-dot">1</span>Встань на одну ногу у стены или с опорой. Гантель в одноимённой руке</li>
+            <li><span class="step-dot">2</span>Поднимайся <b>максимально высоко</b> на носок, пауза <b>1 сек</b> вверху</li>
+            <li><span class="step-dot">3</span>Опускай пятку <b>ниже уровня пола</b> (носок на ступеньке) — полная амплитуда</li>
+            <li><span class="step-dot">4</span>Снова вверх. Икры растут <b>только при полной амплитуде</b></li>
+          </ul>
+        </div>
+        <div class="info-block">
+          <div class="info-label">Нюансы</div>
+          <ul class="tip-list">
+            <li><span class="tip-badge">✓</span>Одна нога = вдвое больше нагрузки чем с двух без добавления веса</li>
+            <li><span class="tip-badge">✓</span>Медленное опускание 3 сек — эксцентрик даёт основной рост</li>
+            <li><span class="tip-badge">✓</span>Носок на ступеньке или книге — добавляет амплитуду, лучший вариант</li>
+          </ul>
+        </div>
+        <div class="info-block">
+          <div class="info-label">Частые ошибки</div>
+          <ul class="err-list">
+            <li><span class="err-badge">!</span>Неполная амплитуда — икры адаптированы к частичным движениям, им нужна полная</li>
+            <li><span class="err-badge">!</span>Слишком быстро — пропускаешь эксцентрик, нет роста</li>
+          </ul>
+        </div>
+        <div class="info-block">
+          <div class="info-label">Прогрессия</div>
+          <div class="prog-pill">18 повт → гантель тяжелее. Или носок на возвышении для большей амплитуды</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4 СКРУЧИВАНИЯ -->
+  <div class="ex">
+    <div class="ex-top" onclick="toggle(this)">
+      <div class="ex-idx">04</div>
+      <div class="ex-main">
+        <div class="ex-name">Скручивания</div>
+        <div class="ex-tags">
+          <div class="tag hi">3 подхода</div>
+          <div class="tag hi">15 → 20 повт</div>
+          <div class="tag">Отдых 30–45 сек</div>
+          <div class="tag">Верхний + средний пресс</div>
+        </div>
+      </div>
+      <div class="ex-chevron">▾</div>
+    </div>
+    <div class="ex-body">
+      <div class="ex-inner">
+        <div class="info-block">
+          <div class="info-label">Техника выполнения</div>
+          <ul class="steps-list">
+            <li><span class="step-dot">1</span>Лягай на спину, колени согнуты, ступни на полу. Руки на груди или за ухами</li>
+            <li><span class="step-dot">2</span>Поднимай <b>только лопатки</b> от пола — не садись полностью</li>
+            <li><span class="step-dot">3</span>В верхней точке <b>выдох + пауза 1 сек</b> — сожми пресс</li>
+            <li><span class="step-dot">4</span>Медленно опускайся, не касаясь лопатками пола до конца подхода</li>
+          </ul>
+        </div>
+        <div class="info-block">
+          <div class="info-label">Нюансы</div>
+          <ul class="tip-list">
+            <li><span class="tip-badge">✓</span>Не тяни голову руками — шея не должна работать</li>
+            <li><span class="tip-badge">✓</span>Взгляд в потолок, подбородок чуть вперёд</li>
+            <li><span class="tip-badge">✓</span>Поясница прижата к полу — это ключ к правильной технике</li>
+          </ul>
+        </div>
+        <div class="info-block">
+          <div class="info-label">Частые ошибки</div>
+          <ul class="err-list">
+            <li><span class="err-badge">!</span>Полное поднятие корпуса — это работа сгибателей бедра, не пресса</li>
+            <li><span class="err-badge">!</span>Рывки шеей — травма</li>
+            <li><span class="err-badge">!</span>Касание лопатками пола между повторами — пресс расслабляется</li>
+          </ul>
+        </div>
+        <div class="info-block">
+          <div class="info-label">Прогрессия</div>
+          <div class="prog-pill">20 повт → держи гантель 5–7.5 кг на груди. Или скручивания на наклонной поверхности</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  <b>Веди дневник тренировок</b><br>
+  Вес × повторы после каждого подхода<br>
+  Это единственный способ знать, растёшь ли ты<br><br>
+  <b>Питание = 50% результата</b><br>
+  Белок 1.6–2г на кг веса каждый день
+</div>
+
+<script>
+function showDay(day) {
+  document.querySelectorAll('.day-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('panel-' + day).classList.add('active');
+  document.querySelectorAll('.tab-btn').forEach(b => b.className = 'tab-btn');
+  event.currentTarget.classList.add('t-' + day);
+  window.scrollTo({top: document.querySelector('.tabs-wrap').offsetTop - 10, behavior:'smooth'});
+}
+
+function toggle(header) {
+  const card = header.closest('.ex');
+  const panel = card.closest('.day-panel');
+  const wasOpen = card.classList.contains('open');
+  panel.querySelectorAll('.ex').forEach(e => e.classList.remove('open'));
+  if (!wasOpen) card.classList.add('open');
+}
+</script>
+</body>
+</html>
