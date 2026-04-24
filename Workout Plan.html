@@ -1108,6 +1108,25 @@ body{background:var(--bg);color:var(--text);font-family:'Barlow',sans-serif;min-
     </div>
 
   </div>
+
+  <!-- NEXT WEEK BUTTON -->
+  <div style="padding:16px 12px 0">
+    <button onclick="resetWeek()" style="
+      width:100%;padding:18px;border-radius:16px;border:none;
+      background:linear-gradient(135deg,#FF6200,#FF8C00);
+      color:#000;font-family:'Barlow Condensed',sans-serif;
+      font-size:20px;font-weight:900;letter-spacing:2px;
+      text-transform:uppercase;cursor:pointer;
+      box-shadow:0 8px 32px rgba(255,98,0,0.35);
+      transition:opacity 0.15s,transform 0.15s;
+    " onactive="this.style.opacity=0.85">
+      🔄 СЛЕДУЮЩАЯ НЕДЕЛЯ
+    </button>
+    <div style="text-align:center;margin-top:8px;font-size:11px;color:#3A3A45;font-weight:600;letter-spacing:1px">
+      Сбросит все подходы — начнёшь с чистого листа
+    </div>
+  </div>
+
 </div>
 
 <!-- INFO -->
@@ -1289,6 +1308,21 @@ function beep() {
       o.stop(ctx.currentTime + t + 0.18);
     });
   } catch(e){}
+}
+
+// ─── RESET WEEK ───
+function resetWeek() {
+  if (!confirm('Сбросить все подходы и начать новую неделю?')) return;
+  document.querySelectorAll('.st-dot').forEach(d => d.classList.remove('done-set'));
+  document.querySelectorAll('.ex-card').forEach(c => { c.classList.remove('done','open'); });
+  document.querySelectorAll('.finish-banner').forEach(b => b.classList.remove('show'));
+  updateProgress();
+  // Switch to Monday
+  document.querySelectorAll('.day-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('dp-mon').classList.add('active');
+  document.querySelectorAll('.day-tab').forEach(t => t.classList.remove('active'));
+  document.querySelector('.day-tab').classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
 }
 
 // ─── INIT ───
