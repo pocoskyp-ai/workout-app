@@ -2,1331 +2,1034 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="format-detection" content="telephone=no">
 <title>ТРЕНИРОВКА</title>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,800;0,900;1,800&family=Barlow:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Barlow:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
 :root{
-  --bg:#0A0A0A;
-  --s1:#111113;
-  --s2:#171719;
-  --s3:#1D1D20;
-  --b1:#222226;
-  --b2:#2A2A2F;
-  --text:#FFFFFF;
-  --sub:#5A5A65;
-  --sub2:#888895;
-  --acc:#FF6200;
-  --acc2:#C8FF00;
-  --acc-dim:rgba(255,98,0,0.12);
-  --acc-glow:rgba(255,98,0,0.25);
-  --mon:#C8FF00;
-  --wed:#00D4FF;
-  --fri:#FF6200;
-  --r:16px;
+  --bg:#0A0A0A;--s1:#111113;--s2:#171719;--s3:#1C1C20;
+  --b1:#222226;--b2:#2A2A2F;
+  --text:#FFFFFF;--sub:#5A5A65;--sub2:#888895;
+  --mon:#39FF7A;--wed:#00D4FF;--fri:#FF6200;--gold:#C8FF00;
+  --c:var(--mon);
+  --dayc:var(--mon);
+  --safe-top:env(safe-area-inset-top,0px);
+  --safe-bot:env(safe-area-inset-bottom,0px);
 }
-html{scroll-behavior:smooth;height:100%}
-body{background:var(--bg);color:var(--text);font-family:'Barlow',sans-serif;min-height:100vh;overflow-x:hidden;padding-bottom:120px}
+html,body{height:100%;overscroll-behavior:none}
+body{
+  background:var(--bg);color:var(--text);
+  font-family:'Barlow',sans-serif;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+  padding-bottom:calc(80px + var(--safe-bot));
+  padding-top:var(--safe-top);
+}
 
-/* ─── TOP BAR ─── */
+/* ─── TOPBAR ─── */
 .topbar{
   position:sticky;top:0;z-index:80;
-  background:rgba(10,10,10,0.95);
-  backdrop-filter:blur(16px);
+  background:rgba(10,10,10,0.97);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
   border-bottom:1px solid var(--b1);
   padding:0 16px;
+  padding-top:max(0px, calc(var(--safe-top) - 8px));
 }
-.topbar-inner{
-  display:flex;align-items:center;
-  justify-content:space-between;
-  height:52px;
-}
-.topbar-logo{
-  font-family:'Barlow Condensed',sans-serif;
-  font-size:22px;font-weight:900;
-  letter-spacing:2px;color:var(--text);
-  text-transform:uppercase;
-}
-.topbar-logo span{color:var(--acc)}
-.progress-wrap{flex:1;margin:0 16px}
-.progress-bar{
-  height:3px;background:var(--b2);border-radius:100px;overflow:hidden;
-}
-.progress-fill{
-  height:100%;background:var(--acc);border-radius:100px;
-  transition:width 0.4s cubic-bezier(0.4,0,0.2,1);
-  box-shadow:0 0 8px var(--acc);
-}
-.progress-label{
-  font-family:'JetBrains Mono',monospace;
-  font-size:10px;color:var(--sub2);margin-top:3px;
-  text-align:right;
-}
+.topbar-inner{display:flex;align-items:center;gap:12px;height:50px}
+.logo{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:900;letter-spacing:2px;color:var(--text);text-transform:uppercase;flex-shrink:0}
+.logo em{font-style:normal;color:var(--dayc)}
+.pw{flex:1}
+.pb{height:3px;background:var(--b2);border-radius:100px;overflow:hidden}
+.pf{height:100%;border-radius:100px;transition:width .4s ease;background:var(--dayc);box-shadow:0 0 8px var(--dayc)}
+.pl{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--sub2);margin-top:3px;text-align:right}
 
-/* ─── DAY TABS ─── */
-.day-tabs{
-  display:flex;padding:12px 12px 0;gap:6px;
-}
-.day-tab{
+/* TABS */
+.dtabs{display:flex;padding:8px 12px 0;gap:6px}
+.dtab{
   flex:1;padding:10px 4px 12px;
   background:transparent;border:none;
   font-family:'Barlow Condensed',sans-serif;
-  font-size:14px;font-weight:700;letter-spacing:1px;
-  text-transform:uppercase;color:var(--sub);
-  cursor:pointer;position:relative;
-  transition:color 0.2s;text-align:center;
-  line-height:1.3;
+  font-size:13px;font-weight:700;letter-spacing:1px;text-transform:uppercase;
+  color:var(--sub);cursor:pointer;
+  position:relative;transition:color .2s;
+  text-align:center;line-height:1.3;
+  -webkit-tap-highlight-color:transparent;
 }
-.day-tab::after{
-  content:'';position:absolute;bottom:0;left:12px;right:12px;
-  height:2px;background:var(--acc);border-radius:100px;
-  transform:scaleX(0);transition:transform 0.25s;
+.dtab::after{
+  content:'';position:absolute;bottom:0;left:10px;right:10px;
+  height:2.5px;background:var(--tc,var(--mon));border-radius:100px;
+  transform:scaleX(0);transition:transform .25s;
 }
-.day-tab.active{color:var(--text)}
-.day-tab.active::after{transform:scaleX(1)}
+.dtab.active{color:var(--text)}
+.dtab.active::after{transform:scaleX(1)}
 
-/* ─── HERO STRIP ─── */
-.hero-strip{
-  padding:18px 16px 12px;
-  display:flex;align-items:flex-end;gap:12px;
-}
-.hs-day{
-  font-family:'Barlow Condensed',sans-serif;
-  font-size:clamp(48px,13vw,68px);font-weight:900;
-  line-height:0.88;letter-spacing:1px;
-  color:var(--text);
-  text-transform:uppercase;
-}
-.hs-day em{color:var(--acc);font-style:normal}
-.hs-meta{padding-bottom:6px}
-.hs-focus{
-  font-size:11px;font-weight:700;letter-spacing:2px;
-  text-transform:uppercase;color:var(--sub2);
-  margin-bottom:6px;
-}
+/* HERO */
+.hero{padding:14px 16px 8px;display:flex;align-items:flex-end;gap:12px}
+.hs-d{font-family:'Barlow Condensed',sans-serif;font-size:clamp(38px,10vw,52px);font-weight:900;line-height:.88;letter-spacing:1px;color:var(--text);text-transform:uppercase}
+.hs-d em{font-style:normal}
+.hs-m{padding-bottom:3px}
+.hs-f{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--sub2);margin-bottom:5px}
 .hs-chips{display:flex;gap:5px;flex-wrap:wrap}
-.hs-chip{
-  background:var(--s2);border:1px solid var(--b2);
-  border-radius:5px;padding:3px 9px;
-  font-family:'JetBrains Mono',monospace;
-  font-size:10px;color:var(--sub2);
-}
+.hchip{background:var(--s2);border:1px solid var(--b2);border-radius:5px;padding:3px 9px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--sub2)}
 
-/* ─── EXERCISE CARD ─── */
-.ex-list{padding:0 12px;display:flex;flex-direction:column;gap:8px}
-.ex-card{
-  background:var(--s1);border:1px solid var(--b1);
-  border-radius:var(--r);overflow:hidden;
-  transition:border-color 0.2s;
-}
-.ex-card.done{opacity:0.55}
-.ex-card.active-card{border-color:var(--acc)}
+/* WARMUP */
+.wu{background:var(--s1);border:1px solid var(--b1);border-radius:14px;margin:0 12px 8px;overflow:hidden;transition:border-color .2s}
+.wu.open{border-color:var(--c)}
+.wu-hd{display:flex;align-items:center;gap:10px;padding:14px;cursor:pointer;min-height:56px}
+.wu-ico{width:36px;height:36px;border-radius:9px;background:color-mix(in srgb,var(--c) 12%,transparent);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.wu-info{flex:1}
+.wu-tit{font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--c)}
+.wu-sub{font-size:12px;color:var(--sub);margin-top:1px;font-weight:600}
+.wu-arr{font-size:16px;color:var(--sub);transition:transform .25s;flex-shrink:0}
+.wu.open .wu-arr{transform:rotate(180deg)}
+.wu-body{max-height:0;overflow:hidden;transition:max-height .38s cubic-bezier(.4,0,.2,1)}
+.wu.open .wu-body{max-height:900px}
+.wu-inner{padding:0 14px 16px;border-top:1px solid var(--b1);padding-top:14px}
+.wustep{display:flex;gap:9px;align-items:flex-start;margin-bottom:10px}
+.wustep:last-of-type{margin-bottom:12px}
+.wun{width:22px;height:22px;border-radius:50%;background:color-mix(in srgb,var(--c) 12%,transparent);border:1px solid color-mix(in srgb,var(--c) 30%,transparent);color:var(--c);font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.wut{font-size:13.5px;color:#9090A8;line-height:1.65}
+.wut b{color:var(--text);font-weight:600}
+.wunote{background:color-mix(in srgb,var(--c) 7%,transparent);border:1px solid color-mix(in srgb,var(--c) 18%,transparent);border-radius:10px;padding:10px 13px;font-size:12px;color:var(--sub2);line-height:1.6}
+.wunote b{color:var(--text)}
 
-/* ─── CARD HEADER ─── */
-.ex-hd{
-  display:flex;align-items:center;gap:10px;
-  padding:14px 14px 12px;cursor:pointer;
-}
-.ex-num{
-  font-family:'Barlow Condensed',sans-serif;
-  font-size:13px;font-weight:700;letter-spacing:1px;
-  color:var(--sub);min-width:22px;flex-shrink:0;
-  transition:color 0.2s;
-}
-.ex-card.active-card .ex-num{color:var(--acc)}
-.ex-hd-main{flex:1}
-.ex-title{
-  font-family:'Barlow Condensed',sans-serif;
-  font-size:19px;font-weight:800;letter-spacing:0.5px;
-  color:var(--text);line-height:1.15;text-transform:uppercase;
-}
-.ex-muscle{
-  font-size:11px;font-weight:600;letter-spacing:1.5px;
-  text-transform:uppercase;color:var(--sub);margin-top:2px;
-}
-.ex-done-badge{
-  background:rgba(200,255,0,0.12);color:var(--acc2);
-  border-radius:6px;padding:3px 10px;
-  font-family:'Barlow Condensed',sans-serif;
-  font-size:13px;font-weight:700;letter-spacing:1px;
-  display:none;
-}
-.ex-card.done .ex-done-badge{display:block}
-.ex-arr{
-  font-size:16px;color:var(--sub);
-  transition:transform 0.25s;flex-shrink:0;
-}
-.ex-card.open .ex-arr{transform:rotate(180deg)}
+/* EX LIST */
+.exlist{padding:0 12px;display:flex;flex-direction:column;gap:8px}
+.excard{background:var(--s1);border:1px solid var(--b1);border-radius:14px;overflow:hidden;transition:border-color .2s,opacity .3s}
+.excard.done{opacity:.45;border-color:color-mix(in srgb,var(--gold) 30%,transparent)}
+.exhd{display:flex;align-items:center;gap:10px;padding:14px 14px 12px;cursor:pointer;min-height:64px}
+.exnum{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:1px;color:var(--sub);min-width:22px;flex-shrink:0}
+.excard.done .exnum{color:var(--gold)}
+.exmain{flex:1}
+.extit{font-family:'Barlow Condensed',sans-serif;font-size:19px;font-weight:800;letter-spacing:.5px;color:var(--text);line-height:1.15;text-transform:uppercase}
+.exmus{font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--sub);margin-top:2px}
+.exbadge{background:rgba(200,255,0,.12);color:var(--gold);border-radius:6px;padding:3px 10px;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:1px;display:none;flex-shrink:0}
+.excard.done .exbadge{display:block}
+.exarr{font-size:16px;color:var(--sub);transition:transform .25s;flex-shrink:0}
+.excard.open .exarr{transform:rotate(180deg)}
 
-/* ─── STATS ROW ─── */
-.ex-stats{
-  display:flex;border-top:1px solid var(--b1);
-  border-bottom:1px solid var(--b1);
-}
-.ex-stat{
-  flex:1;padding:10px 8px;text-align:center;
-  border-right:1px solid var(--b1);
-}
-.ex-stat:last-child{border-right:none}
-.stat-val{
-  font-family:'Barlow Condensed',sans-serif;
-  font-size:22px;font-weight:800;color:var(--text);
-  line-height:1;
-}
-.stat-key{
-  font-size:9px;font-weight:700;letter-spacing:2px;
-  text-transform:uppercase;color:var(--sub);margin-top:3px;
-}
+/* STATS */
+.exstats{display:flex;border-top:1px solid var(--b1);border-bottom:1px solid var(--b1)}
+.exstat{flex:1;padding:10px 8px;text-align:center;border-right:1px solid var(--b1)}
+.exstat:last-child{border-right:none}
+.sv{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:800;color:var(--text);line-height:1}
+.sk{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--sub);margin-top:3px}
 
-/* ─── SET TRACKER ─── */
-.set-tracker{padding:14px 14px 10px}
-.st-label{
-  font-size:10px;font-weight:700;letter-spacing:2.5px;
-  text-transform:uppercase;color:var(--sub);margin-bottom:10px;
-}
-.st-dots{display:flex;gap:8px;flex-wrap:wrap}
-.st-dot{
-  width:44px;height:44px;border-radius:10px;
-  background:var(--s3);border:1.5px solid var(--b2);
+/* SET TRACKER */
+.stw{padding:14px 14px 10px}
+.sthint{font-size:11px;font-weight:600;letter-spacing:.5px;color:var(--sub);margin-bottom:10px;line-height:1.4}
+.stdots{display:flex;gap:10px;flex-wrap:wrap}
+.stdot{
+  width:60px;height:60px;border-radius:14px;
+  background:var(--s3);border:2px solid var(--b2);
   display:flex;align-items:center;justify-content:center;
-  cursor:pointer;transition:all 0.18s;
-  flex-direction:column;gap:1px;
+  cursor:pointer;flex-direction:column;gap:2px;
+  position:relative;
+  transition:background .15s,border-color .15s,transform .1s;
+  -webkit-user-select:none;user-select:none;
 }
-.st-dot:active{transform:scale(0.92)}
-.st-dot.done-set{
-  background:var(--acc-dim);border-color:var(--acc);
-}
-.st-dot-n{
-  font-family:'Barlow Condensed',sans-serif;
-  font-size:16px;font-weight:800;color:var(--sub2);
-  line-height:1;
-}
-.st-dot.done-set .st-dot-n{color:var(--acc)}
-.st-dot-lbl{font-size:8px;font-weight:700;color:var(--sub);letter-spacing:1px;text-transform:uppercase}
-.st-dot.done-set .st-dot-lbl{color:var(--acc);opacity:0.7}
+.stdot:active{transform:scale(.88)}
+.stdot.ok{background:color-mix(in srgb,var(--dayc) 15%,transparent);border-color:var(--dayc)}
+.dotn{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:900;color:var(--sub2);line-height:1}
+.stdot.ok .dotn{color:var(--dayc)}
+.dotl{font-size:8px;font-weight:700;color:var(--sub);letter-spacing:1px;text-transform:uppercase}
+.stdot.ok .dotl{color:var(--dayc);opacity:.7}
+.dotchk{position:absolute;top:4px;right:6px;font-size:10px;opacity:0;transition:opacity .15s;color:var(--dayc)}
+.stdot.ok .dotchk{opacity:1}
 
-/* ─── REST BUTTON ─── */
-.rest-btn{
-  margin:0 14px 14px;
-  display:flex;align-items:center;gap:10px;
-  background:var(--acc-dim);border:1.5px solid var(--acc-glow);
-  border-radius:12px;padding:13px 14px;cursor:pointer;
-  transition:all 0.18s;width:calc(100% - 28px);
-}
-.rest-btn:active{transform:scale(0.98);opacity:0.85}
-.rb-icon{font-size:22px;flex-shrink:0}
-.rb-info{flex:1;text-align:left}
-.rb-title{
-  font-family:'Barlow Condensed',sans-serif;
-  font-size:15px;font-weight:800;letter-spacing:1px;
-  text-transform:uppercase;color:var(--acc);
-}
-.rb-sub{font-size:11px;color:var(--sub2);margin-top:1px;font-weight:600}
-.rb-time{
-  font-family:'JetBrains Mono',monospace;
-  font-size:14px;font-weight:700;color:var(--acc);
-}
-
-/* ─── DETAILS ─── */
-.ex-body{max-height:0;overflow:hidden;transition:max-height 0.38s cubic-bezier(0.4,0,0.2,1)}
-.ex-card.open .ex-body{max-height:2000px}
-.ex-inner{padding:16px 14px 4px;border-top:1px solid var(--b1)}
-
-.block{margin-bottom:16px}
-.blbl{
-  font-size:10px;font-weight:700;letter-spacing:3px;
-  text-transform:uppercase;color:var(--acc);
-  margin-bottom:9px;display:flex;align-items:center;gap:8px;
-  font-family:'JetBrains Mono',monospace;
-}
-.blbl::after{content:'';flex:1;height:1px;background:rgba(255,98,0,0.15)}
-
-.steps{list-style:none;display:flex;flex-direction:column;gap:8px}
+/* BODY */
+.exbody{max-height:0;overflow:hidden;transition:max-height .38s cubic-bezier(.4,0,.2,1)}
+.excard.open .exbody{max-height:2000px}
+.exinn{padding:16px 14px 16px;border-top:1px solid var(--b1)}
+.blk{margin-bottom:16px}
+.blk:last-child{margin-bottom:0}
+.blbl{font-size:9.5px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--dayc);margin-bottom:9px;display:flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace}
+.blbl::after{content:'';flex:1;height:1px;background:color-mix(in srgb,var(--dayc) 18%,transparent)}
+.steps{list-style:none;display:flex;flex-direction:column;gap:9px}
 .steps li{display:flex;gap:9px;font-size:14px;color:#9090A8;line-height:1.7}
-.sdot{
-  width:20px;height:20px;border-radius:50%;flex-shrink:0;margin-top:2px;
-  background:rgba(255,98,0,0.1);border:1px solid rgba(255,98,0,0.25);
-  color:var(--acc);font-size:10px;font-weight:800;
-  display:flex;align-items:center;justify-content:center;
-  font-family:'JetBrains Mono',monospace;
-}
+.sd{width:21px;height:21px;border-radius:50%;flex-shrink:0;margin-top:2px;background:color-mix(in srgb,var(--dayc) 10%,transparent);border:1px solid color-mix(in srgb,var(--dayc) 25%,transparent);color:var(--dayc);font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace}
 .steps li b{color:var(--text);font-weight:600}
+.tips{list-style:none;display:flex;flex-direction:column;gap:8px}
+.tips li{display:flex;gap:8px;font-size:14px;color:#9090A8;line-height:1.7}
+.tb{background:color-mix(in srgb,var(--gold) 10%,transparent);color:var(--gold);border-radius:4px;font-size:9px;font-weight:800;padding:2px 7px;flex-shrink:0;margin-top:3px;letter-spacing:.5px;font-family:'JetBrains Mono',monospace}
+.errs{list-style:none;display:flex;flex-direction:column;gap:8px}
+.errs li{display:flex;gap:8px;font-size:14px;color:#9090A8;line-height:1.7}
+.eb{background:rgba(255,60,60,.1);color:#FF6060;border-radius:4px;font-size:9px;font-weight:800;padding:2px 7px;flex-shrink:0;margin-top:3px;letter-spacing:.5px;font-family:'JetBrains Mono',monospace}
+.pp{display:flex;gap:10px;align-items:flex-start;background:color-mix(in srgb,var(--gold) 6%,transparent);border:1px solid color-mix(in srgb,var(--gold) 18%,transparent);border-radius:10px;padding:12px 13px;font-size:14px;color:#9090A8;line-height:1.7}
+.pp::before{content:'↑';font-weight:800;font-size:16px;color:var(--gold);flex-shrink:0;margin-top:1px}
+.pp b{color:var(--text)}
 
-.tips{list-style:none;display:flex;flex-direction:column;gap:7px}
-.tips li{display:flex;gap:8px;font-size:13.5px;color:#9090A8;line-height:1.7}
-.tb{background:rgba(200,255,0,0.1);color:var(--acc2);border-radius:4px;font-size:9px;font-weight:800;padding:2px 6px;flex-shrink:0;margin-top:3px;letter-spacing:0.5px;font-family:'JetBrains Mono',monospace}
+/* FIN BANNER */
+.finbanner{margin:10px 12px 0;background:rgba(200,255,0,.07);border:1.5px solid rgba(200,255,0,.25);border-radius:14px;padding:16px;text-align:center;display:none}
+.finbanner.show{display:block}
+.fbt{font-family:'Barlow Condensed',sans-serif;font-size:24px;font-weight:900;letter-spacing:2px;color:var(--gold);text-transform:uppercase}
+.fbs{font-size:13px;color:var(--sub2);margin-top:4px}
 
-.errs{list-style:none;display:flex;flex-direction:column;gap:7px}
-.errs li{display:flex;gap:8px;font-size:13.5px;color:#9090A8;line-height:1.7}
-.eb{background:rgba(255,60,60,0.1);color:#FF6060;border-radius:4px;font-size:9px;font-weight:800;padding:2px 6px;flex-shrink:0;margin-top:3px;letter-spacing:0.5px;font-family:'JetBrains Mono',monospace}
-
-.prog-pill{
-  display:flex;gap:10px;align-items:flex-start;
-  background:rgba(200,255,0,0.06);border:1px solid rgba(200,255,0,0.15);
-  border-radius:10px;padding:12px 13px;
-  font-size:13.5px;color:#9090A8;line-height:1.7;
-}
-.prog-pill::before{content:'↑';font-weight:800;font-size:15px;color:var(--acc2);flex-shrink:0;margin-top:1px}
-.prog-pill b{color:var(--text)}
-
-/* ─── TIMER SHEET ─── */
-.sheet-bg{
-  position:fixed;inset:0;z-index:150;
-  background:rgba(0,0,0,0);
-  pointer-events:none;transition:background 0.3s;
-}
-.sheet-bg.show{background:rgba(0,0,0,0.75);pointer-events:all}
-
-.timer-sheet{
+/* TIMER SHEET */
+.sbg{position:fixed;inset:0;z-index:150;background:rgba(0,0,0,0);pointer-events:none;transition:background .3s}
+.sbg.show{background:rgba(0,0,0,.85);pointer-events:all}
+.tsh{
   position:fixed;bottom:0;left:0;right:0;z-index:160;
-  background:var(--s1);border-radius:24px 24px 0 0;
+  background:var(--s1);
+  border-radius:22px 22px 0 0;
   border-top:1px solid var(--b2);
-  padding:0 20px 40px;
+  padding:0 20px;
+  padding-bottom:calc(36px + var(--safe-bot));
   transform:translateY(100%);
-  transition:transform 0.35s cubic-bezier(0.34,1.2,0.64,1);
+  transition:transform .35s cubic-bezier(.34,1.15,.64,1);
 }
-.timer-sheet.show{transform:translateY(0)}
+.tsh.show{transform:translateY(0)}
+.thandle{width:40px;height:4px;background:var(--b2);border-radius:100px;margin:14px auto 18px}
+.ttype{font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;text-align:center;margin-bottom:4px;color:var(--sub2)}
+.tex{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:800;letter-spacing:2px;text-transform:uppercase;text-align:center;margin-bottom:16px;padding:0 10px;line-height:1.3;color:var(--text)}
+.rw{position:relative;width:180px;height:180px;margin:0 auto 20px}
+.rw svg{position:absolute;inset:0;transform:rotate(-90deg)}
+.rbg{fill:none;stroke:var(--b2);stroke-width:8}
+.rfill{fill:none;stroke-width:8;stroke-linecap:round;transition:stroke-dashoffset 1s linear,stroke .3s}
+.ri{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.rnum{font-family:'Barlow Condensed',sans-serif;font-size:56px;font-weight:900;color:var(--text);line-height:1;letter-spacing:-1px}
+.rlbl{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--sub2);margin-top:4px}
+.tbtns{display:flex;gap:10px}
+.tbskip{flex:1;padding:16px;border-radius:14px;border:none;background:var(--s3);color:var(--sub2);font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;min-height:54px}
+.tbskip:active{opacity:.7}
+.tbmain{flex:2;padding:16px;border-radius:14px;border:none;color:#000;font-family:'Barlow Condensed',sans-serif;font-size:19px;font-weight:900;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;min-height:54px}
+.tbmain:active{opacity:.8}
+.tdone{text-align:center;padding:10px 0 0;font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;letter-spacing:1px;color:var(--gold);display:none}
+.tdone.show{display:block}
 
-.sheet-handle{
-  width:36px;height:4px;background:var(--b2);
-  border-radius:100px;margin:12px auto 20px;
-}
-.sheet-ex{
-  font-family:'Barlow Condensed',sans-serif;
-  font-size:13px;font-weight:700;letter-spacing:3px;
-  text-transform:uppercase;color:var(--acc);
-  text-align:center;margin-bottom:20px;
-}
+/* WORKOUT COMPLETE */
+.wcov{position:fixed;inset:0;z-index:200;background:rgba(5,5,5,.97);display:none;align-items:center;justify-content:center;flex-direction:column;padding:30px;text-align:center}
+.wcov.show{display:flex}
+.wcem{font-size:60px;margin-bottom:14px;animation:pulse 1.5s ease-in-out infinite}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
+.wct{font-family:'Barlow Condensed',sans-serif;font-size:42px;font-weight:900;letter-spacing:3px;color:var(--gold);text-transform:uppercase;line-height:1}
+.wcs{font-size:14px;color:var(--sub2);margin-top:10px;line-height:1.7;max-width:280px}
+.wcstats{display:flex;gap:12px;margin-top:20px}
+.wcst{background:var(--s2);border:1px solid var(--b2);border-radius:12px;padding:14px 20px}
+.wcsv{font-family:'Barlow Condensed',sans-serif;font-size:30px;font-weight:900;color:var(--text)}
+.wcsk{font-size:10px;color:var(--sub);letter-spacing:1.5px;text-transform:uppercase;margin-top:2px}
+.wcbtn{margin-top:24px;padding:16px 36px;border-radius:14px;border:none;background:var(--gold);color:#000;font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:900;letter-spacing:2px;text-transform:uppercase;cursor:pointer;min-height:54px}
 
-/* ─── TIMER RING ─── */
-.ring-wrap{
-  position:relative;width:200px;height:200px;
-  margin:0 auto 24px;
-}
-.ring-wrap svg{position:absolute;inset:0;transform:rotate(-90deg)}
-.ring-bg{fill:none;stroke:var(--b2);stroke-width:8}
-.ring-fill{
-  fill:none;stroke:var(--acc);stroke-width:8;stroke-linecap:round;
-  filter:drop-shadow(0 0 10px var(--acc));
-  transition:stroke-dashoffset 1s linear,stroke 0.3s;
-}
-.ring-inner{
-  position:absolute;inset:0;display:flex;flex-direction:column;
-  align-items:center;justify-content:center;
-}
-.ring-num{
-  font-family:'Barlow Condensed',sans-serif;
-  font-size:62px;font-weight:900;color:var(--text);
-  line-height:1;letter-spacing:-1px;
-}
-.ring-lbl{
-  font-size:10px;font-weight:700;letter-spacing:3px;
-  text-transform:uppercase;color:var(--sub2);
-  margin-top:4px;
-}
+/* CONFIRM DIALOG */
+.confov{position:fixed;inset:0;z-index:300;background:rgba(0,0,0,.85);display:none;align-items:flex-end;justify-content:center;padding-bottom:calc(20px + var(--safe-bot))}
+.confov.show{display:flex}
+.confbox{background:#1C1C20;border-radius:18px;padding:20px;width:calc(100% - 32px);max-width:400px;text-align:center}
+.conft{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:800;letter-spacing:1px;color:var(--text);text-transform:uppercase;margin-bottom:6px}
+.confs{font-size:13px;color:var(--sub2);margin-bottom:18px;line-height:1.5}
+.confbtns{display:flex;gap:8px}
+.confno{flex:1;padding:15px;border-radius:12px;border:none;background:var(--s3);color:var(--sub2);font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;min-height:52px}
+.confyes{flex:2;padding:15px;border-radius:12px;border:none;background:linear-gradient(135deg,#FF6200,#FF9000);color:#000;font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:900;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;min-height:52px}
+.confno:active,.confyes:active{opacity:.8}
 
-/* ─── TIMER CONTROLS ─── */
-.timer-controls{display:flex;gap:10px}
-.tc-skip{
-  flex:1;padding:15px;border-radius:12px;border:none;
-  background:var(--s3);color:var(--sub2);
-  font-family:'Barlow Condensed',sans-serif;
-  font-size:16px;font-weight:700;letter-spacing:1px;
-  text-transform:uppercase;cursor:pointer;
-  transition:opacity 0.15s;
-}
-.tc-skip:active{opacity:0.7}
-.tc-main{
-  flex:2;padding:15px;border-radius:12px;border:none;
-  background:var(--acc);color:#000;
-  font-family:'Barlow Condensed',sans-serif;
-  font-size:18px;font-weight:900;letter-spacing:1.5px;
-  text-transform:uppercase;cursor:pointer;
-  transition:opacity 0.15s;
-}
-.tc-main:active{opacity:0.8}
-.timer-done{
-  text-align:center;padding:10px 0 0;
-  font-family:'Barlow Condensed',sans-serif;
-  font-size:16px;font-weight:700;letter-spacing:1px;
-  color:var(--acc2);display:none;
-}
-.timer-done.show{display:block}
-
-/* ─── FINISH BANNER ─── */
-.finish-banner{
-  margin:12px 12px 0;
-  background:rgba(200,255,0,0.08);
-  border:1.5px solid rgba(200,255,0,0.3);
-  border-radius:var(--r);padding:16px;
-  text-align:center;display:none;
-}
-.finish-banner.show{display:block}
-.fb-title{
-  font-family:'Barlow Condensed',sans-serif;
-  font-size:28px;font-weight:900;letter-spacing:2px;
-  color:var(--acc2);text-transform:uppercase;
-}
-.fb-sub{font-size:13px;color:var(--sub2);margin-top:4px}
-
-/* ─── INFO SECTION ─── */
-.info-section{padding:20px 12px 0}
-.sec-title{
-  font-family:'Barlow Condensed',sans-serif;
-  font-size:20px;font-weight:800;letter-spacing:1px;
-  text-transform:uppercase;color:var(--text);
-  margin-bottom:10px;padding-left:2px;
-}
-.sec-title em{color:var(--acc);font-style:normal}
-.rest-grid{display:grid;gap:6px}
-.rest-row{
-  background:var(--s1);border:1px solid var(--b1);
-  border-radius:12px;padding:12px 14px;
-  display:flex;align-items:center;gap:12px;
-}
-.ri{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
+/* INFO */
+.infsec{padding:20px 12px 0}
+.sect{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--text);margin-bottom:10px;padding-left:2px}
+.sect em{color:var(--dayc);font-style:normal}
+.rg{display:grid;gap:6px}
+.rrow{background:var(--s1);border:1px solid var(--b1);border-radius:12px;padding:12px 14px;display:flex;align-items:center;gap:12px;min-height:56px}
+.ri2{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
 .rt{flex:1}
-.rt-name{font-size:13.5px;font-weight:700;color:var(--text)}
-.rt-desc{font-size:11px;color:var(--sub);margin-top:1px}
-.rt-val{font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:700;color:var(--acc);flex-shrink:0}
-
-.prog-grid{display:grid;gap:6px;margin-top:10px}
-.prog-row{
-  background:var(--s1);border:1px solid var(--b1);
-  border-radius:12px;padding:12px 14px;
-  display:flex;gap:10px;align-items:flex-start;
-}
-.prn{
-  font-family:'Barlow Condensed',sans-serif;
-  font-size:28px;font-weight:900;color:var(--b2);
-  line-height:1;flex-shrink:0;min-width:24px;
-}
-.prt{font-size:13px;color:var(--sub2);line-height:1.65}
+.rtn{font-size:14px;font-weight:700;color:var(--text)}
+.rtd{font-size:11px;color:var(--sub);margin-top:1px}
+.rtv{font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:700;color:var(--dayc);flex-shrink:0}
+.pg{display:grid;gap:6px;margin-top:10px}
+.prow{background:var(--s1);border:1px solid var(--b1);border-radius:12px;padding:13px 14px;display:flex;gap:10px;align-items:flex-start}
+.prn{font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:900;color:var(--b2);line-height:1;flex-shrink:0;min-width:24px}
+.prt{font-size:13.5px;color:var(--sub2);line-height:1.65}
 .prt b{color:var(--text)}
+.foot{text-align:center;padding:20px 16px 10px;color:var(--sub);font-size:12px;line-height:2}
+.foot b{color:#3A3A45}
 
-/* ─── DAY PANEL ─── */
-.day-panel{display:none}
-.day-panel.active{display:block}
-
-/* ─── FOOTER ─── */
-.footer{
-  text-align:center;padding:20px 16px 10px;
-  color:var(--sub);font-size:12px;line-height:2;
+/* RESET */
+.resetw{padding:16px 12px 0}
+.resetbtn{
+  width:100%;padding:18px;border-radius:16px;border:none;
+  background:linear-gradient(135deg,#FF6200,#FF9000);
+  color:#000;font-family:'Barlow Condensed',sans-serif;
+  font-size:20px;font-weight:900;letter-spacing:2px;text-transform:uppercase;
+  cursor:pointer;box-shadow:0 8px 28px rgba(255,98,0,.25);
+  min-height:58px;
 }
-.footer b{color:#3A3A45}
+.resetbtn:active{opacity:.85;transform:scale(.98)}
+.resetnote{text-align:center;margin-top:7px;font-size:11px;color:#3A3A45;font-weight:600;letter-spacing:1px}
+
+.daypanel{display:none}
+.daypanel.active{display:block}
 </style>
 </head>
 <body>
 
-<!-- TIMER BOTTOM SHEET -->
-<div class="sheet-bg" id="sheet-bg" onclick="closeTimer()"></div>
-<div class="timer-sheet" id="timer-sheet">
-  <div class="sheet-handle"></div>
-  <div class="sheet-ex" id="sheet-ex-name">ОТДЫХ</div>
-  <div class="ring-wrap">
-    <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-      <circle class="ring-bg" cx="100" cy="100" r="86"/>
-      <circle class="ring-fill" id="ring-fill" cx="100" cy="100" r="86"/>
-    </svg>
-    <div class="ring-inner">
-      <div class="ring-num" id="ring-num">0:00</div>
-      <div class="ring-lbl">ОТДЫХ</div>
+<!-- CONFIRM -->
+<div class="confov" id="confov">
+  <div class="confbox">
+    <div class="conft">Новая неделя?</div>
+    <div class="confs">Все подходы сбросятся.<br>Начнёшь с чистого листа</div>
+    <div class="confbtns">
+      <button class="confno" onclick="hideConf()">Отмена</button>
+      <button class="confyes" onclick="doReset()">🔄 Сброс</button>
     </div>
   </div>
-  <div class="timer-controls">
-    <button class="tc-skip" onclick="closeTimer()">Пропустить</button>
-    <button class="tc-main" id="tc-main-btn" onclick="timerToggle()">Пауза</button>
-  </div>
-  <div class="timer-done" id="timer-done">✓ ВПЕРЁД — следующий подход!</div>
 </div>
 
-<!-- TOP BAR -->
+<!-- WORKOUT COMPLETE -->
+<div class="wcov" id="wcov">
+  <div class="wcem">🏆</div>
+  <div class="wct">Тренировка<br>завершена!</div>
+  <div class="wcs" id="wcsub">Отличная работа!</div>
+  <div class="wcstats">
+    <div class="wcst"><div class="wcsv" id="wcsets">0</div><div class="wcsk">подходов</div></div>
+    <div class="wcst"><div class="wcsv" id="wcexs">0</div><div class="wcsk">упражнений</div></div>
+  </div>
+  <button class="wcbtn" onclick="closeWC()">Закрыть</button>
+</div>
+
+<!-- TIMER -->
+<div class="sbg" id="sbg" onclick="closeTimer()"></div>
+<div class="tsh" id="tsh">
+  <div class="thandle"></div>
+  <div class="ttype" id="ttype">ОТДЫХ</div>
+  <div class="tex" id="tex">—</div>
+  <div class="rw">
+    <svg viewBox="0 0 180 180"><circle class="rbg" cx="90" cy="90" r="75"/><circle class="rfill" id="rfill" cx="90" cy="90" r="75"/></svg>
+    <div class="ri"><div class="rnum" id="rnum">0:00</div><div class="rlbl">ОСТАЛОСЬ</div></div>
+  </div>
+  <div class="tbtns">
+    <button class="tbskip" onclick="closeTimer()">Пропустить</button>
+    <button class="tbmain" id="tbmain" onclick="timerToggle()">Пауза</button>
+  </div>
+  <div class="tdone" id="tdone">✓ ВПЕРЁД — следующий подход!</div>
+</div>
+
+<!-- TOPBAR -->
 <div class="topbar">
   <div class="topbar-inner">
-    <div class="topbar-logo">ТРЕН<span>АЖ</span></div>
-    <div class="progress-wrap">
-      <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
-      <div class="progress-label" id="prog-label">0 / 0 подходов</div>
-    </div>
+    <div class="logo" id="logo">ТРЕН<em>АЖ</em></div>
+    <div class="pw"><div class="pb"><div class="pf" id="pf" style="width:0%"></div></div><div class="pl" id="pl">0 / 0 подходов</div></div>
   </div>
-  <div class="day-tabs">
-    <button class="day-tab active" onclick="switchDay('mon',this)">Пн<br>Толчок</button>
-    <button class="day-tab" onclick="switchDay('wed',this)">Ср<br>Тяга</button>
-    <button class="day-tab" onclick="switchDay('fri',this)">Пт<br>Ноги</button>
+  <div class="dtabs">
+    <button class="dtab active" style="--tc:var(--mon)" onclick="switchDay('mon',this)">Пн<br>Толчок</button>
+    <button class="dtab" style="--tc:var(--wed)" onclick="switchDay('wed',this)">Ср<br>Тяга</button>
+    <button class="dtab" style="--tc:var(--fri)" onclick="switchDay('fri',this)">Пт<br>Ноги</button>
   </div>
 </div>
 
-<!-- ═════════════════════ ПОНЕДЕЛЬНИК ═════════════════════ -->
-<div class="day-panel active" id="dp-mon">
-  <div class="hero-strip">
-    <div class="hs-day"><em>ПН</em><br>ТОЛ<br>ЧОК</div>
-    <div class="hs-meta">
-      <div class="hs-focus">Грудь · Плечи · Трицепс · Пресс</div>
-      <div class="hs-chips">
-        <div class="hs-chip">6 упр.</div>
-        <div class="hs-chip">19 подх.</div>
-        <div class="hs-chip">~60 мин</div>
-      </div>
+<!-- ══════════════ ПОНЕДЕЛЬНИК ══════════════ -->
+<div class="daypanel active" id="dp-mon" style="--c:var(--mon)">
+  <div class="hero">
+    <div class="hs-d"><em style="color:var(--mon)">ПН</em><br>ТОЛ<br>ЧОК</div>
+    <div class="hs-m">
+      <div class="hs-f">Грудь · Плечи · Трицепс · Пресс</div>
+      <div class="hs-chips"><div class="hchip">6 упр.</div><div class="hchip">19 подх.</div><div class="hchip">~60 мин</div></div>
     </div>
   </div>
 
-  <div class="finish-banner" id="fin-mon">
-    <div class="fb-title">🔥 Понедельник закрыт!</div>
-    <div class="fb-sub">Отличная работа. Отдыхай — завтра восстановление</div>
+  <div class="wu" id="wu-mon">
+    <div class="wu-hd" onclick="toggleWu('wu-mon')">
+      <div class="wu-ico">🔥</div>
+      <div class="wu-info"><div class="wu-tit">Разминка</div><div class="wu-sub">5–7 мин · Перед тренировкой обязательно</div></div>
+      <div class="wu-arr">▾</div>
+    </div>
+    <div class="wu-body"><div class="wu-inner">
+      <div class="wustep"><div class="wun">1</div><div class="wut"><b>Вращения в плечах</b> — 10 вперёд + 10 назад каждой рукой. Разогревает ротаторную манжету перед жимами</div></div>
+      <div class="wustep"><div class="wun">2</div><div class="wut"><b>Круговые движения руками</b> — большие круги обеими руками, 15 сек вперёд + 15 сек назад</div></div>
+      <div class="wustep"><div class="wun">3</div><div class="wut"><b>Растяжка груди</b> — сцепи руки за спиной, раскрой грудь, потяни плечи назад. Держи <b>30 сек × 2</b></div></div>
+      <div class="wustep"><div class="wun">4</div><div class="wut"><b>Отжимания от стены</b> — <b>2 × 12 медленно</b>. Разогревает грудь, плечи и трицепс без нагрузки</div></div>
+      <div class="wustep"><div class="wun">5</div><div class="wut"><b>Вращения запястий</b> — 10 раз в каждую сторону. Важно перед хватом на брусьях</div></div>
+      <div class="wustep"><div class="wun">6</div><div class="wut"><b>Боковые наклоны корпуса</b> — 10 раз в каждую сторону медленно. Разогревает кор</div></div>
+      <div class="wunote"><b>Главное:</b> разминка не должна утомлять. Всё медленно, без усилий. Цель — разогреть суставы и повысить пульс до рабочего</div>
+    </div></div>
   </div>
 
-  <div class="ex-list" id="list-mon">
+  <div class="finbanner" id="fin-mon"><div class="fbt">💪 Понедельник закрыт!</div><div class="fbs">Грудь, плечи и трицепс поработали на совесть</div></div>
+  <div class="exlist" id="list-mon">
 
-    <!-- 01 БРУСЬЯ -->
-    <div class="ex-card" data-sets="4" data-rest="150" data-day="mon">
-      <div class="ex-hd" onclick="toggleCard(this)">
-        <div class="ex-num">01</div>
-        <div class="ex-hd-main">
-          <div class="ex-title">Брусья с наклоном</div>
-          <div class="ex-muscle">Грудь + Трицепс</div>
-        </div>
-        <div class="ex-done-badge">✓ ГОТОВО</div>
-        <div class="ex-arr">▾</div>
-      </div>
-      <div class="ex-stats">
-        <div class="ex-stat"><div class="stat-val">4</div><div class="stat-key">Подходы</div></div>
-        <div class="ex-stat"><div class="stat-val">6→10</div><div class="stat-key">Повторы</div></div>
-        <div class="ex-stat"><div class="stat-val">2:30</div><div class="stat-key">Отдых</div></div>
-      </div>
-      <div class="set-tracker">
-        <div class="st-label">Отметь подходы</div>
-        <div class="st-dots"></div>
-      </div>
-      <button class="rest-btn" onclick="startRest(150,'Брусья с наклоном',this)">
-        <div class="rb-icon">⏱</div>
-        <div class="rb-info">
-          <div class="rb-title">Таймер отдыха</div>
-          <div class="rb-sub">Нажми после каждого подхода</div>
-        </div>
-        <div class="rb-time">2:30</div>
-      </button>
-      <div class="ex-body">
-        <div class="ex-inner">
-          <div class="block">
-            <div class="blbl">Техника</div>
-            <ul class="steps">
-              <li><span class="sdot">1</span>Наклон тела вперёд <b>30–45°</b> — чем больше наклон, тем больше грудь. Ноги скрещены позади</li>
-              <li><span class="sdot">2</span>Опускайся медленно <b>2–3 сек</b> до тех пор пока плечи не окажутся чуть ниже локтей</li>
-              <li><span class="sdot">3</span>Мощно выжимай вверх, <b>не распрямляй</b> руки до конца — держи напряжение</li>
-              <li><span class="sdot">4</span>Локти под ~<b>45°</b> к корпусу. Выдох вверх, вдох вниз</li>
-            </ul>
-          </div>
-          <div class="block">
-            <div class="blbl">Нюансы</div>
-            <ul class="tips">
-              <li><span class="tb">✓</span>Представь что хочешь свести руки впереди — так грудь включается сильнее</li>
-              <li><span class="tb">✓</span>Взгляд вниз-вперёд, не задирай голову</li>
-              <li><span class="tb">✓</span>При дискомфорте в плечах — стоп до точки боли, не ниже</li>
-            </ul>
-          </div>
-          <div class="block">
-            <div class="blbl">Ошибки</div>
-            <ul class="errs">
-              <li><span class="eb">!</span>Тело вертикально — нагрузка идёт в трицепс, не в грудь</li>
-              <li><span class="eb">!</span>Локти сильно в стороны — перегруз плечевого сустава</li>
-              <li><span class="eb">!</span>Рывок из нижней точки — теряется напряжение</li>
-            </ul>
-          </div>
-          <div class="block">
-            <div class="blbl">Прогрессия</div>
-            <div class="prog-pill">10 повт во всех подходах → держи <b>гантель между колен</b> или надень рюкзак с весом</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 02 ЖИМ ЛЁЖА -->
-    <div class="ex-card" data-sets="3" data-rest="105" data-day="mon">
-      <div class="ex-hd" onclick="toggleCard(this)">
-        <div class="ex-num">02</div>
-        <div class="ex-hd-main">
-          <div class="ex-title">Жим гантелей лёжа</div>
-          <div class="ex-muscle">Грудь + Передняя дельта</div>
-        </div>
-        <div class="ex-done-badge">✓ ГОТОВО</div>
-        <div class="ex-arr">▾</div>
-      </div>
-      <div class="ex-stats">
-        <div class="ex-stat"><div class="stat-val">3</div><div class="stat-key">Подходы</div></div>
-        <div class="ex-stat"><div class="stat-val">8→12</div><div class="stat-key">Повторы</div></div>
-        <div class="ex-stat"><div class="stat-val">1:45</div><div class="stat-key">Отдых</div></div>
-      </div>
-      <div class="set-tracker"><div class="st-label">Отметь подходы</div><div class="st-dots"></div></div>
-      <button class="rest-btn" onclick="startRest(105,'Жим лёжа',this)">
-        <div class="rb-icon">⏱</div><div class="rb-info"><div class="rb-title">Таймер отдыха</div><div class="rb-sub">Нажми после каждого подхода</div></div>
-        <div class="rb-time">1:45</div>
-      </button>
-      <div class="ex-body"><div class="ex-inner">
-        <div class="block"><div class="blbl">Техника</div><ul class="steps">
-          <li><span class="sdot">1</span>Лягай на пол. Лопатки сведены и прижаты — защищает плечи, создаёт платформу</li>
-          <li><span class="sdot">2</span>Опускай по дуге <b>3 сек</b>, локти ~<b>65°</b> к корпусу (не 90°). Предплечья вертикальны внизу</li>
-          <li><span class="sdot">3</span>Пауза <b>1 сек</b> внизу. Выжимай вверх, слегка сводя гантели. Не стукай их наверху</li>
+    <div class="excard" data-sets="4" data-rest="150" data-day="mon" data-name="Брусья с наклоном">
+      <div class="exhd" onclick="toggleCard(this)"><div class="exnum">01</div><div class="exmain"><div class="extit">Брусья с наклоном</div><div class="exmus">Грудь + Трицепс</div></div><div class="exbadge">✓ ГОТОВО</div><div class="exarr">▾</div></div>
+      <div class="exstats"><div class="exstat"><div class="sv">4</div><div class="sk">Подходы</div></div><div class="exstat"><div class="sv">6→10</div><div class="sk">Повторы</div></div><div class="exstat"><div class="sv">2:30</div><div class="sk">Отдых</div></div></div>
+      <div class="stw"><div class="sthint">Нажми на подход после завершения — таймер запустится автоматически</div><div class="stdots"></div></div>
+      <div class="exbody"><div class="exinn">
+        <div class="blk"><div class="blbl">Техника</div><ul class="steps">
+          <li><span class="sd">1</span>Наклон тела вперёд <b>30–45°</b> — чем больше наклон, тем больше грудь. Ноги скрещены позади</li>
+          <li><span class="sd">2</span>Опускайся медленно <b>2–3 сек</b> до тех пор пока плечи не окажутся чуть ниже локтей</li>
+          <li><span class="sd">3</span>Мощно выжимай вверх, <b>не распрямляй</b> руки до конца — держи напряжение в груди</li>
+          <li><span class="sd">4</span>Локти ~<b>45°</b> к корпусу. Выдох вверх, вдох вниз</li>
         </ul></div>
-        <div class="block"><div class="blbl">Нюансы</div><ul class="tips">
-          <li><span class="tb">✓</span>Темп 3-1-1 (вниз-пауза-вверх) при 15 кг — будет тяжело</li>
-          <li><span class="tb">✓</span>Небольшой прогиб поясницы — нормально</li>
+        <div class="blk"><div class="blbl">Нюансы</div><ul class="tips">
+          <li><span class="tb">✓</span>Представь что хочешь свести руки впереди — включает грудь сильнее</li>
+          <li><span class="tb">✓</span>При дискомфорте в плечах — стоп до точки боли</li>
         </ul></div>
-        <div class="block"><div class="blbl">Ошибки</div><ul class="errs">
-          <li><span class="eb">!</span>Локти под 90° — давление на плечевой сустав</li>
-          <li><span class="eb">!</span>Нет паузы внизу — теряется лучшая часть нагрузки</li>
+        <div class="blk"><div class="blbl">Ошибки</div><ul class="errs">
+          <li><span class="eb">!</span>Тело вертикально — нагрузка идёт в трицепс, не грудь</li>
+          <li><span class="eb">!</span>Локти сильно в стороны — перегруз плечевого сустава</li>
         </ul></div>
-        <div class="block"><div class="blbl">Прогрессия при 15 кг</div><div class="prog-pill">12 повт → темп <b>4 сек вниз + пауза 2 сек</b>. Потом → отжимания с руками на гантелях с рюкзаком</div></div>
+        <div class="blk"><div class="blbl">Прогрессия</div><div class="pp">10 повт во всех подходах → держи <b>гантель между колен</b> или надень рюкзак с весом</div></div>
       </div></div>
     </div>
 
-    <!-- 03 ЖИМ СИДЯ -->
-    <div class="ex-card" data-sets="3" data-rest="105" data-day="mon">
-      <div class="ex-hd" onclick="toggleCard(this)">
-        <div class="ex-num">03</div>
-        <div class="ex-hd-main">
-          <div class="ex-title">Жим гантелей сидя</div>
-          <div class="ex-muscle">Плечи + Верхняя грудь</div>
-        </div>
-        <div class="ex-done-badge">✓ ГОТОВО</div>
-        <div class="ex-arr">▾</div>
-      </div>
-      <div class="ex-stats">
-        <div class="ex-stat"><div class="stat-val">3</div><div class="stat-key">Подходы</div></div>
-        <div class="ex-stat"><div class="stat-val">8→12</div><div class="stat-key">Повторы</div></div>
-        <div class="ex-stat"><div class="stat-val">1:45</div><div class="stat-key">Отдых</div></div>
-      </div>
-      <div class="set-tracker"><div class="st-label">Отметь подходы</div><div class="st-dots"></div></div>
-      <button class="rest-btn" onclick="startRest(105,'Жим сидя',this)">
-        <div class="rb-icon">⏱</div><div class="rb-info"><div class="rb-title">Таймер отдыха</div><div class="rb-sub">Нажми после каждого подхода</div></div>
-        <div class="rb-time">1:45</div>
-      </button>
-      <div class="ex-body"><div class="ex-inner">
-        <div class="block"><div class="blbl">Техника</div><ul class="steps">
-          <li><span class="sdot">1</span>Сядь прямо, кор напряжён. Гантели на уровне ушей, локти чуть ниже плеч</li>
-          <li><span class="sdot">2</span>Жми вверх и чуть вперёд. Не доводи до полного разгиба — держи напряжение</li>
-          <li><span class="sdot">3</span>Опускай <b>2–3 сек</b>. Выдох вверх, вдох вниз</li>
+    <div class="excard" data-sets="3" data-rest="105" data-day="mon" data-name="Отжимания на гантелях">
+      <div class="exhd" onclick="toggleCard(this)"><div class="exnum">02</div><div class="exmain"><div class="extit">Отжимания на гантелях</div><div class="exmus">Грудь + Трицепс + Передняя дельта</div></div><div class="exbadge">✓ ГОТОВО</div><div class="exarr">▾</div></div>
+      <div class="exstats"><div class="exstat"><div class="sv">3</div><div class="sk">Подходы</div></div><div class="exstat"><div class="sv">8→15</div><div class="sk">Повторы</div></div><div class="exstat"><div class="sv">1:45</div><div class="sk">Отдых</div></div></div>
+      <div class="stw"><div class="sthint">Нажми на подход после завершения — таймер запустится автоматически</div><div class="stdots"></div></div>
+      <div class="exbody"><div class="exinn">
+        <div class="blk"><div class="blbl">Почему на гантелях</div><ul class="tips">
+          <li><span class="tb">✓</span>Грудь опускается на 5–7 см глубже чем от пола — это лучшая часть амплитуды</li>
+          <li><span class="tb">✓</span>Нейтральный хват (ладони друг к другу) — щадит запястья</li>
+          <li><span class="tb">✓</span>Легко добавить вес — надень рюкзак когда станет лёгко</li>
         </ul></div>
-        <div class="block"><div class="blbl">Нюансы</div><ul class="tips">
-          <li><span class="tb">✓</span>Угол локтей ~75° к телу, не 90° — безопаснее для ротаторов</li>
-          <li><span class="tb">✓</span>Пауза 2 сек внизу — дополнительная нагрузка без лишнего веса</li>
+        <div class="blk"><div class="blbl">Техника</div><ul class="steps">
+          <li><span class="sd">1</span>Положи две гантели параллельно на пол на ширине плеч. Возьмись за них в упор лёжа</li>
+          <li><span class="sd">2</span>Лопатки сведены, тело — прямая линия от головы до пяток. Кор напряжён</li>
+          <li><span class="sd">3</span>Опускайся медленно <b>3 сек</b> — грудь уходит ниже гантелей, локти ~<b>45°</b> к корпусу</li>
+          <li><span class="sd">4</span>Пауза <b>1 сек</b> внизу. Выжимай вверх взрывом. Не разгибай руки до конца</li>
         </ul></div>
-        <div class="block"><div class="blbl">Ошибки</div><ul class="errs">
+        <div class="blk"><div class="blbl">Нюансы</div><ul class="tips">
+          <li><span class="tb">✓</span>Представь что сводишь гантели друг к другу в верхней точке — включает грудь</li>
+          <li><span class="tb">✓</span>Взгляд чуть вперёд, не в пол — шея нейтральна</li>
+          <li><span class="tb">✓</span>Если гантели катятся — положи их на что-то нескользкое или фиксируй</li>
+        </ul></div>
+        <div class="blk"><div class="blbl">Ошибки</div><ul class="errs">
+          <li><span class="eb">!</span>Локти сильно в стороны (под 90°) — давление на плечевой сустав</li>
+          <li><span class="eb">!</span>Провисание таза или горб — тело должно быть прямым</li>
+          <li><span class="eb">!</span>Нет паузы внизу — теряется лучшая часть амплитуды</li>
+        </ul></div>
+        <div class="blk"><div class="blbl">Прогрессия</div><div class="pp">15 повт → надень <b>рюкзак с весом</b>. Потом → ноги на возвышении (упор лёжа под углом вниз)</div></div>
+      </div></div>
+    </div>
+
+    <div class="excard" data-sets="3" data-rest="105" data-day="mon" data-name="Жим сидя">
+      <div class="exhd" onclick="toggleCard(this)"><div class="exnum">03</div><div class="exmain"><div class="extit">Жим гантелей сидя</div><div class="exmus">Плечи + Верхняя грудь</div></div><div class="exbadge">✓ ГОТОВО</div><div class="exarr">▾</div></div>
+      <div class="exstats"><div class="exstat"><div class="sv">3</div><div class="sk">Подходы</div></div><div class="exstat"><div class="sv">8→12</div><div class="sk">Повторы</div></div><div class="exstat"><div class="sv">1:45</div><div class="sk">Отдых</div></div></div>
+      <div class="stw"><div class="sthint">Нажми на подход после завершения — таймер запустится автоматически</div><div class="stdots"></div></div>
+      <div class="exbody"><div class="exinn">
+        <div class="blk"><div class="blbl">Техника</div><ul class="steps">
+          <li><span class="sd">1</span>Сядь прямо, кор напряжён. Гантели на уровне ушей, локти чуть ниже плеч</li>
+          <li><span class="sd">2</span>Жми вверх и чуть вперёд. Не доводи до полного разгиба — держи напряжение</li>
+          <li><span class="sd">3</span>Опускай подконтрольно <b>2–3 сек</b>. Выдох вверх, вдох вниз</li>
+        </ul></div>
+        <div class="blk"><div class="blbl">Ошибки</div><ul class="errs">
           <li><span class="eb">!</span>Жим строго за голову — нагружает шею и сустав</li>
           <li><span class="eb">!</span>Полное разгибание вверху — убирает нагрузку</li>
         </ul></div>
-        <div class="block"><div class="blbl">Прогрессия</div><div class="prog-pill">12 повт → увеличь вес. Нет тяжелее → <b>пауза 2 сек</b> в нижней точке каждого повтора</div></div>
+        <div class="blk"><div class="blbl">Прогрессия</div><div class="pp">12 повт → увеличь вес. Нет тяжелее → <b>пауза 2 сек</b> в нижней точке</div></div>
       </div></div>
     </div>
 
-    <!-- 04 ПОДЪЁМ В СТОРОНЫ -->
-    <div class="ex-card" data-sets="3" data-rest="67" data-day="mon">
-      <div class="ex-hd" onclick="toggleCard(this)">
-        <div class="ex-num">04</div>
-        <div class="ex-hd-main">
-          <div class="ex-title">Подъём в стороны</div>
-          <div class="ex-muscle">Средняя дельта</div>
-        </div>
-        <div class="ex-done-badge">✓ ГОТОВО</div>
-        <div class="ex-arr">▾</div>
-      </div>
-      <div class="ex-stats">
-        <div class="ex-stat"><div class="stat-val">3</div><div class="stat-key">Подходы</div></div>
-        <div class="ex-stat"><div class="stat-val">12→15</div><div class="stat-key">Повторы</div></div>
-        <div class="ex-stat"><div class="stat-val">1:07</div><div class="stat-key">Отдых</div></div>
-      </div>
-      <div class="set-tracker"><div class="st-label">Отметь подходы</div><div class="st-dots"></div></div>
-      <button class="rest-btn" onclick="startRest(67,'Подъём в стороны',this)">
-        <div class="rb-icon">⏱</div><div class="rb-info"><div class="rb-title">Таймер отдыха</div><div class="rb-sub">Нажми после каждого подхода</div></div>
-        <div class="rb-time">1:07</div>
-      </button>
-      <div class="ex-body"><div class="ex-inner">
-        <div class="block"><div class="blbl">Техника</div><ul class="steps">
-          <li><span class="sdot">1</span>Наклон корпуса 10–15° вперёд. Гантели вдоль тела, локти слегка согнуты</li>
-          <li><span class="sdot">2</span>Поднимай руки в стороны <b>строго до параллели</b> с полом — не выше</li>
-          <li><span class="sdot">3</span>Мизинец чуть выше большого пальца вверху. Пауза <b>1 сек</b>. Опускай <b>3 сек</b></li>
+    <div class="excard" data-sets="3" data-rest="67" data-day="mon" data-name="Подъём в стороны">
+      <div class="exhd" onclick="toggleCard(this)"><div class="exnum">04</div><div class="exmain"><div class="extit">Подъём в стороны</div><div class="exmus">Средняя дельта</div></div><div class="exbadge">✓ ГОТОВО</div><div class="exarr">▾</div></div>
+      <div class="exstats"><div class="exstat"><div class="sv">3</div><div class="sk">Подходы</div></div><div class="exstat"><div class="sv">12→15</div><div class="sk">Повторы</div></div><div class="exstat"><div class="sv">1:07</div><div class="sk">Отдых</div></div></div>
+      <div class="stw"><div class="sthint">Нажми на подход после завершения — таймер запустится автоматически</div><div class="stdots"></div></div>
+      <div class="exbody"><div class="exinn">
+        <div class="blk"><div class="blbl">Техника</div><ul class="steps">
+          <li><span class="sd">1</span>Наклон корпуса 10–15° вперёд. Поднимай строго до <b>параллели с полом</b> — не выше</li>
+          <li><span class="sd">2</span>Мизинец чуть выше большого пальца. Пауза <b>1 сек</b> вверху. Опускай <b>3 сек</b></li>
         </ul></div>
-        <div class="block"><div class="blbl">Нюансы</div><ul class="tips">
-          <li><span class="tb">✓</span>Вес лёгкий — 5–8 кг. Это изоляция, не сила</li>
-          <li><span class="tb">✓</span>Наклон убирает трапецию — дельта включается чище</li>
-        </ul></div>
-        <div class="block"><div class="blbl">Ошибки</div><ul class="errs">
+        <div class="blk"><div class="blbl">Ошибки</div><ul class="errs">
           <li><span class="eb">!</span>Выше параллели — перегруз надостной мышцы плеча</li>
-          <li><span class="eb">!</span>Рывки — трапеция перехватывает нагрузку</li>
+          <li><span class="eb">!</span>Рывки и раскачка корпуса — трапеция перехватывает нагрузку</li>
         </ul></div>
-        <div class="block"><div class="blbl">Прогрессия</div><div class="prog-pill">15 повт → <b>+1–2 кг</b> или пауза 2 сек вверху</div></div>
+        <div class="blk"><div class="blbl">Прогрессия</div><div class="pp">15 повт → <b>+1–2 кг</b> или пауза 2 сек вверху</div></div>
       </div></div>
     </div>
 
-    <!-- 05 ФРАНЦУЗСКИЙ -->
-    <div class="ex-card" data-sets="3" data-rest="67" data-day="mon">
-      <div class="ex-hd" onclick="toggleCard(this)">
-        <div class="ex-num">05</div>
-        <div class="ex-hd-main">
-          <div class="ex-title">Французский жим лёжа</div>
-          <div class="ex-muscle">Трицепс</div>
-        </div>
-        <div class="ex-done-badge">✓ ГОТОВО</div>
-        <div class="ex-arr">▾</div>
-      </div>
-      <div class="ex-stats">
-        <div class="ex-stat"><div class="stat-val">3</div><div class="stat-key">Подходы</div></div>
-        <div class="ex-stat"><div class="stat-val">10→14</div><div class="stat-key">Повторы</div></div>
-        <div class="ex-stat"><div class="stat-val">1:07</div><div class="stat-key">Отдых</div></div>
-      </div>
-      <div class="set-tracker"><div class="st-label">Отметь подходы</div><div class="st-dots"></div></div>
-      <button class="rest-btn" onclick="startRest(67,'Французский жим',this)">
-        <div class="rb-icon">⏱</div><div class="rb-info"><div class="rb-title">Таймер отдыха</div><div class="rb-sub">Нажми после каждого подхода</div></div>
-        <div class="rb-time">1:07</div>
-      </button>
-      <div class="ex-body"><div class="ex-inner">
-        <div class="block"><div class="blbl">Техника</div><ul class="steps">
-          <li><span class="sdot">1</span>Ляг на пол. Одна гантель двумя руками или две параллельным хватом над грудью</li>
-          <li><span class="sdot">2</span>Локти строго в потолок — они <b>неподвижная ось</b>. Не двигай плечами</li>
-          <li><span class="sdot">3</span>Сгибай только предплечья, опускай ко лбу <b>2–3 сек</b>. Выжимай через трицепс</li>
+    <div class="excard" data-sets="3" data-rest="67" data-day="mon" data-name="Французский жим">
+      <div class="exhd" onclick="toggleCard(this)"><div class="exnum">05</div><div class="exmain"><div class="extit">Французский жим лёжа</div><div class="exmus">Трицепс</div></div><div class="exbadge">✓ ГОТОВО</div><div class="exarr">▾</div></div>
+      <div class="exstats"><div class="exstat"><div class="sv">3</div><div class="sk">Подходы</div></div><div class="exstat"><div class="sv">10→14</div><div class="sk">Повторы</div></div><div class="exstat"><div class="sv">1:07</div><div class="sk">Отдых</div></div></div>
+      <div class="stw"><div class="sthint">Нажми на подход после завершения — таймер запустится автоматически</div><div class="stdots"></div></div>
+      <div class="exbody"><div class="exinn">
+        <div class="blk"><div class="blbl">Техника</div><ul class="steps">
+          <li><span class="sd">1</span>Ляг на пол. Одна гантель двумя руками или две параллельным хватом над грудью</li>
+          <li><span class="sd">2</span>Локти строго в потолок — <b>неподвижная ось</b>. Опускай предплечья ко лбу <b>2–3 сек</b></li>
+          <li><span class="sd">3</span>Выжимай обратно только трицепсом. Не помогай плечами</li>
         </ul></div>
-        <div class="block"><div class="blbl">Нюансы</div><ul class="tips">
-          <li><span class="tb">✓</span>Начни с лёгкого веса — чистота техники важнее</li>
-          <li><span class="tb">✓</span>При малейшем дискомфорте в локте — снижай вес сразу</li>
-        </ul></div>
-        <div class="block"><div class="blbl">Ошибки</div><ul class="errs">
+        <div class="blk"><div class="blbl">Ошибки</div><ul class="errs">
           <li><span class="eb">!</span>Локти разъезжаются — нагрузка уходит</li>
-          <li><span class="eb">!</span>Плечи помогают движению — уже не французский жим</li>
           <li><span class="eb">!</span>Слишком тяжело → боль в локте. Никогда не игнорируй</li>
         </ul></div>
-        <div class="block"><div class="blbl">Прогрессия</div><div class="prog-pill">14 повт → <b>+1–2 кг</b>. Следи за ощущениями в локте — это приоритет</div></div>
+        <div class="blk"><div class="blbl">Прогрессия</div><div class="pp">14 повт → <b>+1–2 кг</b>. Следи за ощущениями в локте — это приоритет</div></div>
       </div></div>
     </div>
 
-    <!-- 06 ПОДЪЁМ НОГ -->
-    <div class="ex-card" data-sets="3" data-rest="45" data-day="mon">
-      <div class="ex-hd" onclick="toggleCard(this)">
-        <div class="ex-num">06</div>
-        <div class="ex-hd-main">
-          <div class="ex-title">Подъём ног в висе</div>
-          <div class="ex-muscle">Нижний пресс</div>
-        </div>
-        <div class="ex-done-badge">✓ ГОТОВО</div>
-        <div class="ex-arr">▾</div>
-      </div>
-      <div class="ex-stats">
-        <div class="ex-stat"><div class="stat-val">3</div><div class="stat-key">Подходы</div></div>
-        <div class="ex-stat"><div class="stat-val">10→15</div><div class="stat-key">Повторы</div></div>
-        <div class="ex-stat"><div class="stat-val">0:45</div><div class="stat-key">Отдых</div></div>
-      </div>
-      <div class="set-tracker"><div class="st-label">Отметь подходы</div><div class="st-dots"></div></div>
-      <button class="rest-btn" onclick="startRest(45,'Подъём ног в висе',this)">
-        <div class="rb-icon">⏱</div><div class="rb-info"><div class="rb-title">Таймер отдыха</div><div class="rb-sub">Нажми после каждого подхода</div></div>
-        <div class="rb-time">0:45</div>
-      </button>
-      <div class="ex-body"><div class="ex-inner">
-        <div class="block"><div class="blbl">Техника</div><ul class="steps">
-          <li><span class="sdot">1</span>Виси на турнике на вытянутых руках, тело неподвижно</li>
-          <li><span class="sdot">2</span>Поднимай прямые ноги до параллели. В верхней точке <b>подкручивай таз</b> вверх</li>
-          <li><span class="sdot">3</span>Опускай медленно и с нуля — <b>без раскачки</b>. Каждый повтор из остановки</li>
+    <div class="excard" data-sets="3" data-rest="45" data-day="mon" data-name="Подъём ног в висе">
+      <div class="exhd" onclick="toggleCard(this)"><div class="exnum">06</div><div class="exmain"><div class="extit">Подъём ног в висе</div><div class="exmus">Нижний пресс</div></div><div class="exbadge">✓ ГОТОВО</div><div class="exarr">▾</div></div>
+      <div class="exstats"><div class="exstat"><div class="sv">3</div><div class="sk">Подходы</div></div><div class="exstat"><div class="sv">10→15</div><div class="sk">Повторы</div></div><div class="exstat"><div class="sv">0:45</div><div class="sk">Отдых</div></div></div>
+      <div class="stw"><div class="sthint">Нажми на подход после завершения — таймер запустится автоматически</div><div class="stdots"></div></div>
+      <div class="exbody"><div class="exinn">
+        <div class="blk"><div class="blbl">Техника</div><ul class="steps">
+          <li><span class="sd">1</span>Виси на турнике на вытянутых руках. Тело неподвижно — без раскачки</li>
+          <li><span class="sd">2</span>Поднимай ноги до параллели. В верхней точке <b>подкручивай таз</b> вверх</li>
+          <li><span class="sd">3</span>Опускай медленно с нуля — каждый повтор из полной остановки</li>
         </ul></div>
-        <div class="block"><div class="blbl">Нюансы</div><ul class="tips">
-          <li><span class="tb">✓</span>Сложно — начни с согнутыми коленями, постепенно выпрямляй</li>
-          <li><span class="tb">✓</span>Подкрутка таза — разница между «просто вис» и «пресс работает»</li>
+        <div class="blk"><div class="blbl">Ошибки</div><ul class="errs">
+          <li><span class="eb">!</span>Раскачка — маятник обнуляет нагрузку на пресс</li>
+          <li><span class="eb">!</span>Нет подкрутки таза — работают сгибатели бедра, не пресс</li>
         </ul></div>
-        <div class="block"><div class="blbl">Ошибки</div><ul class="errs">
-          <li><span class="eb">!</span>Раскачка — маятник обнуляет нагрузку</li>
-          <li><span class="eb">!</span>Нет подкрутки таза — работают сгибатели, не пресс</li>
-        </ul></div>
-        <div class="block"><div class="blbl">Прогрессия</div><div class="prog-pill">15 повт → поднимай ноги <b>к перекладине</b>. Потом → утяжелители на лодыжках</div></div>
+        <div class="blk"><div class="blbl">Прогрессия</div><div class="pp">15 повт → ноги <b>к перекладине</b>. Потом → утяжелители на лодыжках</div></div>
       </div></div>
     </div>
 
-  </div><!-- /list-mon -->
+  </div>
 </div>
 
-<!-- ═════════════════════ СРЕДА ═════════════════════ -->
-<div class="day-panel" id="dp-wed">
-  <div class="hero-strip">
-    <div class="hs-day" style="color:var(--wed)">СР<br>ТЯ<br>ГА</div>
-    <div class="hs-meta">
-      <div class="hs-focus">Спина · Бицепс · Задняя дельта · Кор</div>
-      <div class="hs-chips">
-        <div class="hs-chip">6 упр.</div>
-        <div class="hs-chip">19 подх.</div>
-        <div class="hs-chip">~65 мин</div>
-      </div>
+<!-- ══════════════ СРЕДА ══════════════ -->
+<div class="daypanel" id="dp-wed" style="--c:var(--wed)">
+  <div class="hero">
+    <div class="hs-d"><em style="color:var(--wed)">СР</em><br>ТЯ<br>ГА</div>
+    <div class="hs-m">
+      <div class="hs-f">Спина · Бицепс · Задняя дельта · Кор</div>
+      <div class="hs-chips"><div class="hchip">6 упр.</div><div class="hchip">19 подх.</div><div class="hchip">~65 мин</div></div>
     </div>
   </div>
-  <div class="finish-banner" id="fin-wed">
-    <div class="fb-title">💪 Среда закрыта!</div>
-    <div class="fb-sub">Спина и бицепс сегодня поработали на совесть</div>
-  </div>
-  <div class="ex-list" id="list-wed" style="--acc:var(--wed)">
 
-    <!-- 01 КОСЫЕ -->
-    <div class="ex-card" data-sets="3" data-rest="45" data-day="wed" style="--acc:var(--wed)">
-      <div class="ex-hd" onclick="toggleCard(this)">
-        <div class="ex-num">01</div>
-        <div class="ex-hd-main">
-          <div class="ex-title">Косые в висе</div>
-          <div class="ex-muscle">Косые мышцы живота · Первым — руки свежие</div>
-        </div>
-        <div class="ex-done-badge">✓ ГОТОВО</div><div class="ex-arr">▾</div>
-      </div>
-      <div class="ex-stats">
-        <div class="ex-stat"><div class="stat-val">3</div><div class="stat-key">Подходы</div></div>
-        <div class="ex-stat"><div class="stat-val">12×2</div><div class="stat-key">На сторону</div></div>
-        <div class="ex-stat"><div class="stat-val">0:45</div><div class="stat-key">Отдых</div></div>
-      </div>
-      <div class="set-tracker"><div class="st-label">Отметь подходы</div><div class="st-dots"></div></div>
-      <button class="rest-btn" onclick="startRest(45,'Косые в висе',this)" style="background:rgba(0,212,255,0.08);border-color:rgba(0,212,255,0.2)">
-        <div class="rb-icon">⏱</div><div class="rb-info"><div class="rb-title" style="color:var(--wed)">Таймер отдыха</div><div class="rb-sub">Нажми после каждого подхода</div></div>
-        <div class="rb-time" style="color:var(--wed)">0:45</div>
-      </button>
-      <div class="ex-body"><div class="ex-inner">
-        <div class="block"><div class="blbl" style="color:var(--wed)">Техника</div><ul class="steps">
-          <li><span class="sdot" style="background:rgba(0,212,255,0.1);border-color:rgba(0,212,255,0.25);color:var(--wed)">1</span>Виси неподвижно на турнике</li>
-          <li><span class="sdot" style="background:rgba(0,212,255,0.1);border-color:rgba(0,212,255,0.25);color:var(--wed)">2</span>Поднимай ноги с отклонением в сторону — таз слегка поворачивается</li>
-          <li><span class="sdot" style="background:rgba(0,212,255,0.1);border-color:rgba(0,212,255,0.25);color:var(--wed)">3</span>Чередуй: влево → стоп → вправо → стоп. 12 раз на каждую сторону</li>
-          <li><span class="sdot" style="background:rgba(0,212,255,0.1);border-color:rgba(0,212,255,0.25);color:var(--wed)">4</span>Опускай с контролем — <b>без маятника</b>, каждый повтор с нуля</li>
+  <div class="wu" id="wu-wed" style="--c:var(--wed)">
+    <div class="wu-hd" onclick="toggleWu('wu-wed')">
+      <div class="wu-ico">🔥</div>
+      <div class="wu-info"><div class="wu-tit">Разминка</div><div class="wu-sub">5–7 мин · Перед тренировкой обязательно</div></div>
+      <div class="wu-arr">▾</div>
+    </div>
+    <div class="wu-body"><div class="wu-inner">
+      <div class="wustep"><div class="wun" style="background:rgba(0,212,255,.12);border-color:rgba(0,212,255,.3);color:var(--wed)">1</div><div class="wut"><b>Кошка-корова</b> — на четвереньках, чередуй прогиб и округление спины. <b>10 медленных повторов</b>. Готовит позвоночник к тяговым движениям</div></div>
+      <div class="wustep"><div class="wun" style="background:rgba(0,212,255,.12);border-color:rgba(0,212,255,.3);color:var(--wed)">2</div><div class="wut"><b>Вращения лопатками</b> — поднимай плечи к ушам, отводи назад и опускай. <b>10 кругов</b>. Активирует ретракторы лопаток</div></div>
+      <div class="wustep"><div class="wun" style="background:rgba(0,212,255,.12);border-color:rgba(0,212,255,.3);color:var(--wed)">3</div><div class="wut"><b>Горизонтальная тяга от стола</b> — ляг под стол, тяни себя вверх прямым телом. <b>2 × 10 легко</b>. Идеальная разминка под подтягивания</div></div>
+      <div class="wustep"><div class="wun" style="background:rgba(0,212,255,.12);border-color:rgba(0,212,255,.3);color:var(--wed)">4</div><div class="wut"><b>Вис на турнике</b> — просто виси на вытянутых руках <b>3 × 20 сек</b>. Разогревает хват, плечи, растягивает широчайшие</div></div>
+      <div class="wustep"><div class="wun" style="background:rgba(0,212,255,.12);border-color:rgba(0,212,255,.3);color:var(--wed)">5</div><div class="wut"><b>Наклоны вперёд стоя</b> — ноги прямые, тянись руками к полу. Держи <b>20 сек × 3</b>. Разогревает заднюю поверхность и поясницу</div></div>
+      <div class="wustep"><div class="wun" style="background:rgba(0,212,255,.12);border-color:rgba(0,212,255,.3);color:var(--wed)">6</div><div class="wut"><b>Вращения запястий и предплечий</b> — <b>10 раз в каждую сторону</b>. Готовит хват к длинным подходам на турнике</div></div>
+      <div class="wunote" style="background:rgba(0,212,255,.06);border-color:rgba(0,212,255,.18)"><b>Подсказка:</b> вис на турнике между упражнениями разминки — предплечья привыкнут постепенно, и косые в висе пойдут намного легче</div>
+    </div></div>
+  </div>
+
+  <div class="finbanner" id="fin-wed"><div class="fbt">💪 Среда закрыта!</div><div class="fbs">Спина и бицепс получили всё что нужно</div></div>
+  <div class="exlist" id="list-wed">
+
+    <div class="excard" data-sets="3" data-rest="45" data-day="wed" data-name="Косые в висе">
+      <div class="exhd" onclick="toggleCard(this)"><div class="exnum">01</div><div class="exmain"><div class="extit">Косые в висе</div><div class="exmus">Косые мышцы · Первым — руки свежие</div></div><div class="exbadge">✓ ГОТОВО</div><div class="exarr">▾</div></div>
+      <div class="exstats"><div class="exstat"><div class="sv">3</div><div class="sk">Подходы</div></div><div class="exstat"><div class="sv">12×2</div><div class="sk">На сторону</div></div><div class="exstat"><div class="sv">0:45</div><div class="sk">Отдых</div></div></div>
+      <div class="stw"><div class="sthint">Нажми на подход после завершения — таймер запустится автоматически</div><div class="stdots"></div></div>
+      <div class="exbody"><div class="exinn">
+        <div class="blk"><div class="blbl" style="color:var(--wed)">Техника</div><ul class="steps">
+          <li><span class="sd" style="background:rgba(0,212,255,.1);border-color:rgba(0,212,255,.25);color:var(--wed)">1</span>Виси неподвижно. Поднимай ноги с отклонением в сторону — таз слегка поворачивается</li>
+          <li><span class="sd" style="background:rgba(0,212,255,.1);border-color:rgba(0,212,255,.25);color:var(--wed)">2</span>Чередуй: влево → стоп → вправо → стоп. <b>12 раз на каждую сторону</b></li>
+          <li><span class="sd" style="background:rgba(0,212,255,.1);border-color:rgba(0,212,255,.25);color:var(--wed)">3</span>Опускай с контролем — <b>без маятника</b>, каждый повтор из нуля</li>
         </ul></div>
-        <div class="block"><div class="blbl" style="color:var(--wed)">Нюансы</div><ul class="tips">
-          <li><span class="tb" style="background:rgba(0,212,255,0.1);color:var(--wed)">✓</span>Сложно — начни с согнутыми коленями</li>
-          <li><span class="tb" style="background:rgba(0,212,255,0.1);color:var(--wed)">✓</span>Именно первым — предплечья ещё свежие и не мешают</li>
-        </ul></div>
-        <div class="block"><div class="blbl" style="color:var(--wed)">Ошибки</div><ul class="errs">
-          <li><span class="eb">!</span>Инерция вместо мышц — вращение должно идти от кора</li>
-        </ul></div>
-        <div class="block"><div class="blbl" style="color:var(--wed)">Прогрессия</div><div class="prog-pill" style="background:rgba(0,212,255,0.05);border-color:rgba(0,212,255,0.15)">Согнутые колени → <b>прямые ноги</b> → утяжелители</div></div>
+        <div class="blk"><div class="blbl" style="color:var(--wed)">Прогрессия</div><div class="pp" style="background:rgba(0,212,255,.05);border-color:rgba(0,212,255,.15)">Согнутые колени → <b>прямые ноги</b> → утяжелители на лодыжках</div></div>
       </div></div>
     </div>
 
-    <!-- 02 ПОДТЯГ ШИРОКИЙ -->
-    <div class="ex-card" data-sets="4" data-rest="150" data-day="wed" style="--acc:var(--wed)">
-      <div class="ex-hd" onclick="toggleCard(this)">
-        <div class="ex-num">02</div>
-        <div class="ex-hd-main"><div class="ex-title">Подтягивания широким</div><div class="ex-muscle">Широчайшие + Бицепс</div></div>
-        <div class="ex-done-badge">✓ ГОТОВО</div><div class="ex-arr">▾</div>
-      </div>
-      <div class="ex-stats">
-        <div class="ex-stat"><div class="stat-val">4</div><div class="stat-key">Подходы</div></div>
-        <div class="ex-stat"><div class="stat-val">6→10</div><div class="stat-key">Повторы</div></div>
-        <div class="ex-stat"><div class="stat-val">2:30</div><div class="stat-key">Отдых</div></div>
-      </div>
-      <div class="set-tracker"><div class="st-label">Отметь подходы</div><div class="st-dots"></div></div>
-      <button class="rest-btn" onclick="startRest(150,'Подтягивания широким',this)" style="background:rgba(0,212,255,0.08);border-color:rgba(0,212,255,0.2)">
-        <div class="rb-icon">⏱</div><div class="rb-info"><div class="rb-title" style="color:var(--wed)">Таймер отдыха</div><div class="rb-sub">Нажми после каждого подхода</div></div>
-        <div class="rb-time" style="color:var(--wed)">2:30</div>
-      </button>
-      <div class="ex-body"><div class="ex-inner">
-        <div class="block"><div class="blbl" style="color:var(--wed)">Техника</div><ul class="steps">
-          <li><span class="sdot" style="background:rgba(0,212,255,0.1);border-color:rgba(0,212,255,0.25);color:var(--wed)">1</span>Хват шире плеч, ладони от себя. <b>Полный разгиб</b> рук внизу — обязательно</li>
-          <li><span class="sdot" style="background:rgba(0,212,255,0.1);border-color:rgba(0,212,255,0.25);color:var(--wed)">2</span>Активируй лопатки вниз-назад перед стартом. Думай: «привожу локти к карманам»</li>
-          <li><span class="sdot" style="background:rgba(0,212,255,0.1);border-color:rgba(0,212,255,0.25);color:var(--wed)">3</span>Тяни <b>грудь к перекладине</b>, слегка прогибаясь. Пауза <b>1 сек</b> вверху</li>
-          <li><span class="sdot" style="background:rgba(0,212,255,0.1);border-color:rgba(0,212,255,0.25);color:var(--wed)">4</span>Опускайся <b>3 сек</b> до полного разгиба</li>
+    <div class="excard" data-sets="4" data-rest="150" data-day="wed" data-name="Подтягивания широким">
+      <div class="exhd" onclick="toggleCard(this)"><div class="exnum">02</div><div class="exmain"><div class="extit">Подтягивания широким</div><div class="exmus">Широчайшие + Бицепс</div></div><div class="exbadge">✓ ГОТОВО</div><div class="exarr">▾</div></div>
+      <div class="exstats"><div class="exstat"><div class="sv">4</div><div class="sk">Подходы</div></div><div class="exstat"><div class="sv">6→10</div><div class="sk">Повторы</div></div><div class="exstat"><div class="sv">2:30</div><div class="sk">Отдых</div></div></div>
+      <div class="stw"><div class="sthint">Нажми на подход после завершения — таймер запустится автоматически</div><div class="stdots"></div></div>
+      <div class="exbody"><div class="exinn">
+        <div class="blk"><div class="blbl" style="color:var(--wed)">Техника</div><ul class="steps">
+          <li><span class="sd" style="background:rgba(0,212,255,.1);border-color:rgba(0,212,255,.25);color:var(--wed)">1</span>Хват шире плеч, ладони от себя. <b>Полный разгиб</b> рук внизу — обязательно</li>
+          <li><span class="sd" style="background:rgba(0,212,255,.1);border-color:rgba(0,212,255,.25);color:var(--wed)">2</span>Думай: «привожу локти к карманам». Тяни <b>грудь к перекладине</b>, слегка прогибаясь</li>
+          <li><span class="sd" style="background:rgba(0,212,255,.1);border-color:rgba(0,212,255,.25);color:var(--wed)">3</span>Пауза <b>1 сек</b> вверху, сожми лопатки. Опускайся <b>3 сек</b> до полного разгиба</li>
         </ul></div>
-        <div class="block"><div class="blbl" style="color:var(--wed)">Ошибки</div><ul class="errs">
+        <div class="blk"><div class="blbl" style="color:var(--wed)">Ошибки</div><ul class="errs">
           <li><span class="eb">!</span>Подбородок тянется к турнику — работает шея, не спина</li>
           <li><span class="eb">!</span>Срезание амплитуды внизу — нет роста широчайших</li>
         </ul></div>
-        <div class="block"><div class="blbl" style="color:var(--wed)">Прогрессия</div><div class="prog-pill" style="background:rgba(0,212,255,0.05);border-color:rgba(0,212,255,0.15)">10 повт → рюкзак с весом или <b>пауза 3 сек вверху</b></div></div>
+        <div class="blk"><div class="blbl" style="color:var(--wed)">Прогрессия</div><div class="pp" style="background:rgba(0,212,255,.05);border-color:rgba(0,212,255,.15)">10 повт → рюкзак с весом или <b>пауза 3 сек вверху</b></div></div>
       </div></div>
     </div>
 
-    <!-- 03 ТЯГА ГАНТЕЛИ -->
-    <div class="ex-card" data-sets="3" data-rest="105" data-day="wed" style="--acc:var(--wed)">
-      <div class="ex-hd" onclick="toggleCard(this)">
-        <div class="ex-num">03</div>
-        <div class="ex-hd-main"><div class="ex-title">Тяга гантели в наклоне</div><div class="ex-muscle">Спина + Бицепс</div></div>
-        <div class="ex-done-badge">✓ ГОТОВО</div><div class="ex-arr">▾</div>
-      </div>
-      <div class="ex-stats">
-        <div class="ex-stat"><div class="stat-val">3</div><div class="stat-key">Подходы</div></div>
-        <div class="ex-stat"><div class="stat-val">8→12</div><div class="stat-key">Повторы</div></div>
-        <div class="ex-stat"><div class="stat-val">1:45</div><div class="stat-key">Отдых</div></div>
-      </div>
-      <div class="set-tracker"><div class="st-label">Отметь подходы</div><div class="st-dots"></div></div>
-      <button class="rest-btn" onclick="startRest(105,'Тяга гантели',this)" style="background:rgba(0,212,255,0.08);border-color:rgba(0,212,255,0.2)">
-        <div class="rb-icon">⏱</div><div class="rb-info"><div class="rb-title" style="color:var(--wed)">Таймер отдыха</div><div class="rb-sub">Нажми после каждого подхода</div></div>
-        <div class="rb-time" style="color:var(--wed)">1:45</div>
-      </button>
-      <div class="ex-body"><div class="ex-inner">
-        <div class="block"><div class="blbl" style="color:var(--wed)">Техника</div><ul class="steps">
-          <li><span class="sdot" style="background:rgba(0,212,255,0.1);border-color:rgba(0,212,255,0.25);color:var(--wed)">1</span>Упрись коленом и рукой в опору. Спина параллельна полу</li>
-          <li><span class="sdot" style="background:rgba(0,212,255,0.1);border-color:rgba(0,212,255,0.25);color:var(--wed)">2</span>Внизу позволь лопатке уехать вперёд — растяжка широчайшей. Думай «тяну локоть»</li>
-          <li><span class="sdot" style="background:rgba(0,212,255,0.1);border-color:rgba(0,212,255,0.25);color:var(--wed)">3</span>Тяни к <b>бедру</b>, не к плечу. Пауза <b>2 сек</b> вверху. Опускай <b>3 сек</b></li>
+    <div class="excard" data-sets="3" data-rest="105" data-day="wed" data-name="Тяга гантели">
+      <div class="exhd" onclick="toggleCard(this)"><div class="exnum">03</div><div class="exmain"><div class="extit">Тяга гантели в наклоне</div><div class="exmus">Спина + Бицепс</div></div><div class="exbadge">✓ ГОТОВО</div><div class="exarr">▾</div></div>
+      <div class="exstats"><div class="exstat"><div class="sv">3</div><div class="sk">Подходы</div></div><div class="exstat"><div class="sv">8→12</div><div class="sk">Повторы</div></div><div class="exstat"><div class="sv">1:45</div><div class="sk">Отдых</div></div></div>
+      <div class="stw"><div class="sthint">Нажми на подход после завершения — таймер запустится автоматически</div><div class="stdots"></div></div>
+      <div class="exbody"><div class="exinn">
+        <div class="blk"><div class="blbl" style="color:var(--wed)">Техника</div><ul class="steps">
+          <li><span class="sd" style="background:rgba(0,212,255,.1);border-color:rgba(0,212,255,.25);color:var(--wed)">1</span>Упрись коленом и рукой в опору. Спина параллельна полу</li>
+          <li><span class="sd" style="background:rgba(0,212,255,.1);border-color:rgba(0,212,255,.25);color:var(--wed)">2</span>Внизу позволь лопатке уехать вперёд — растяжка. Думай «тяну локоть» к <b>бедру</b></li>
+          <li><span class="sd" style="background:rgba(0,212,255,.1);border-color:rgba(0,212,255,.25);color:var(--wed)">3</span>Пауза <b>2 сек</b> вверху, сожми лопатку. Опускай <b>3 сек</b></li>
         </ul></div>
-        <div class="block"><div class="blbl" style="color:var(--wed)">Ошибки</div><ul class="errs">
+        <div class="blk"><div class="blbl" style="color:var(--wed)">Ошибки</div><ul class="errs">
           <li><span class="eb">!</span>Тяга к плечу — включается бицепс, не спина</li>
           <li><span class="eb">!</span>Скруглённая спина — риск для поясницы</li>
         </ul></div>
-        <div class="block"><div class="blbl" style="color:var(--wed)">Прогрессия при 15 кг</div><div class="prog-pill" style="background:rgba(0,212,255,0.05);border-color:rgba(0,212,255,0.15)">12 повт → <b>темп 4 сек вниз + пауза 3 сек вверху</b></div></div>
+        <div class="blk"><div class="blbl" style="color:var(--wed)">Прогрессия при 15 кг</div><div class="pp" style="background:rgba(0,212,255,.05);border-color:rgba(0,212,255,.15)">12 повт → <b>темп 4 сек вниз + пауза 3 сек вверху</b></div></div>
       </div></div>
     </div>
 
-    <!-- 04 ПОДТЯГ ОБРАТНЫМ -->
-    <div class="ex-card" data-sets="3" data-rest="120" data-day="wed" style="--acc:var(--wed)">
-      <div class="ex-hd" onclick="toggleCard(this)">
-        <div class="ex-num">04</div>
-        <div class="ex-hd-main"><div class="ex-title">Подтягивания обратным</div><div class="ex-muscle">Бицепс + Низ спины</div></div>
-        <div class="ex-done-badge">✓ ГОТОВО</div><div class="ex-arr">▾</div>
-      </div>
-      <div class="ex-stats">
-        <div class="ex-stat"><div class="stat-val">3</div><div class="stat-key">Подходы</div></div>
-        <div class="ex-stat"><div class="stat-val">6→10</div><div class="stat-key">Повторы</div></div>
-        <div class="ex-stat"><div class="stat-val">2:00</div><div class="stat-key">Отдых</div></div>
-      </div>
-      <div class="set-tracker"><div class="st-label">Отметь подходы</div><div class="st-dots"></div></div>
-      <button class="rest-btn" onclick="startRest(120,'Подтягивания обратным',this)" style="background:rgba(0,212,255,0.08);border-color:rgba(0,212,255,0.2)">
-        <div class="rb-icon">⏱</div><div class="rb-info"><div class="rb-title" style="color:var(--wed)">Таймер отдыха</div><div class="rb-sub">Нажми после каждого подхода</div></div>
-        <div class="rb-time" style="color:var(--wed)">2:00</div>
-      </button>
-      <div class="ex-body"><div class="ex-inner">
-        <div class="block"><div class="blbl" style="color:var(--wed)">Техника</div><ul class="steps">
-          <li><span class="sdot" style="background:rgba(0,212,255,0.1);border-color:rgba(0,212,255,0.25);color:var(--wed)">1</span>Хват чуть уже плеч, ладони <b>к себе</b>. Полный разгиб внизу</li>
-          <li><span class="sdot" style="background:rgba(0,212,255,0.1);border-color:rgba(0,212,255,0.25);color:var(--wed)">2</span>Локти идут <b>строго вниз</b> и слегка вперёд. Пауза <b>1 сек</b> вверху</li>
-          <li><span class="sdot" style="background:rgba(0,212,255,0.1);border-color:rgba(0,212,255,0.25);color:var(--wed)">3</span>Разгибайся полностью вниз <b>3 сек</b></li>
+    <div class="excard" data-sets="3" data-rest="120" data-day="wed" data-name="Подтягивания обратным">
+      <div class="exhd" onclick="toggleCard(this)"><div class="exnum">04</div><div class="exmain"><div class="extit">Подтягивания обратным</div><div class="exmus">Бицепс + Низ спины</div></div><div class="exbadge">✓ ГОТОВО</div><div class="exarr">▾</div></div>
+      <div class="exstats"><div class="exstat"><div class="sv">3</div><div class="sk">Подходы</div></div><div class="exstat"><div class="sv">6→10</div><div class="sk">Повторы</div></div><div class="exstat"><div class="sv">2:00</div><div class="sk">Отдых</div></div></div>
+      <div class="stw"><div class="sthint">Нажми на подход после завершения — таймер запустится автоматически</div><div class="stdots"></div></div>
+      <div class="exbody"><div class="exinn">
+        <div class="blk"><div class="blbl" style="color:var(--wed)">Техника</div><ul class="steps">
+          <li><span class="sd" style="background:rgba(0,212,255,.1);border-color:rgba(0,212,255,.25);color:var(--wed)">1</span>Хват чуть уже плеч, ладони <b>к себе</b>. Полный разгиб внизу</li>
+          <li><span class="sd" style="background:rgba(0,212,255,.1);border-color:rgba(0,212,255,.25);color:var(--wed)">2</span>Локти идут <b>строго вниз</b>. Пауза <b>1 сек</b> вверху. Разгибайся полностью <b>3 сек</b></li>
         </ul></div>
-        <div class="block"><div class="blbl" style="color:var(--wed)">Ошибки</div><ul class="errs">
+        <div class="blk"><div class="blbl" style="color:var(--wed)">Ошибки</div><ul class="errs">
           <li><span class="eb">!</span>Локти разъезжаются — теряется нагрузка на бицепс</li>
-          <li><span class="eb">!</span>Срезание амплитуды внизу — самая частая ошибка</li>
         </ul></div>
-        <div class="block"><div class="blbl" style="color:var(--wed)">Прогрессия</div><div class="prog-pill" style="background:rgba(0,212,255,0.05);border-color:rgba(0,212,255,0.15)">10 повт → опускание <b>5 сек</b>. Потом → рюкзак с весом</div></div>
+        <div class="blk"><div class="blbl" style="color:var(--wed)">Прогрессия</div><div class="pp" style="background:rgba(0,212,255,.05);border-color:rgba(0,212,255,.15)">10 повт → опускание <b>5 сек</b>. Потом → рюкзак с весом</div></div>
       </div></div>
     </div>
 
-    <!-- 05 РАЗВЕДЕНИЯ -->
-    <div class="ex-card" data-sets="3" data-rest="67" data-day="wed" style="--acc:var(--wed)">
-      <div class="ex-hd" onclick="toggleCard(this)">
-        <div class="ex-num">05</div>
-        <div class="ex-hd-main"><div class="ex-title">Разведения в наклоне</div><div class="ex-muscle">Задняя дельта</div></div>
-        <div class="ex-done-badge">✓ ГОТОВО</div><div class="ex-arr">▾</div>
-      </div>
-      <div class="ex-stats">
-        <div class="ex-stat"><div class="stat-val">3</div><div class="stat-key">Подходы</div></div>
-        <div class="ex-stat"><div class="stat-val">12→16</div><div class="stat-key">Повторы</div></div>
-        <div class="ex-stat"><div class="stat-val">1:07</div><div class="stat-key">Отдых</div></div>
-      </div>
-      <div class="set-tracker"><div class="st-label">Отметь подходы</div><div class="st-dots"></div></div>
-      <button class="rest-btn" onclick="startRest(67,'Разведения в наклоне',this)" style="background:rgba(0,212,255,0.08);border-color:rgba(0,212,255,0.2)">
-        <div class="rb-icon">⏱</div><div class="rb-info"><div class="rb-title" style="color:var(--wed)">Таймер отдыха</div><div class="rb-sub">Нажми после каждого подхода</div></div>
-        <div class="rb-time" style="color:var(--wed)">1:07</div>
-      </button>
-      <div class="ex-body"><div class="ex-inner">
-        <div class="block"><div class="blbl" style="color:var(--wed)">Техника</div><ul class="steps">
-          <li><span class="sdot" style="background:rgba(0,212,255,0.1);border-color:rgba(0,212,255,0.25);color:var(--wed)">1</span>Наклон до параллели с полом. Спина прямая, взгляд в пол</li>
-          <li><span class="sdot" style="background:rgba(0,212,255,0.1);border-color:rgba(0,212,255,0.25);color:var(--wed)">2</span>Разводи в стороны — мизинец чуть <b>выше большого пальца</b></li>
-          <li><span class="sdot" style="background:rgba(0,212,255,0.1);border-color:rgba(0,212,255,0.25);color:var(--wed)">3</span>Пауза <b>1 сек</b> вверху. Опускай медленно — <b>3 сек</b></li>
+    <div class="excard" data-sets="3" data-rest="67" data-day="wed" data-name="Разведения в наклоне">
+      <div class="exhd" onclick="toggleCard(this)"><div class="exnum">05</div><div class="exmain"><div class="extit">Разведения в наклоне</div><div class="exmus">Задняя дельта</div></div><div class="exbadge">✓ ГОТОВО</div><div class="exarr">▾</div></div>
+      <div class="exstats"><div class="exstat"><div class="sv">3</div><div class="sk">Подходы</div></div><div class="exstat"><div class="sv">12→16</div><div class="sk">Повторы</div></div><div class="exstat"><div class="sv">1:07</div><div class="sk">Отдых</div></div></div>
+      <div class="stw"><div class="sthint">Нажми на подход после завершения — таймер запустится автоматически</div><div class="stdots"></div></div>
+      <div class="exbody"><div class="exinn">
+        <div class="blk"><div class="blbl" style="color:var(--wed)">Техника</div><ul class="steps">
+          <li><span class="sd" style="background:rgba(0,212,255,.1);border-color:rgba(0,212,255,.25);color:var(--wed)">1</span>Наклон до параллели с полом. Спина прямая, взгляд в пол</li>
+          <li><span class="sd" style="background:rgba(0,212,255,.1);border-color:rgba(0,212,255,.25);color:var(--wed)">2</span>Мизинец чуть <b>выше большого пальца</b>. Пауза <b>1 сек</b> вверху. Опускай <b>3 сек</b></li>
         </ul></div>
-        <div class="block"><div class="blbl" style="color:var(--wed)">Ошибки</div><ul class="errs">
-          <li><span class="eb">!</span>Слишком тяжело → трапеция всё берёт</li>
-          <li><span class="eb">!</span>Недостаточный наклон — работает другая мышца</li>
+        <div class="blk"><div class="blbl" style="color:var(--wed)">Ошибки</div><ul class="errs">
+          <li><span class="eb">!</span>Слишком тяжёлый вес → трапеция перехватывает всё</li>
+          <li><span class="eb">!</span>Недостаточный наклон — работает боковая дельта, не задняя</li>
         </ul></div>
-        <div class="block"><div class="blbl" style="color:var(--wed)">Прогрессия</div><div class="prog-pill" style="background:rgba(0,212,255,0.05);border-color:rgba(0,212,255,0.15)">16 повт → <b>+1–2 кг</b> или пауза 2 сек вверху</div></div>
+        <div class="blk"><div class="blbl" style="color:var(--wed)">Прогрессия</div><div class="pp" style="background:rgba(0,212,255,.05);border-color:rgba(0,212,255,.15)">16 повт → <b>+1–2 кг</b> или пауза 2 сек вверху</div></div>
       </div></div>
     </div>
 
-    <!-- 06 ГИПЕРЭКСТЕНЗИЯ -->
-    <div class="ex-card" data-sets="3" data-rest="60" data-day="wed" style="--acc:var(--wed)">
-      <div class="ex-hd" onclick="toggleCard(this)">
-        <div class="ex-num">06</div>
-        <div class="ex-hd-main"><div class="ex-title">Гиперэкстензия</div><div class="ex-muscle">Поясница + Ягодицы + Бицепс бедра</div></div>
-        <div class="ex-done-badge">✓ ГОТОВО</div><div class="ex-arr">▾</div>
-      </div>
-      <div class="ex-stats">
-        <div class="ex-stat"><div class="stat-val">3</div><div class="stat-key">Подходы</div></div>
-        <div class="ex-stat"><div class="stat-val">15→20</div><div class="stat-key">Повторы</div></div>
-        <div class="ex-stat"><div class="stat-val">1:00</div><div class="stat-key">Отдых</div></div>
-      </div>
-      <div class="set-tracker"><div class="st-label">Отметь подходы</div><div class="st-dots"></div></div>
-      <button class="rest-btn" onclick="startRest(60,'Гиперэкстензия',this)" style="background:rgba(0,212,255,0.08);border-color:rgba(0,212,255,0.2)">
-        <div class="rb-icon">⏱</div><div class="rb-info"><div class="rb-title" style="color:var(--wed)">Таймер отдыха</div><div class="rb-sub">Нажми после каждого подхода</div></div>
-        <div class="rb-time" style="color:var(--wed)">1:00</div>
-      </button>
-      <div class="ex-body"><div class="ex-inner">
-        <div class="block"><div class="blbl" style="color:var(--wed)">Техника</div><ul class="steps">
-          <li><span class="sdot" style="background:rgba(0,212,255,0.1);border-color:rgba(0,212,255,0.25);color:var(--wed)">1</span>Ляг на живот, руки за голову. Ноги зафиксированы (под диван или держит кто-то)</li>
-          <li><span class="sdot" style="background:rgba(0,212,255,0.1);border-color:rgba(0,212,255,0.25);color:var(--wed)">2</span>Поднимай корпус до прямой линии с ногами — <b>не переразгибайся</b></li>
-          <li><span class="sdot" style="background:rgba(0,212,255,0.1);border-color:rgba(0,212,255,0.25);color:var(--wed)">3</span>Задержись <b>1–2 сек</b> вверху. Медленно опускайся</li>
+    <div class="excard" data-sets="3" data-rest="60" data-day="wed" data-name="Гиперэкстензия">
+      <div class="exhd" onclick="toggleCard(this)"><div class="exnum">06</div><div class="exmain"><div class="extit">Гиперэкстензия</div><div class="exmus">Поясница + Ягодицы + Бицепс бедра</div></div><div class="exbadge">✓ ГОТОВО</div><div class="exarr">▾</div></div>
+      <div class="exstats"><div class="exstat"><div class="sv">3</div><div class="sk">Подходы</div></div><div class="exstat"><div class="sv">15→20</div><div class="sk">Повторы</div></div><div class="exstat"><div class="sv">1:00</div><div class="sk">Отдых</div></div></div>
+      <div class="stw"><div class="sthint">Нажми на подход после завершения — таймер запустится автоматически</div><div class="stdots"></div></div>
+      <div class="exbody"><div class="exinn">
+        <div class="blk"><div class="blbl" style="color:var(--wed)">Техника</div><ul class="steps">
+          <li><span class="sd" style="background:rgba(0,212,255,.1);border-color:rgba(0,212,255,.25);color:var(--wed)">1</span>Ляг на живот, руки за голову. Ноги зафиксированы (под диван)</li>
+          <li><span class="sd" style="background:rgba(0,212,255,.1);border-color:rgba(0,212,255,.25);color:var(--wed)">2</span>Поднимай до прямой линии с ногами — <b>не переразгибайся</b>. Пауза <b>1–2 сек</b>. Медленно опускайся</li>
         </ul></div>
-        <div class="block"><div class="blbl" style="color:var(--wed)">Нюансы</div><ul class="tips">
-          <li><span class="tb" style="background:rgba(0,212,255,0.1);color:var(--wed)">✓</span>Важнейшее для здоровья поясницы — не пропускай</li>
-          <li><span class="tb" style="background:rgba(0,212,255,0.1);color:var(--wed)">✓</span>На краю кровати — лучшая амплитуда дома</li>
+        <div class="blk"><div class="blbl" style="color:var(--wed)">Нюансы</div><ul class="tips">
+          <li><span class="tb">✓</span>Важнейшее для здоровья поясницы — не пропускай</li>
+          <li><span class="tb">✓</span>На краю кровати — лучшая амплитуда дома</li>
         </ul></div>
-        <div class="block"><div class="blbl" style="color:var(--wed)">Ошибки</div><ul class="errs">
-          <li><span class="eb">!</span>Переразгиб вверху — нагрузка на позвоночник</li>
-        </ul></div>
-        <div class="block"><div class="blbl" style="color:var(--wed)">Прогрессия</div><div class="prog-pill" style="background:rgba(0,212,255,0.05);border-color:rgba(0,212,255,0.15)">20 повт → держи <b>гантель 5–7.5 кг на груди</b></div></div>
+        <div class="blk"><div class="blbl" style="color:var(--wed)">Прогрессия</div><div class="pp" style="background:rgba(0,212,255,.05);border-color:rgba(0,212,255,.15)">20 повт → держи <b>гантель 5–7.5 кг на груди</b></div></div>
       </div></div>
     </div>
 
   </div>
 </div>
 
-<!-- ═════════════════════ ПЯТНИЦА ═════════════════════ -->
-<div class="day-panel" id="dp-fri">
-  <div class="hero-strip">
-    <div class="hs-day" style="color:var(--fri)">ПТ<br>НО<br>ГИ</div>
-    <div class="hs-meta">
-      <div class="hs-focus">Ноги · Ягодицы · Икры · Пресс</div>
-      <div class="hs-chips">
-        <div class="hs-chip">4 упр.</div>
-        <div class="hs-chip">12 подх.</div>
-        <div class="hs-chip">~45 мин</div>
-      </div>
+<!-- ══════════════ ПЯТНИЦА ══════════════ -->
+<div class="daypanel" id="dp-fri" style="--c:var(--fri)">
+  <div class="hero">
+    <div class="hs-d"><em style="color:var(--fri)">ПТ</em><br>НО<br>ГИ</div>
+    <div class="hs-m">
+      <div class="hs-f">Ноги · Ягодицы · Икры · Пресс</div>
+      <div class="hs-chips"><div class="hchip">4 упр.</div><div class="hchip">12 подх.</div><div class="hchip">~45 мин</div></div>
     </div>
   </div>
-  <div class="finish-banner" id="fin-fri">
-    <div class="fb-title">🏆 Неделя закрыта!</div>
-    <div class="fb-sub">3 из 3. Отдыхай — заслужил</div>
-  </div>
-  <div class="ex-list" id="list-fri" style="--acc:var(--fri)">
 
-    <!-- 01 ПРИСЕДАНИЯ -->
-    <div class="ex-card" data-sets="3" data-rest="105" data-day="fri" style="--acc:var(--fri)">
-      <div class="ex-hd" onclick="toggleCard(this)">
-        <div class="ex-num">01</div>
-        <div class="ex-hd-main"><div class="ex-title">Приседания с гантелями</div><div class="ex-muscle">Квадрицепс + Ягодицы</div></div>
-        <div class="ex-done-badge">✓ ГОТОВО</div><div class="ex-arr">▾</div>
-      </div>
-      <div class="ex-stats">
-        <div class="ex-stat"><div class="stat-val">3</div><div class="stat-key">Подходы</div></div>
-        <div class="ex-stat"><div class="stat-val">10→15</div><div class="stat-key">Повторы</div></div>
-        <div class="ex-stat"><div class="stat-val">1:45</div><div class="stat-key">Отдых</div></div>
-      </div>
-      <div class="set-tracker"><div class="st-label">Отметь подходы</div><div class="st-dots"></div></div>
-      <button class="rest-btn" onclick="startRest(105,'Приседания',this)" style="background:rgba(255,98,0,0.08);border-color:rgba(255,98,0,0.2)">
-        <div class="rb-icon">⏱</div><div class="rb-info"><div class="rb-title">Таймер отдыха</div><div class="rb-sub">Нажми после каждого подхода</div></div>
-        <div class="rb-time">1:45</div>
-      </button>
-      <div class="ex-body"><div class="ex-inner">
-        <div class="block"><div class="blbl">Техника</div><ul class="steps">
-          <li><span class="sdot">1</span>Гантели по бокам. Ноги чуть шире плеч, носки развёрнуты 15–30°</li>
-          <li><span class="sdot">2</span>Опускайся <b>3 сек</b> до параллели бёдер с полом или ниже. Пятки на полу</li>
-          <li><span class="sdot">3</span>Колени идут <b>над носками</b>. Вставай через пятки, выдох вверх</li>
+  <div class="wu" id="wu-fri" style="--c:var(--fri)">
+    <div class="wu-hd" onclick="toggleWu('wu-fri')">
+      <div class="wu-ico">🔥</div>
+      <div class="wu-info"><div class="wu-tit">Разминка</div><div class="wu-sub">5–7 мин · Перед тренировкой обязательно</div></div>
+      <div class="wu-arr">▾</div>
+    </div>
+    <div class="wu-body"><div class="wu-inner">
+      <div class="wustep"><div class="wun" style="background:rgba(255,98,0,.12);border-color:rgba(255,98,0,.3);color:var(--fri)">1</div><div class="wut"><b>Махи ногами</b> — держась за опору, вперёд-назад и в стороны. <b>10 раз × каждая нога</b>. Разогревает тазобедренный сустав</div></div>
+      <div class="wustep"><div class="wun" style="background:rgba(255,98,0,.12);border-color:rgba(255,98,0,.3);color:var(--fri)">2</div><div class="wut"><b>Круговые движения тазом</b> — руки на бёдрах, вращай тазом. <b>10 раз в каждую сторону</b></div></div>
+      <div class="wustep"><div class="wun" style="background:rgba(255,98,0,.12);border-color:rgba(255,98,0,.3);color:var(--fri)">3</div><div class="wut"><b>Приседания без веса</b> — медленно с паузой 2 сек внизу. <b>2 × 12</b>. Разогревает колени, квадрицепс и голеностоп</div></div>
+      <div class="wustep"><div class="wun" style="background:rgba(255,98,0,.12);border-color:rgba(255,98,0,.3);color:var(--fri)">4</div><div class="wut"><b>Выпады на месте</b> — <b>2 × 8 на каждую ногу</b>. Готовит стабилизаторы и растягивает сгибатели бедра</div></div>
+      <div class="wustep"><div class="wun" style="background:rgba(255,98,0,.12);border-color:rgba(255,98,0,.3);color:var(--fri)">5</div><div class="wut"><b>Растяжка квадрицепса стоя</b> — стоя на одной ноге потяни стопу к ягодице. Держи <b>30 сек × каждую ногу</b></div></div>
+      <div class="wustep"><div class="wun" style="background:rgba(255,98,0,.12);border-color:rgba(255,98,0,.3);color:var(--fri)">6</div><div class="wut"><b>Подъёмы на носки без веса — с двух ног</b> — <b>2 × 20 медленно</b>. Разогревает икры и голеностоп</div></div>
+      <div class="wunote" style="background:rgba(255,98,0,.06);border-color:rgba(255,98,0,.18)"><b>Важно для ног:</b> если колени холодные — разогревай дольше. 20 прыжков на месте или лёгкий бег 1–2 мин отлично дополнят разминку</div>
+    </div></div>
+  </div>
+
+  <div class="finbanner" id="fin-fri"><div class="fbt">🏆 Неделя закрыта!</div><div class="fbs">3 из 3. Ты сделал всё. Отдыхай — заслужил</div></div>
+  <div class="exlist" id="list-fri">
+
+    <div class="excard" data-sets="3" data-rest="105" data-day="fri" data-name="Приседания">
+      <div class="exhd" onclick="toggleCard(this)"><div class="exnum">01</div><div class="exmain"><div class="extit">Приседания с гантелями</div><div class="exmus">Квадрицепс + Ягодицы</div></div><div class="exbadge">✓ ГОТОВО</div><div class="exarr">▾</div></div>
+      <div class="exstats"><div class="exstat"><div class="sv">3</div><div class="sk">Подходы</div></div><div class="exstat"><div class="sv">10→15</div><div class="sk">Повторы</div></div><div class="exstat"><div class="sv">1:45</div><div class="sk">Отдых</div></div></div>
+      <div class="stw"><div class="sthint">Нажми на подход после завершения — таймер запустится автоматически</div><div class="stdots"></div></div>
+      <div class="exbody"><div class="exinn">
+        <div class="blk"><div class="blbl">Техника</div><ul class="steps">
+          <li><span class="sd">1</span>Гантели по бокам. Ноги чуть шире плеч, носки развёрнуты 15–30°</li>
+          <li><span class="sd">2</span>Опускайся <b>3 сек</b> до параллели с полом или ниже. Пятки прижаты</li>
+          <li><span class="sd">3</span>Колени идут <b>над носками</b>. Вставай через пятки. Выдох вверх</li>
         </ul></div>
-        <div class="block"><div class="blbl">Нюансы</div><ul class="tips">
-          <li><span class="tb">✓</span>Взгляд прямо или чуть вверх — не смотри в пол</li>
-          <li><span class="tb">✓</span>Грудь высоко, поясница нейтральна весь подход</li>
+        <div class="blk"><div class="blbl">Ошибки</div><ul class="errs">
+          <li><span class="eb">!</span>Колени заваливаются внутрь — главный риск травмы</li>
+          <li><span class="eb">!</span>Полуприсед — ягодицы и квадрицепс почти не работают</li>
         </ul></div>
-        <div class="block"><div class="blbl">Ошибки</div><ul class="errs">
-          <li><span class="eb">!</span>Колени внутрь — главный риск травмы</li>
-          <li><span class="eb">!</span>Полуприсед — ягодицы почти не работают</li>
-          <li><span class="eb">!</span>Округлённая спина — нагрузка на диски</li>
-        </ul></div>
-        <div class="block"><div class="blbl">Прогрессия при 15 кг</div><div class="prog-pill">15 повт → <b>пауза 3 сек внизу</b>. Потом → гантели на плечах или рюкзак</div></div>
+        <div class="blk"><div class="blbl">Прогрессия при 15 кг</div><div class="pp">15 повт → <b>пауза 3 сек внизу</b>. Потом → гантели на плечах</div></div>
       </div></div>
     </div>
 
-    <!-- 02 РУМЫНСКАЯ -->
-    <div class="ex-card" data-sets="3" data-rest="120" data-day="fri" style="--acc:var(--fri)">
-      <div class="ex-hd" onclick="toggleCard(this)">
-        <div class="ex-num">02</div>
-        <div class="ex-hd-main"><div class="ex-title">Румынская тяга</div><div class="ex-muscle">Бицепс бедра + Ягодицы</div></div>
-        <div class="ex-done-badge">✓ ГОТОВО</div><div class="ex-arr">▾</div>
-      </div>
-      <div class="ex-stats">
-        <div class="ex-stat"><div class="stat-val">3</div><div class="stat-key">Подходы</div></div>
-        <div class="ex-stat"><div class="stat-val">8→12</div><div class="stat-key">Повторы</div></div>
-        <div class="ex-stat"><div class="stat-val">2:00</div><div class="stat-key">Отдых</div></div>
-      </div>
-      <div class="set-tracker"><div class="st-label">Отметь подходы</div><div class="st-dots"></div></div>
-      <button class="rest-btn" onclick="startRest(120,'Румынская тяга',this)" style="background:rgba(255,98,0,0.08);border-color:rgba(255,98,0,0.2)">
-        <div class="rb-icon">⏱</div><div class="rb-info"><div class="rb-title">Таймер отдыха</div><div class="rb-sub">Нажми после каждого подхода</div></div>
-        <div class="rb-time">2:00</div>
-      </button>
-      <div class="ex-body"><div class="ex-inner">
-        <div class="block"><div class="blbl">Техника</div><ul class="steps">
-          <li><span class="sdot">1</span>Гантели у бёдер. Отводи <b>таз назад</b> — гантели скользят вдоль ног</li>
-          <li><span class="sdot">2</span>Колени слегка согнуты <b>10–15°</b>. Спина прямая всё время</li>
-          <li><span class="sdot">3</span>Сильное натяжение задней поверхности — <b>стоп</b>. Возвращайся через ягодицы</li>
+    <div class="excard" data-sets="3" data-rest="120" data-day="fri" data-name="Румынская тяга">
+      <div class="exhd" onclick="toggleCard(this)"><div class="exnum">02</div><div class="exmain"><div class="extit">Румынская тяга</div><div class="exmus">Бицепс бедра + Ягодицы</div></div><div class="exbadge">✓ ГОТОВО</div><div class="exarr">▾</div></div>
+      <div class="exstats"><div class="exstat"><div class="sv">3</div><div class="sk">Подходы</div></div><div class="exstat"><div class="sv">8→12</div><div class="sk">Повторы</div></div><div class="exstat"><div class="sv">2:00</div><div class="sk">Отдых</div></div></div>
+      <div class="stw"><div class="sthint">Нажми на подход после завершения — таймер запустится автоматически</div><div class="stdots"></div></div>
+      <div class="exbody"><div class="exinn">
+        <div class="blk"><div class="blbl">Техника</div><ul class="steps">
+          <li><span class="sd">1</span>Гантели у бёдер. Отводи <b>таз назад</b> — гантели скользят вдоль ног. Спина прямая</li>
+          <li><span class="sd">2</span>Колени слегка согнуты <b>10–15°</b>. Это не приседание</li>
+          <li><span class="sd">3</span>Натяжение задней поверхности — <b>стоп</b>. Возвращайся через ягодицы</li>
         </ul></div>
-        <div class="block"><div class="blbl">Ошибки</div><ul class="errs">
-          <li><span class="eb">!</span>Округление поясницы — главная причина травм</li>
+        <div class="blk"><div class="blbl">Ошибки</div><ul class="errs">
+          <li><span class="eb">!</span>Округление поясницы — главная причина травм спины</li>
           <li><span class="eb">!</span>Гантели далеко от ног — огромный рычаг на позвоночник</li>
         </ul></div>
-        <div class="block"><div class="blbl">Прогрессия при 15 кг</div><div class="prog-pill">12 повт → <b>одноногая румынская тяга</b>. Сложнее без добавления веса</div></div>
+        <div class="blk"><div class="blbl">Прогрессия при 15 кг</div><div class="pp">12 повт → <b>одноногая румынская тяга</b> — значительно сложнее</div></div>
       </div></div>
     </div>
 
-    <!-- 03 ИКРЫ -->
-    <div class="ex-card" data-sets="3" data-rest="45" data-day="fri" style="--acc:var(--fri)">
-      <div class="ex-hd" onclick="toggleCard(this)">
-        <div class="ex-num">03</div>
-        <div class="ex-hd-main"><div class="ex-title">Подъём на носки (1 нога)</div><div class="ex-muscle">Икры</div></div>
-        <div class="ex-done-badge">✓ ГОТОВО</div><div class="ex-arr">▾</div>
-      </div>
-      <div class="ex-stats">
-        <div class="ex-stat"><div class="stat-val">3</div><div class="stat-key">Подходы</div></div>
-        <div class="ex-stat"><div class="stat-val">12→18</div><div class="stat-key">Повторы</div></div>
-        <div class="ex-stat"><div class="stat-val">0:45</div><div class="stat-key">Отдых</div></div>
-      </div>
-      <div class="set-tracker"><div class="st-label">Отметь подходы</div><div class="st-dots"></div></div>
-      <button class="rest-btn" onclick="startRest(45,'Подъём на носки',this)" style="background:rgba(255,98,0,0.08);border-color:rgba(255,98,0,0.2)">
-        <div class="rb-icon">⏱</div><div class="rb-info"><div class="rb-title">Таймер отдыха</div><div class="rb-sub">Нажми после каждого подхода</div></div>
-        <div class="rb-time">0:45</div>
-      </button>
-      <div class="ex-body"><div class="ex-inner">
-        <div class="block"><div class="blbl">Техника</div><ul class="steps">
-          <li><span class="sdot">1</span>Одна нога, гантель в одноимённой руке. Носок на ступеньке или книге</li>
-          <li><span class="sdot">2</span>Поднимайся <b>максимально высоко</b> — пауза <b>1 сек</b> вверху</li>
-          <li><span class="sdot">3</span>Опускай пятку <b>ниже уровня пола</b>. Опускай <b>3 сек</b>. Икры растут только при полной амплитуде</li>
+    <div class="excard" data-sets="3" data-rest="45" data-day="fri" data-name="Подъём на носки">
+      <div class="exhd" onclick="toggleCard(this)"><div class="exnum">03</div><div class="exmain"><div class="extit">Подъём на носки с двух ног</div><div class="exmus">Икры</div></div><div class="exbadge">✓ ГОТОВО</div><div class="exarr">▾</div></div>
+      <div class="exstats"><div class="exstat"><div class="sv">3</div><div class="sk">Подходы</div></div><div class="exstat"><div class="sv">15→25</div><div class="sk">Повторы</div></div><div class="exstat"><div class="sv">0:45</div><div class="sk">Отдых</div></div></div>
+      <div class="stw"><div class="sthint">Нажми на подход после завершения — таймер запустится автоматически</div><div class="stdots"></div></div>
+      <div class="exbody"><div class="exinn">
+        <div class="blk"><div class="blbl">Техника</div><ul class="steps">
+          <li><span class="sd">1</span>Носки на ступеньке (4–6 см), пятки свешиваются. Гантели в опущенных руках</li>
+          <li><span class="sd">2</span>Опусти пятки <b>как можно ниже</b> — максимальная растяжка икр. Это старт</li>
+          <li><span class="sd">3</span>Поднимайся <b>максимально высоко</b>. Пауза <b>1–2 сек</b> вверху — сожми икры</li>
+          <li><span class="sd">4</span>Опускай пятки медленно <b>3 сек</b>. Икры растут только при <b>полной амплитуде</b></li>
         </ul></div>
-        <div class="block"><div class="blbl">Ошибки</div><ul class="errs">
-          <li><span class="eb">!</span>Неполная амплитуда — икры адаптированы к частичным движениям</li>
-          <li><span class="eb">!</span>Слишком быстро — пропускаешь эксцентрик</li>
+        <div class="blk"><div class="blbl">Нюансы</div><ul class="tips">
+          <li><span class="tb">✓</span>Повторов много — икры выносливые, им нужен объём</li>
+          <li><span class="tb">✓</span>Медленное опускание 3 сек — эксцентрик даёт основной стимул роста</li>
+          <li><span class="tb">✓</span>Возвышение обязательно — без него амплитуда недостаточна</li>
         </ul></div>
-        <div class="block"><div class="blbl">Прогрессия</div><div class="prog-pill">18 повт → <b>гантель тяжелее</b> или возвышение выше</div></div>
+        <div class="blk"><div class="blbl">Ошибки</div><ul class="errs">
+          <li><span class="eb">!</span>Неполная амплитуда — икры адаптированы к частичным движениям, так не растут</li>
+          <li><span class="eb">!</span>Нет паузы вверху — теряешь лучшую часть сокращения</li>
+        </ul></div>
+        <div class="blk"><div class="blbl">Прогрессия</div><div class="pp">25 повт → <b>гантели тяжелее</b>. Потом → переходи на одну ногу — нагрузка удвоится</div></div>
       </div></div>
     </div>
 
-    <!-- 04 СКРУЧИВАНИЯ -->
-    <div class="ex-card" data-sets="3" data-rest="37" data-day="fri" style="--acc:var(--fri)">
-      <div class="ex-hd" onclick="toggleCard(this)">
-        <div class="ex-num">04</div>
-        <div class="ex-hd-main"><div class="ex-title">Скручивания</div><div class="ex-muscle">Верхний + Средний пресс</div></div>
-        <div class="ex-done-badge">✓ ГОТОВО</div><div class="ex-arr">▾</div>
-      </div>
-      <div class="ex-stats">
-        <div class="ex-stat"><div class="stat-val">3</div><div class="stat-key">Подходы</div></div>
-        <div class="ex-stat"><div class="stat-val">15→20</div><div class="stat-key">Повторы</div></div>
-        <div class="ex-stat"><div class="stat-val">0:37</div><div class="stat-key">Отдых</div></div>
-      </div>
-      <div class="set-tracker"><div class="st-label">Отметь подходы</div><div class="st-dots"></div></div>
-      <button class="rest-btn" onclick="startRest(37,'Скручивания',this)" style="background:rgba(255,98,0,0.08);border-color:rgba(255,98,0,0.2)">
-        <div class="rb-icon">⏱</div><div class="rb-info"><div class="rb-title">Таймер отдыха</div><div class="rb-sub">Нажми после каждого подхода</div></div>
-        <div class="rb-time">0:37</div>
-      </button>
-      <div class="ex-body"><div class="ex-inner">
-        <div class="block"><div class="blbl">Техника</div><ul class="steps">
-          <li><span class="sdot">1</span>Лягай на спину, колени согнуты. Руки на груди или у висков</li>
-          <li><span class="sdot">2</span>Поднимай <b>только лопатки</b> — не садись полностью. Поясница прижата к полу</li>
-          <li><span class="sdot">3</span>Пауза <b>1 сек</b> вверху + выдох. Опускай, не касаясь лопатками пола</li>
+    <div class="excard" data-sets="3" data-rest="37" data-day="fri" data-name="Скручивания">
+      <div class="exhd" onclick="toggleCard(this)"><div class="exnum">04</div><div class="exmain"><div class="extit">Скручивания</div><div class="exmus">Верхний + Средний пресс</div></div><div class="exbadge">✓ ГОТОВО</div><div class="exarr">▾</div></div>
+      <div class="exstats"><div class="exstat"><div class="sv">3</div><div class="sk">Подходы</div></div><div class="exstat"><div class="sv">15→20</div><div class="sk">Повторы</div></div><div class="exstat"><div class="sv">0:37</div><div class="sk">Отдых</div></div></div>
+      <div class="stw"><div class="sthint">Нажми на подход после завершения — таймер запустится автоматически</div><div class="stdots"></div></div>
+      <div class="exbody"><div class="exinn">
+        <div class="blk"><div class="blbl">Техника</div><ul class="steps">
+          <li><span class="sd">1</span>Лягай на спину, колени согнуты. Руки на груди или у висков</li>
+          <li><span class="sd">2</span>Поднимай <b>только лопатки</b> от пола. Поясница прижата</li>
+          <li><span class="sd">3</span>Пауза <b>1 сек</b> вверху + выдох. Не касайся лопатками пола до конца подхода</li>
         </ul></div>
-        <div class="block"><div class="blbl">Ошибки</div><ul class="errs">
+        <div class="blk"><div class="blbl">Ошибки</div><ul class="errs">
           <li><span class="eb">!</span>Полный подъём корпуса — работают сгибатели бедра</li>
-          <li><span class="eb">!</span>Рывки шеей — риск травмы</li>
+          <li><span class="eb">!</span>Рывки шеей — риск травмы шейного отдела</li>
         </ul></div>
-        <div class="block"><div class="blbl">Прогрессия</div><div class="prog-pill">20 повт → держи <b>гантель 5–7.5 кг на груди</b></div></div>
+        <div class="blk"><div class="blbl">Прогрессия</div><div class="pp">20 повт → держи <b>гантель 5–7.5 кг на груди</b></div></div>
       </div></div>
     </div>
 
   </div>
 
-  <!-- NEXT WEEK BUTTON -->
-  <div style="padding:16px 12px 0">
-    <button onclick="resetWeek()" style="
-      width:100%;padding:18px;border-radius:16px;border:none;
-      background:linear-gradient(135deg,#FF6200,#FF8C00);
-      color:#000;font-family:'Barlow Condensed',sans-serif;
-      font-size:20px;font-weight:900;letter-spacing:2px;
-      text-transform:uppercase;cursor:pointer;
-      box-shadow:0 8px 32px rgba(255,98,0,0.35);
-      transition:opacity 0.15s,transform 0.15s;
-    " onactive="this.style.opacity=0.85">
-      🔄 СЛЕДУЮЩАЯ НЕДЕЛЯ
-    </button>
-    <div style="text-align:center;margin-top:8px;font-size:11px;color:#3A3A45;font-weight:600;letter-spacing:1px">
-      Сбросит все подходы — начнёшь с чистого листа
-    </div>
+  <div class="resetw">
+    <button class="resetbtn" onclick="showConf()">🔄 Следующая неделя</button>
+    <div class="resetnote">Сбрасывает все подходы — начнёшь с чистого листа</div>
   </div>
 
 </div>
 
 <!-- INFO -->
-<div class="info-section">
-  <div class="sec-title">Время <em>отдыха</em></div>
-  <div class="rest-grid">
-    <div class="rest-row"><div class="ri" style="background:rgba(200,255,0,0.07)">🏋️</div><div class="rt"><div class="rt-name">Брусья и подтягивания</div><div class="rt-desc">Базовые с весом тела</div></div><div class="rt-val">2:30–3:00</div></div>
-    <div class="rest-row"><div class="ri" style="background:rgba(0,212,255,0.07)">💪</div><div class="rt"><div class="rt-name">Базовые с гантелями</div><div class="rt-desc">Жим, тяга, приседания, румынская</div></div><div class="rt-val">1:45–2:00</div></div>
-    <div class="rest-row"><div class="ri" style="background:rgba(255,98,0,0.07)">🎯</div><div class="rt"><div class="rt-name">Изоляция</div><div class="rt-desc">Подъёмы, разведения, французский</div></div><div class="rt-val">1:00–1:10</div></div>
-    <div class="rest-row"><div class="ri" style="background:rgba(255,176,32,0.07)">⚡</div><div class="rt"><div class="rt-name">Пресс и икры</div><div class="rt-desc">Восстанавливаются быстро</div></div><div class="rt-val">0:37–0:45</div></div>
+<div class="infsec">
+  <div class="sect">Время <em>отдыха</em></div>
+  <div class="rg">
+    <div class="rrow"><div class="ri2" style="background:rgba(57,255,122,.07)">🏋️</div><div class="rt"><div class="rtn">Брусья и подтягивания</div><div class="rtd">Базовые с весом тела</div></div><div class="rtv">2:30–3:00</div></div>
+    <div class="rrow"><div class="ri2" style="background:rgba(0,212,255,.07)">💪</div><div class="rt"><div class="rtn">Базовые с гантелями</div><div class="rtd">Жим, тяга, приседания, румынская</div></div><div class="rtv">1:45–2:00</div></div>
+    <div class="rrow"><div class="ri2" style="background:rgba(255,98,0,.07)">🎯</div><div class="rt"><div class="rtn">Изоляция</div><div class="rtd">Подъёмы, разведения, французский</div></div><div class="rtv">1:00–1:10</div></div>
+    <div class="rrow"><div class="ri2" style="background:rgba(200,255,0,.07)">⚡</div><div class="rt"><div class="rtn">Пресс и икры</div><div class="rtd">Восстанавливаются быстро</div></div><div class="rtv">0:37–0:45</div></div>
   </div>
-  <div class="sec-title" style="margin-top:20px">Как <em>прогрессировать</em></div>
-  <div class="prog-grid">
-    <div class="prog-row"><div class="prn">1</div><div class="prt">Дошёл до верхней границы повторов во <b>всех подходах</b> → следующая тренировка с <b>бо́льшим весом</b></div></div>
-    <div class="prog-row"><div class="prn">2</div><div class="prt">Нет гантелей тяжелее → темп <b>3 сек вниз + пауза 2 сек</b>. При 15 кг это реально тяжело</div></div>
-    <div class="prog-row"><div class="prn">3</div><div class="prt">Темп не спасает → <b>усложнённая вариация</b> — указана в каждой карточке</div></div>
-    <div class="prog-row"><div class="prn">4</div><div class="prt">Веди <b>дневник</b> — вес и повторы после каждого подхода. Без этого рост невидим</div></div>
+  <div class="sect" style="margin-top:20px">Как <em>прогрессировать</em></div>
+  <div class="pg">
+    <div class="prow"><div class="prn">1</div><div class="prt">Дошёл до верхней границы во <b>всех подходах</b> → следующая тренировка с <b>бо́льшим весом</b></div></div>
+    <div class="prow"><div class="prn">2</div><div class="prt">Нет гантелей тяжелее → темп <b>3 сек вниз + пауза 2 сек</b>. При 15 кг это реально тяжело</div></div>
+    <div class="prow"><div class="prn">3</div><div class="prt">Темп не спасает → <b>усложнённая вариация</b> — указана в каждой карточке</div></div>
+    <div class="prow"><div class="prn">4</div><div class="prt">Веди <b>дневник</b> — вес и повторы после каждого подхода. Без этого рост невидим</div></div>
   </div>
 </div>
-
-<div class="footer">
-  <b>Белок 1.6–2г / кг веса · Сон 7–9 часов · Дневник тренировок</b>
-</div>
+<div class="foot"><b>Белок 1.6–2г / кг · Сон 7–9 ч · Дневник тренировок</b></div>
 
 <script>
-// ─── GLOBALS ───
-const CIRC = 2 * Math.PI * 86;
-const ringFill = document.getElementById('ring-fill');
-const ringNum = document.getElementById('ring-num');
-const sheetExName = document.getElementById('sheet-ex-name');
-const sheetBg = document.getElementById('sheet-bg');
-const timerSheet = document.getElementById('timer-sheet');
-const timerDone = document.getElementById('timer-done');
-const tcMainBtn = document.getElementById('tc-main-btn');
-ringFill.style.strokeDasharray = CIRC;
-ringFill.style.strokeDashoffset = 0;
-
-let tTotal = 0, tLeft = 0, tPaused = false, tInterval = null;
-
-// ─── SET TRACKERS ───
-function buildTrackers() {
-  document.querySelectorAll('.ex-card').forEach(card => {
-    const sets = parseInt(card.dataset.sets);
-    const dots = card.querySelector('.st-dots');
-    if (!dots) return;
-    dots.innerHTML = '';
-    for (let i = 1; i <= sets; i++) {
-      const d = document.createElement('div');
-      d.className = 'st-dot';
-      d.innerHTML = `<div class="st-dot-n">${i}</div><div class="st-dot-lbl">сет</div>`;
-      d.onclick = (e) => { e.stopPropagation(); toggleSet(d, card); };
-      dots.appendChild(d);
-    }
-  });
+// ─── TELEGRAM WEBAPP ───
+const tg = window.Telegram?.WebApp;
+if (tg) {
+  tg.ready();
+  tg.expand();
+  tg.disableVerticalSwipes?.();
 }
 
-function toggleSet(dot, card) {
-  dot.classList.toggle('done-set');
-  checkCardDone(card);
-  updateProgress();
+function haptic(type) {
+  if (!tg?.HapticFeedback) return;
+  if (type==='light')   tg.HapticFeedback.impactOccurred('light');
+  if (type==='medium')  tg.HapticFeedback.impactOccurred('medium');
+  if (type==='success') tg.HapticFeedback.notificationOccurred('success');
+  if (type==='warning') tg.HapticFeedback.notificationOccurred('warning');
+  if (type==='error')   tg.HapticFeedback.notificationOccurred('error');
 }
 
-function checkCardDone(card) {
-  const dots = card.querySelectorAll('.st-dot');
-  const done = card.querySelectorAll('.st-dot.done-set');
-  const allDone = dots.length === done.length && dots.length > 0;
-  card.classList.toggle('done', allDone);
-  if (allDone) {
-    card.classList.remove('open');
-    checkDayDone(card.dataset.day);
-  }
-}
+// ─── TIMER STATE ───
+const CIRC = 2*Math.PI*75;
+const rfill = document.getElementById('rfill');
+const rnum  = document.getElementById('rnum');
+const tex   = document.getElementById('tex');
+const ttypEl= document.getElementById('ttype');
+const sbg   = document.getElementById('sbg');
+const tsh   = document.getElementById('tsh');
+const tdone = document.getElementById('tdone');
+const tbmain= document.getElementById('tbmain');
+rfill.style.strokeDasharray = CIRC;
+rfill.style.strokeDashoffset = 0;
 
-function checkDayDone(day) {
-  const list = document.getElementById('list-' + day);
-  const cards = list.querySelectorAll('.ex-card');
-  const doneCards = list.querySelectorAll('.ex-card.done');
-  if (cards.length === doneCards.length) {
-    document.getElementById('fin-' + day).classList.add('show');
-  }
-}
+let tTotal=0, tLeft=0, tPaused=false, tInt=null, dayColor='var(--mon)';
 
-// ─── PROGRESS ───
-function updateProgress() {
-  const activeDay = document.querySelector('.day-panel.active');
-  if (!activeDay) return;
-  const allDots = activeDay.querySelectorAll('.st-dot');
-  const doneDots = activeDay.querySelectorAll('.st-dot.done-set');
-  const pct = allDots.length ? (doneDots.length / allDots.length * 100) : 0;
-  document.getElementById('prog-fill').style.width = pct + '%';
-  document.getElementById('prog-label').textContent = doneDots.length + ' / ' + allDots.length + ' подходов';
-}
-
-// ─── TABS ───
+// ─── SWITCH DAY ───
 function switchDay(day, btn) {
-  document.querySelectorAll('.day-panel').forEach(p => p.classList.remove('active'));
-  document.getElementById('dp-' + day).classList.add('active');
-  document.querySelectorAll('.day-tab').forEach(t => t.classList.remove('active'));
+  haptic('light');
+  document.querySelectorAll('.daypanel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('dp-'+day).classList.add('active');
+  document.querySelectorAll('.dtab').forEach(t=>t.classList.remove('active'));
   btn.classList.add('active');
+  const cols={mon:'var(--mon)',wed:'var(--wed)',fri:'var(--fri)'};
+  dayColor = cols[day]||'var(--mon)';
+  document.documentElement.style.setProperty('--dayc', dayColor);
+  const pf = document.getElementById('pf');
+  pf.style.background = dayColor;
+  pf.style.boxShadow  = '0 0 8px '+dayColor;
   updateProgress();
-  window.scrollTo({top: 0, behavior: 'smooth'});
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ─── WARMUP ───
+function toggleWu(id) {
+  haptic('light');
+  document.getElementById(id).classList.toggle('open');
 }
 
 // ─── CARD TOGGLE ───
 function toggleCard(hd) {
-  const card = hd.closest('.ex-card');
+  const card = hd.closest('.excard');
   if (card.classList.contains('done')) return;
-  const day = card.closest('.day-panel');
+  haptic('light');
+  const panel = card.closest('.daypanel');
   const wasOpen = card.classList.contains('open');
-  day.querySelectorAll('.ex-card').forEach(c => c.classList.remove('open'));
+  panel.querySelectorAll('.excard').forEach(c=>c.classList.remove('open'));
   if (!wasOpen) {
     card.classList.add('open');
-    setTimeout(() => card.scrollIntoView({behavior:'smooth', block:'nearest'}), 50);
+    setTimeout(()=>card.scrollIntoView({behavior:'smooth',block:'nearest'}),60);
   }
+}
+
+// ─── BUILD SET DOTS ───
+function buildTrackers() {
+  document.querySelectorAll('.excard[data-sets]').forEach(card => {
+    const n = parseInt(card.dataset.sets);
+    const wrap = card.querySelector('.stdots');
+    if (!wrap) return;
+    wrap.innerHTML = '';
+    for (let i=1;i<=n;i++) {
+      const d = document.createElement('div');
+      d.className = 'stdot';
+      d.innerHTML = `<span class="dotchk">✓</span><div class="dotn">${i}</div><div class="dotl">сет</div>`;
+      d.addEventListener('click', e=>{ e.stopPropagation(); onSetTap(d, card); });
+      wrap.appendChild(d);
+    }
+  });
+}
+
+// ─── SET TAP ───
+function onSetTap(dot, card) {
+  const wasDone = dot.classList.contains('ok');
+  dot.classList.toggle('ok');
+
+  if (!wasDone) {
+    haptic('medium');
+    const allDots  = card.querySelectorAll('.stdot');
+    const doneDots = card.querySelectorAll('.stdot.ok');
+    const isLastSet = allDots.length === doneDots.length;
+
+    if (isLastSet) {
+      markCardDone(card);
+      const panel = card.closest('.daypanel');
+      const cards = [...panel.querySelectorAll('.excard[data-sets]')];
+      const idx   = cards.indexOf(card);
+      const isLast= idx === cards.length-1;
+
+      if (isLast) {
+        haptic('success');
+        setTimeout(()=>showWorkoutDone(panel), 500);
+      } else {
+        const next     = cards[idx+1];
+        const currName = card.dataset.name||'';
+        const nextName = next.dataset.name||'';
+        const secs     = parseInt(card.dataset.rest)+15;
+        startTimer(secs, `${currName} → ${nextName}`, 'ПЕРЕХОД');
+      }
+    } else {
+      startTimer(parseInt(card.dataset.rest), card.dataset.name||'', 'ОТДЫХ');
+    }
+  } else {
+    haptic('light');
+    card.classList.remove('done');
+    document.getElementById('fin-'+card.dataset.day)?.classList.remove('show');
+  }
+
+  updateProgress();
+  saveState();
+}
+
+// ─── CARD DONE ───
+function markCardDone(card) {
+  card.classList.add('done');
+  card.classList.remove('open');
+  const panel = card.closest('.daypanel');
+  const all   = panel.querySelectorAll('.excard[data-sets]');
+  const done  = panel.querySelectorAll('.excard.done');
+  if (all.length===done.length) {
+    document.getElementById('fin-'+card.dataset.day)?.classList.add('show');
+  }
+}
+
+// ─── WORKOUT DONE ───
+function showWorkoutDone(panel) {
+  closeTimer();
+  const day  = panel.id.replace('dp-','');
+  const msgs = {
+    mon:'Грудь, плечи и трицепс поработали на совесть. Заслуженный отдых',
+    wed:'Спина и бицепс получили всё что нужно. Хорошая работа',
+    fri:'Вся неделя закрыта — все 3 тренировки выполнены!'
+  };
+  document.getElementById('wcsub').textContent  = msgs[day]||'Отличная работа!';
+  document.getElementById('wcsets').textContent = panel.querySelectorAll('.stdot.ok').length;
+  document.getElementById('wcexs').textContent  = panel.querySelectorAll('.excard[data-sets]').length;
+  document.getElementById('wcov').classList.add('show');
+  tg?.HapticFeedback?.notificationOccurred('success');
+}
+function closeWC(){ document.getElementById('wcov').classList.remove('show'); }
+
+// ─── PROGRESS ───
+function updateProgress() {
+  const panel = document.querySelector('.daypanel.active');
+  if (!panel) return;
+  const all  = panel.querySelectorAll('.stdot');
+  const done = panel.querySelectorAll('.stdot.ok');
+  const pct  = all.length ? done.length/all.length*100 : 0;
+  document.getElementById('pf').style.width = pct+'%';
+  document.getElementById('pl').textContent = done.length+' / '+all.length+' подходов';
 }
 
 // ─── TIMER ───
-function startRest(secs, name, btn) {
-  clearInterval(tInterval);
-  tTotal = secs; tLeft = secs; tPaused = false;
-  sheetExName.textContent = name.toUpperCase();
-  timerDone.classList.remove('show');
-  tcMainBtn.textContent = 'Пауза';
-  tcMainBtn.onclick = timerToggle;
+function startTimer(secs, name, type) {
+  clearInterval(tInt);
+  tTotal=secs; tLeft=secs; tPaused=false;
+  tdone.classList.remove('show');
+  tbmain.textContent='Пауза'; tbmain.onclick=timerToggle;
+  rfill.style.stroke       = dayColor;
+  tbmain.style.background  = dayColor;
+  ttypEl.textContent = type||'ОТДЫХ';
+  tex.textContent    = name;
   updateRing();
-  sheetBg.classList.add('show');
-  timerSheet.classList.add('show');
-  tInterval = setInterval(tick, 1000);
+  sbg.classList.add('show');
+  tsh.classList.add('show');
+  tInt = setInterval(tick,1000);
 }
-
-function tick() {
+function tick(){
   if (tPaused) return;
   tLeft--;
   updateRing();
-  if (tLeft <= 0) {
-    clearInterval(tInterval);
+  if (tLeft<=0){
+    clearInterval(tInt);
     beep();
-    timerDone.classList.add('show');
-    tcMainBtn.textContent = 'Закрыть';
-    tcMainBtn.onclick = closeTimer;
-    ringFill.style.stroke = 'var(--acc2)';
+    haptic('warning');
+    tdone.classList.add('show');
+    rfill.style.stroke='var(--gold)';
+    tbmain.textContent='Закрыть'; tbmain.onclick=closeTimer;
   }
 }
-
-function updateRing() {
-  const m = Math.floor(tLeft / 60);
-  const s = tLeft % 60;
-  ringNum.textContent = m + ':' + String(s).padStart(2, '0');
-  const ratio = tLeft / tTotal;
-  ringFill.style.strokeDashoffset = CIRC * (1 - ratio);
+function updateRing(){
+  const m=Math.floor(tLeft/60), s=tLeft%60;
+  rnum.textContent = m+':'+String(s).padStart(2,'0');
+  rfill.style.strokeDashoffset = CIRC*(1-tLeft/tTotal);
 }
-
-function timerToggle() {
-  tPaused = !tPaused;
-  tcMainBtn.textContent = tPaused ? 'Продолжить' : 'Пауза';
+function timerToggle(){
+  tPaused=!tPaused;
+  tbmain.textContent=tPaused?'Продолжить':'Пауза';
+  haptic('light');
 }
-
-function closeTimer() {
-  clearInterval(tInterval);
-  sheetBg.classList.remove('show');
-  timerSheet.classList.remove('show');
-  ringFill.style.stroke = 'var(--acc)';
-  tcMainBtn.onclick = timerToggle;
-  tcMainBtn.textContent = 'Пауза';
-  timerDone.classList.remove('show');
+function closeTimer(){
+  clearInterval(tInt);
+  sbg.classList.remove('show');
+  tsh.classList.remove('show');
+  rfill.style.stroke=dayColor;
+  tbmain.onclick=timerToggle; tbmain.textContent='Пауза';
+  tdone.classList.remove('show');
+  haptic('light');
 }
-
-function beep() {
-  try {
-    const ctx = new (window.AudioContext || window.webkitAudioContext)();
-    [[0,660],[0.18,880],[0.36,1100]].forEach(([t,f]) => {
-      const o = ctx.createOscillator();
-      const g = ctx.createGain();
-      o.connect(g); g.connect(ctx.destination);
-      o.frequency.value = f; o.type = 'sine';
-      g.gain.setValueAtTime(0.25, ctx.currentTime + t);
-      g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + t + 0.16);
-      o.start(ctx.currentTime + t);
-      o.stop(ctx.currentTime + t + 0.18);
+function beep(){
+  try{
+    const ctx=new(window.AudioContext||window.webkitAudioContext)();
+    [[0,660],[.18,880],[.36,1100]].forEach(([t,f])=>{
+      const o=ctx.createOscillator(),g=ctx.createGain();
+      o.connect(g);g.connect(ctx.destination);
+      o.frequency.value=f;o.type='sine';
+      g.gain.setValueAtTime(.22,ctx.currentTime+t);
+      g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+t+.18);
+      o.start(ctx.currentTime+t);o.stop(ctx.currentTime+t+.2);
     });
-  } catch(e){}
+  }catch(e){}
 }
 
-// ─── RESET WEEK ───
-function resetWeek() {
-  if (!confirm('Сбросить все подходы и начать новую неделю?')) return;
-  document.querySelectorAll('.st-dot').forEach(d => d.classList.remove('done-set'));
-  document.querySelectorAll('.ex-card').forEach(c => { c.classList.remove('done','open'); });
-  document.querySelectorAll('.finish-banner').forEach(b => b.classList.remove('show'));
+// ─── CONFIRM DIALOG ───
+function showConf(){ haptic('light'); document.getElementById('confov').classList.add('show'); }
+function hideConf(){ haptic('light'); document.getElementById('confov').classList.remove('show'); }
+function doReset(){
+  haptic('medium');
+  document.getElementById('confov').classList.remove('show');
+  document.querySelectorAll('.stdot').forEach(d=>d.classList.remove('ok'));
+  document.querySelectorAll('.excard').forEach(c=>c.classList.remove('done','open'));
+  document.querySelectorAll('.finbanner').forEach(b=>b.classList.remove('show'));
+  try{ localStorage.removeItem(STORAGE_KEY); }catch(e){}
   updateProgress();
-  // Switch to Monday
-  document.querySelectorAll('.day-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.daypanel').forEach(p=>p.classList.remove('active'));
   document.getElementById('dp-mon').classList.add('active');
-  document.querySelectorAll('.day-tab').forEach(t => t.classList.remove('active'));
-  document.querySelector('.day-tab').classList.add('active');
+  document.querySelectorAll('.dtab').forEach(t=>t.classList.remove('active'));
+  document.querySelector('.dtab').classList.add('active');
+  dayColor='var(--mon)';
+  document.documentElement.style.setProperty('--dayc','var(--mon)');
+  document.getElementById('pf').style.background='var(--mon)';
+  document.getElementById('pf').style.boxShadow='0 0 8px var(--mon)';
+  updateProgress();
   window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ─── LOCAL STORAGE ───
+const STORAGE_KEY = 'workout_tg_v1';
+function saveState(){
+  try{
+    const s={};
+    document.querySelectorAll('.excard[data-day]').forEach((c,i)=>{
+      s['c'+i]={
+        sets:[...c.querySelectorAll('.stdot')].map(d=>d.classList.contains('ok')),
+        done:c.classList.contains('done')
+      };
+    });
+    ['mon','wed','fri'].forEach(d=>{
+      const el=document.getElementById('fin-'+d);
+      if(el) s['f'+d]=el.classList.contains('show');
+    });
+    localStorage.setItem(STORAGE_KEY,JSON.stringify(s));
+  }catch(e){}
+}
+function loadState(){
+  let s;
+  try{ s=JSON.parse(localStorage.getItem(STORAGE_KEY)); }catch(e){}
+  if(!s) return;
+  document.querySelectorAll('.excard[data-day]').forEach((c,i)=>{
+    const sv=s['c'+i]; if(!sv) return;
+    c.querySelectorAll('.stdot').forEach((d,j)=>{ if(sv.sets?.[j]) d.classList.add('ok'); });
+    if(sv.done){ c.classList.add('done'); c.classList.remove('open'); }
+  });
+  ['mon','wed','fri'].forEach(d=>{
+    const el=document.getElementById('fin-'+d);
+    if(el&&s['f'+d]) el.classList.add('show');
+  });
 }
 
 // ─── INIT ───
 buildTrackers();
+loadState();
 updateProgress();
 </script>
 </body>
