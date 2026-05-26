@@ -330,7 +330,7 @@ body{
   </div>
   <div class="dtabs">
     <button class="dtab active" style="--tc:var(--mon)" onclick="switchDay('mon',this)">Пн<br>Толчок</button>
-    <button class="dtab" style="--tc:var(--wed)" onclick="switchDay('wed',this)">Ср<br>Тяга</button>
+    <button class="dtab" style="--tc:var(--wed)" onclick="switchDay('wed',this)">Чт<br>Тяга</button>
     <button class="dtab" style="--tc:var(--fri)" onclick="switchDay('fri',this)">Пт<br>Ноги</button>
     <button class="dtab" style="--tc:#FFD700;font-size:11px" onclick="switchDay('skill',this)">⚡<br>Навык</button>
   </div>
@@ -366,6 +366,17 @@ body{
     </div></div>
   </div>
 
+
+  <!-- WEEK STRIP -->
+  <div style="margin:0 12px 8px;display:flex;gap:5px;overflow-x:auto;padding-bottom:2px">
+    <div style="flex-shrink:0;background:rgba(57,255,122,0.12);border:1.5px solid rgba(57,255,122,0.4);border-radius:8px;padding:5px 10px;text-align:center;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:800;color:#39FF7A">ПН<br><span style="font-size:9px;opacity:0.8">ТОЛЧОК</span></div>
+    <div style="flex-shrink:0;background:rgba(255,215,0,0.07);border:1px solid rgba(255,215,0,0.2);border-radius:8px;padding:5px 10px;text-align:center;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:800;color:#FFD700">ВТ<br><span style="font-size:9px;opacity:0.8">⚡НАВЫК</span></div>
+    <div style="flex-shrink:0;background:rgba(255,255,255,0.03);border:1px solid var(--b1);border-radius:8px;padding:5px 10px;text-align:center;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:800;color:var(--sub)">СР<br><span style="font-size:9px;opacity:0.8">ОТДЫХ</span></div>
+    <div style="flex-shrink:0;background:rgba(0,212,255,0.07);border:1px solid rgba(0,212,255,0.2);border-radius:8px;padding:5px 10px;text-align:center;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:800;color:#00D4FF">ЧТ<br><span style="font-size:9px;opacity:0.8">ТЯГА</span></div>
+    <div style="flex-shrink:0;background:rgba(255,98,0,0.07);border:1px solid rgba(255,98,0,0.2);border-radius:8px;padding:5px 10px;text-align:center;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:800;color:#FF6200">ПТ<br><span style="font-size:9px;opacity:0.8">НОГИ</span></div>
+    <div style="flex-shrink:0;background:rgba(255,215,0,0.07);border:1px solid rgba(255,215,0,0.2);border-radius:8px;padding:5px 10px;text-align:center;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:800;color:#FFD700">СБ<br><span style="font-size:9px;opacity:0.8">⚡НАВЫК</span></div>
+    <div style="flex-shrink:0;background:rgba(255,255,255,0.03);border:1px solid var(--b1);border-radius:8px;padding:5px 10px;text-align:center;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:800;color:var(--sub)">ВС<br><span style="font-size:9px;opacity:0.8">ОТДЫХ</span></div>
+  </div>
   <div class="finbanner" id="fin-mon"><div class="fbt">💪 Понедельник закрыт!</div><div class="fbs">Грудь, плечи и трицепс поработали на совесть</div></div>
   <div class="exlist" id="list-mon">
 
@@ -499,7 +510,7 @@ body{
 <!-- ══════════════ СРЕДА ══════════════ -->
 <div class="daypanel" id="dp-wed" style="--c:var(--wed)">
   <div class="hero">
-    <div class="hs-d"><em style="color:var(--wed)">СР</em><br>ТЯ<br>ГА</div>
+    <div class="hs-d"><em style="color:var(--wed)">ЧТ</em><br>ТЯ<br>ГА</div>
     <div class="hs-m">
       <div class="hs-f">Спина · Бицепс · Задняя дельта · Кор</div>
       <div class="hs-chips"><div class="hchip">6 упр.</div><div class="hchip">19 подх.</div><div class="hchip">~60 мин</div></div>
@@ -525,6 +536,17 @@ body{
     </div></div>
   </div>
 
+
+  <!-- WEEK STRIP -->
+  <div style="margin:0 12px 8px;display:flex;gap:5px;overflow-x:auto;padding-bottom:2px">
+    <div style="flex-shrink:0;background:rgba(57,255,122,0.12);border:1.5px solid rgba(57,255,122,0.4);border-radius:8px;padding:5px 10px;text-align:center;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:800;color:#39FF7A">ПН<br><span style="font-size:9px;opacity:0.8">ТОЛЧОК</span></div>
+    <div style="flex-shrink:0;background:rgba(255,215,0,0.07);border:1px solid rgba(255,215,0,0.2);border-radius:8px;padding:5px 10px;text-align:center;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:800;color:#FFD700">ВТ<br><span style="font-size:9px;opacity:0.8">⚡НАВЫК</span></div>
+    <div style="flex-shrink:0;background:rgba(255,255,255,0.03);border:1px solid var(--b1);border-radius:8px;padding:5px 10px;text-align:center;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:800;color:var(--sub)">СР<br><span style="font-size:9px;opacity:0.8">ОТДЫХ</span></div>
+    <div style="flex-shrink:0;background:rgba(0,212,255,0.07);border:1px solid rgba(0,212,255,0.2);border-radius:8px;padding:5px 10px;text-align:center;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:800;color:#00D4FF">ЧТ<br><span style="font-size:9px;opacity:0.8">ТЯГА</span></div>
+    <div style="flex-shrink:0;background:rgba(255,98,0,0.07);border:1px solid rgba(255,98,0,0.2);border-radius:8px;padding:5px 10px;text-align:center;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:800;color:#FF6200">ПТ<br><span style="font-size:9px;opacity:0.8">НОГИ</span></div>
+    <div style="flex-shrink:0;background:rgba(255,215,0,0.07);border:1px solid rgba(255,215,0,0.2);border-radius:8px;padding:5px 10px;text-align:center;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:800;color:#FFD700">СБ<br><span style="font-size:9px;opacity:0.8">⚡НАВЫК</span></div>
+    <div style="flex-shrink:0;background:rgba(255,255,255,0.03);border:1px solid var(--b1);border-radius:8px;padding:5px 10px;text-align:center;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:800;color:var(--sub)">ВС<br><span style="font-size:9px;opacity:0.8">ОТДЫХ</span></div>
+  </div>
   <div class="finbanner" id="fin-wed"><div class="fbt">💪 Среда закрыта!</div><div class="fbs">Спина и бицепс получили всё что нужно</div></div>
   <div class="exlist" id="list-wed">
 
@@ -658,6 +680,17 @@ body{
     </div></div>
   </div>
 
+
+  <!-- WEEK STRIP -->
+  <div style="margin:0 12px 8px;display:flex;gap:5px;overflow-x:auto;padding-bottom:2px">
+    <div style="flex-shrink:0;background:rgba(57,255,122,0.12);border:1.5px solid rgba(57,255,122,0.4);border-radius:8px;padding:5px 10px;text-align:center;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:800;color:#39FF7A">ПН<br><span style="font-size:9px;opacity:0.8">ТОЛЧОК</span></div>
+    <div style="flex-shrink:0;background:rgba(255,215,0,0.07);border:1px solid rgba(255,215,0,0.2);border-radius:8px;padding:5px 10px;text-align:center;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:800;color:#FFD700">ВТ<br><span style="font-size:9px;opacity:0.8">⚡НАВЫК</span></div>
+    <div style="flex-shrink:0;background:rgba(255,255,255,0.03);border:1px solid var(--b1);border-radius:8px;padding:5px 10px;text-align:center;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:800;color:var(--sub)">СР<br><span style="font-size:9px;opacity:0.8">ОТДЫХ</span></div>
+    <div style="flex-shrink:0;background:rgba(0,212,255,0.07);border:1px solid rgba(0,212,255,0.2);border-radius:8px;padding:5px 10px;text-align:center;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:800;color:#00D4FF">ЧТ<br><span style="font-size:9px;opacity:0.8">ТЯГА</span></div>
+    <div style="flex-shrink:0;background:rgba(255,98,0,0.07);border:1px solid rgba(255,98,0,0.2);border-radius:8px;padding:5px 10px;text-align:center;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:800;color:#FF6200">ПТ<br><span style="font-size:9px;opacity:0.8">НОГИ</span></div>
+    <div style="flex-shrink:0;background:rgba(255,215,0,0.07);border:1px solid rgba(255,215,0,0.2);border-radius:8px;padding:5px 10px;text-align:center;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:800;color:#FFD700">СБ<br><span style="font-size:9px;opacity:0.8">⚡НАВЫК</span></div>
+    <div style="flex-shrink:0;background:rgba(255,255,255,0.03);border:1px solid var(--b1);border-radius:8px;padding:5px 10px;text-align:center;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:800;color:var(--sub)">ВС<br><span style="font-size:9px;opacity:0.8">ОТДЫХ</span></div>
+  </div>
   <div class="finbanner" id="fin-fri"><div class="fbt">🏆 Неделя закрыта!</div><div class="fbs">3 из 3. Ты сделал всё. Отдыхай — заслужил</div></div>
   <div class="exlist" id="list-fri">
 
@@ -754,11 +787,11 @@ body{
 <div class="hero">
   <div class="hs-d" style="font-size:clamp(36px,9vw,48px)"><em style="color:#FFD700">МЫШ</em><br>АП</div>
   <div class="hs-m">
-    <div class="hs-f">Вт · Чт · 20 мин · Свежая нервная система</div>
+    <div class="hs-f">Вт + Сб · 20 мин · Всегда 2+ дня отдыха</div>
     <div class="hs-chips">
       <div class="hchip">4 этапа</div>
       <div class="hchip">~3–5 мес</div>
-      <div class="hchip">Вт + Чт</div>
+      <div class="hchip">Вт + Сб</div>
     </div>
   </div>
 </div>
@@ -766,14 +799,16 @@ body{
 <div style="margin:0 12px 10px;background:rgba(255,215,0,0.06);border:1px solid rgba(255,215,0,0.2);border-radius:14px;padding:14px">
   <div style="font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:900;letter-spacing:1px;color:#FFD700;text-transform:uppercase;margin-bottom:7px">Расписание недели</div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;font-size:13px;color:var(--sub2);line-height:1.6">
-    <div style="background:rgba(57,255,122,0.06);border:1px solid rgba(57,255,122,0.15);border-radius:10px;padding:9px 11px"><b style="color:#39FF7A">Пн</b> Грудь/плечи</div>
-    <div style="background:rgba(255,215,0,0.08);border:1px solid rgba(255,215,0,0.2);border-radius:10px;padding:9px 11px"><b style="color:#FFD700">Вт ⚡</b> Навык 20 мин</div>
-    <div style="background:rgba(0,212,255,0.06);border:1px solid rgba(0,212,255,0.15);border-radius:10px;padding:9px 11px"><b style="color:#00D4FF">Ср</b> Спина/бицепс</div>
-    <div style="background:rgba(255,215,0,0.08);border:1px solid rgba(255,215,0,0.2);border-radius:10px;padding:9px 11px"><b style="color:#FFD700">Чт ⚡</b> Навык 20 мин</div>
-    <div style="background:rgba(255,98,0,0.06);border:1px solid rgba(255,98,0,0.15);border-radius:10px;padding:9px 11px"><b style="color:#FF6200">Пт</b> Ноги</div>
-    <div style="background:var(--s2);border:1px solid var(--b1);border-radius:10px;padding:9px 11px"><b style="color:var(--sub)">Сб–Вс</b> Отдых</div>
+    <div style="background:rgba(57,255,122,0.08);border:1.5px solid rgba(57,255,122,0.25);border-radius:10px;padding:9px 11px"><b style="color:#39FF7A">Пн</b> Толчок</div>
+    <div style="background:rgba(255,215,0,0.08);border:1.5px solid rgba(255,215,0,0.25);border-radius:10px;padding:9px 11px"><b style="color:#FFD700">Вт ⚡</b> Навык 20 мин</div>
+    <div style="background:rgba(255,255,255,0.03);border:1px solid var(--b1);border-radius:10px;padding:9px 11px"><b style="color:var(--sub)">Ср</b> 😴 Отдых</div>
+    <div style="background:rgba(0,212,255,0.08);border:1.5px solid rgba(0,212,255,0.25);border-radius:10px;padding:9px 11px"><b style="color:#00D4FF">Чт</b> Тяга</div>
+    <div style="background:rgba(255,98,0,0.08);border:1.5px solid rgba(255,98,0,0.25);border-radius:10px;padding:9px 11px"><b style="color:#FF6200">Пт</b> Ноги</div>
+    <div style="background:rgba(255,215,0,0.08);border:1.5px solid rgba(255,215,0,0.25);border-radius:10px;padding:9px 11px"><b style="color:#FFD700">Сб ⚡</b> Навык 20 мин</div>
   </div>
-  <div style="margin-top:10px;font-size:12px;color:var(--sub);line-height:1.6">Навык — в <b style="color:var(--text)">отдельные дни</b>. После силовой тренировки мозг не учит новые движения эффективно. Вт/Чт — дни отдыха от основного плана, идеально.</div>
+  <div style="margin-top:7px;background:rgba(255,255,255,0.03);border:1px solid var(--b1);border-radius:10px;padding:10px 12px;font-size:12px;color:var(--sub);line-height:1.65">
+    <b style="color:var(--text)">Почему именно так:</b> тяговые мышцы (спина, бицепс) работают Вт навык → Ср отдых → Чт тяга → Пт → Сб навык. Везде минимум <b style="color:var(--text)">2 дня отдыха</b> между нагрузками на одни мышцы. Никакой перетренированности.
+  </div>
 </div>
 
 <div style="padding:0 12px 8px">
@@ -806,7 +841,7 @@ body{
       </div>
     </div>
     <div style="border-top:1px solid var(--b1);padding:14px">
-      <div style="font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:800;letter-spacing:1.5px;color:#FFD700;text-transform:uppercase;margin-bottom:10px">📅 ЧЕТВЕРГ — Негативы</div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:800;letter-spacing:1.5px;color:#FFD700;text-transform:uppercase;margin-bottom:10px">📅 СУББОТА — Негативы</div>
       <div style="font-size:13px;color:var(--sub2);line-height:1.8;margin-bottom:12px">
         <b style="color:var(--text)">1. Медленные негативы — 4 подхода × 5 повторов</b><br>Запрыгни в верхнюю точку. Опускайся максимально медленно — <b style="color:var(--text)">5–7 секунд</b>. Укрепляет сухожилия и готовит к переходу.<br><br>
         <b style="color:var(--text)">2. Вис на максимум — 3 подхода × максимальное время</b><br>Просто виси как можно дольше. Укрепляет хват и плечевой пояс.
@@ -843,7 +878,7 @@ body{
       </div>
     </div>
     <div style="border-top:1px solid var(--b1);padding:14px">
-      <div style="font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:800;letter-spacing:1.5px;color:#FFD700;text-transform:uppercase;margin-bottom:10px">📅 ЧЕТВЕРГ — Негативный выход</div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:800;letter-spacing:1.5px;color:#FFD700;text-transform:uppercase;margin-bottom:10px">📅 СУББОТА — Негативный выход</div>
       <div style="font-size:13px;color:var(--sub2);line-height:1.8;margin-bottom:12px">
         <b style="color:var(--text)">1. Негативный muscle-up — 5 × 3</b><br>Запрыгни в упор сверху. Медленно опускайся через точку перехода — <b style="color:var(--text)">6–8 секунд</b>. Почувствуй и запомни момент перехода. Отдых 3 мин.<br><br>
         <b style="color:var(--text)">2. Лучник — 3 × 5 на руку</b><br>Меньше помощи прямой рукой, чем во вторник. Отдых 2.5 мин.
@@ -880,7 +915,7 @@ body{
       </div>
     </div>
     <div style="border-top:1px solid var(--b1);padding:14px">
-      <div style="font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:800;letter-spacing:1.5px;color:#FFD700;text-transform:uppercase;margin-bottom:10px">📅 ЧЕТВЕРГ — Меньше помощи</div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:800;letter-spacing:1.5px;color:#FFD700;text-transform:uppercase;margin-bottom:10px">📅 СУББОТА — Меньше помощи</div>
       <div style="font-size:13px;color:var(--sub2);line-height:1.8;margin-bottom:12px">
         <b style="color:var(--text)">1. Muscle-up — 5 × 2 попытки</b><br>Каждую неделю помогай ногами немного меньше. Записывай — нужна ли была помощь. Отдых 4 мин.<br><br>
         <b style="color:var(--text)">2. Взрывные подтягивания — 3 × 4</b><br>Поддерживаем силу тяги. Отдых 2.5 мин.
@@ -917,7 +952,7 @@ body{
       </div>
     </div>
     <div style="border-top:1px solid var(--b1);padding:14px">
-      <div style="font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:800;letter-spacing:1.5px;color:#FFD700;text-transform:uppercase;margin-bottom:10px">📅 ЧЕТВЕРГ — Качество</div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:800;letter-spacing:1.5px;color:#FFD700;text-transform:uppercase;margin-bottom:10px">📅 СУББОТА — Качество</div>
       <div style="font-size:13px;color:var(--sub2);line-height:1.8;margin-bottom:12px">
         <b style="color:var(--text)">1. Muscle-up — 4 подхода × 2–3 повтора</b><br>Фокус на идеальную технику, не количество. Медленный переход, чёткий упор. Отдых 4 мин.<br><br>
         <b style="color:var(--text)">2. Взрывные подтягивания — 3 × 5</b><br>Поддерживаем базу. Отдых 2.5 мин.
