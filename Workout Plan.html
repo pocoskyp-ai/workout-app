@@ -259,17 +259,6 @@ body{
 .daypanel{display:none}
 .daypanel.active{display:block}
 
-/* SKILL STAGES */
-.skill-stage-btn{
-  padding:7px 14px;border-radius:8px;
-  background:var(--s3);border:1.5px solid var(--b2);
-  color:var(--sub);font-family:'Barlow Condensed',sans-serif;
-  font-size:14px;font-weight:700;letter-spacing:1px;text-transform:uppercase;
-  cursor:pointer;transition:all .18s;
-}
-.skill-stage-btn:active{opacity:.7;transform:scale(.95)}
-.skill-stage-btn.active{background:rgba(255,215,0,.12);border-color:#FFD700;color:#FFD700}
-
 .rb-icon{font-size:20px;flex-shrink:0}
 .rb-info{flex:1;text-align:left}
 .rb-title{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--c)}
@@ -332,7 +321,6 @@ body{
     <button class="dtab active" style="--tc:var(--mon)" onclick="switchDay('mon',this)">Пн<br>Толчок</button>
     <button class="dtab" style="--tc:var(--wed)" onclick="switchDay('wed',this)">Ср<br>Тяга</button>
     <button class="dtab" style="--tc:var(--fri)" onclick="switchDay('fri',this)">Пт<br>Ноги</button>
-    <button class="dtab" style="--tc:#FFD700;font-size:11px" onclick="switchDay('skill',this)" style="--tc:#FFD700;font-size:11px">⚡<br>Навык</button>
   </div>
 </div>
 
@@ -341,8 +329,8 @@ body{
   <div class="hero">
     <div class="hs-d"><em style="color:var(--mon)">ПН</em><br>ТОЛ<br>ЧОК</div>
     <div class="hs-m">
-      <div class="hs-f">Грудь · Плечи · Трицепс · Пресс</div>
-      <div class="hs-chips"><div class="hchip">6 упр.</div><div class="hchip">19 подх.</div><div class="hchip">~60 мин</div></div>
+      <div class="hs-f">Грудь · Плечи · Пресс</div>
+      <div class="hs-chips"><div class="hchip">5 упр.</div><div class="hchip">15 подх.</div><div class="hchip">~45 мин</div></div>
     </div>
   </div>
 
@@ -367,22 +355,12 @@ body{
   </div>
 
 
-  <!-- WEEK STRIP -->
-  <div style="margin:0 12px 8px;display:flex;gap:5px;overflow-x:auto;padding-bottom:2px">
-    <div style="flex-shrink:0;background:rgba(57,255,122,0.12);border:1.5px solid rgba(57,255,122,0.4);border-radius:8px;padding:5px 10px;text-align:center;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:800;color:#39FF7A">ПН<br><span style="font-size:9px;opacity:0.8">ТОЛЧОК</span></div>
-    <div style="flex-shrink:0;background:rgba(255,255,255,0.03);border:1px solid var(--b1);border-radius:8px;padding:5px 10px;text-align:center;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:800;color:var(--sub)">ВТ<br><span style="font-size:9px;opacity:0.8">ОТДЫХ</span></div>
-    <div style="flex-shrink:0;background:rgba(0,212,255,0.1);border:1.5px solid rgba(0,212,255,0.35);border-radius:8px;padding:5px 10px;text-align:center;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:800;color:#00D4FF">СР<br><span style="font-size:9px;opacity:0.8">ТЯГА</span></div>
-    <div style="flex-shrink:0;background:rgba(255,215,0,0.07);border:1px solid rgba(255,215,0,0.25);border-radius:8px;padding:5px 10px;text-align:center;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:800;color:#FFD700">ЧТ<br><span style="font-size:9px;opacity:0.8">⚡НАВЫК</span></div>
-    <div style="flex-shrink:0;background:rgba(255,98,0,0.1);border:1.5px solid rgba(255,98,0,0.35);border-radius:8px;padding:5px 10px;text-align:center;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:800;color:#FF6200">ПТ<br><span style="font-size:9px;opacity:0.8">НОГИ</span></div>
-    <div style="flex-shrink:0;background:rgba(255,215,0,0.1);border:1.5px solid rgba(255,215,0,0.35);border-radius:8px;padding:5px 10px;text-align:center;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:800;color:#FFD700">СБ<br><span style="font-size:9px;opacity:0.8">⚡НАВЫК</span></div>
-    <div style="flex-shrink:0;background:rgba(255,255,255,0.03);border:1px solid var(--b1);border-radius:8px;padding:5px 10px;text-align:center;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:800;color:var(--sub)">ВС<br><span style="font-size:9px;opacity:0.8">ОТДЫХ</span></div>
-  </div>
   <div class="finbanner" id="fin-mon"><div class="fbt">💪 Понедельник закрыт!</div><div class="fbs">Грудь, плечи и трицепс поработали на совесть</div></div>
   <div class="exlist" id="list-mon">
 
-    <div class="excard" data-sets="4" data-rest="150" data-day="mon" data-name="Брусья с наклоном">
+    <div class="excard" data-sets="3" data-rest="150" data-day="mon" data-name="Брусья с наклоном">
       <div class="exhd" onclick="toggleCard(this)"><div class="exnum">01</div><div class="exmain"><div class="extit">Брусья с наклоном</div><div class="exmus">Грудь + Трицепс</div></div><div class="exbadge">✓ ГОТОВО</div><div class="exarr">▾</div></div>
-      <div class="exstats"><div class="exstat"><div class="sv">4</div><div class="sk">Подходы</div></div><div class="exstat"><div class="sv">6→10</div><div class="sk">Повторы</div></div><div class="exstat"><div class="sv">2:30</div><div class="sk">Отдых</div></div></div>
+      <div class="exstats"><div class="exstat"><div class="sv">3</div><div class="sk">Подходы</div></div><div class="exstat"><div class="sv">6→10</div><div class="sk">Повторы</div></div><div class="exstat"><div class="sv">2:30</div><div class="sk">Отдых</div></div></div>
       <div class="stw"><div class="sthint">Нажми на подход после завершения — таймер запустится автоматически</div><div class="stdots"></div></div>
       <div class="exbody"><div class="exinn">
         <div class="blk"><div class="blbl">Техника</div><ul class="steps">
@@ -468,32 +446,9 @@ body{
       </div></div>
     </div>
 
-    <div class="excard" data-sets="3" data-rest="60" data-day="mon" data-name="Кикбэк">
-      <div class="exhd" onclick="toggleCard(this)"><div class="exnum">05</div><div class="exmain"><div class="extit">Кикбэк — разгибание гантели</div><div class="exmus">Трицепс</div></div><div class="exbadge">✓ ГОТОВО</div><div class="exarr">▾</div></div>
-      <div class="exstats"><div class="exstat"><div class="sv">3</div><div class="sk">Подходы</div></div><div class="exstat"><div class="sv">12→16</div><div class="sk">Повторы</div></div><div class="exstat"><div class="sv">1:00</div><div class="sk">Отдых</div></div></div>
-      <div class="stw"><div class="sthint">Нажми на подход после завершения — таймер запустится автоматически</div><div class="stdots"></div></div>
-      <div class="exbody"><div class="exinn">
-        <div class="blk"><div class="blbl">Техника</div><ul class="steps">
-          <li><span class="sd">1</span>Наклонись вперёд, упрись свободной рукой в опору. Рабочий локоть прижат к телу и поднят до параллели с полом — он <b>не двигается</b> весь подход</li>
-          <li><span class="sd">2</span>Из согнутого положения разгибай предплечье назад до полного выпрямления руки</li>
-          <li><span class="sd">3</span>Пауза <b>1 сек</b> в верхней точке — трицепс полностью сокращён. Медленно вниз <b>3 сек</b></li>
-        </ul></div>
-        <div class="blk"><div class="blbl">Нюансы</div><ul class="tips">
-          <li><span class="tb">✓</span>Это лучшая позиция для изоляции трицепса — он работает в полном сокращении</li>
-          <li><span class="tb">✓</span>Вес лёгкий — 5–8 кг. Лучше чистое движение чем тяжело с раскачкой</li>
-          <li><span class="tb">✓</span>Локоть параллельно полу весь подход — если опускается, трицепс выключается</li>
-        </ul></div>
-        <div class="blk"><div class="blbl">Ошибки</div><ul class="errs">
-          <li><span class="eb">!</span>Локоть опускается вниз — нагрузка уходит с трицепса</li>
-          <li><span class="eb">!</span>Раскачка корпусом — читинг, трицепс не работает</li>
-          <li><span class="eb">!</span>Нет паузы вверху — теряется лучшая часть сокращения</li>
-        </ul></div>
-        <div class="blk"><div class="blbl">Прогрессия</div><div class="pp">16 повт → <b>+1–2 кг</b>. Или пауза 2 сек вверху</div></div>
-      </div></div>
-    </div>
 
     <div class="excard" data-sets="3" data-rest="45" data-day="mon" data-name="Подъём ног в висе">
-      <div class="exhd" onclick="toggleCard(this)"><div class="exnum">06</div><div class="exmain"><div class="extit">Подъём ног в висе</div><div class="exmus">Нижний пресс</div></div><div class="exbadge">✓ ГОТОВО</div><div class="exarr">▾</div></div>
+      <div class="exhd" onclick="toggleCard(this)"><div class="exnum">05</div><div class="exmain"><div class="extit">Подъём ног в висе</div><div class="exmus">Нижний пресс</div></div><div class="exbadge">✓ ГОТОВО</div><div class="exarr">▾</div></div>
       <div class="exstats"><div class="exstat"><div class="sv">3</div><div class="sk">Подходы</div></div><div class="exstat"><div class="sv">10→15</div><div class="sk">Повторы</div></div><div class="exstat"><div class="sv">0:45</div><div class="sk">Отдых</div></div></div>
       <div class="stw"><div class="sthint">Нажми на подход после завершения — таймер запустится автоматически</div><div class="stdots"></div></div>
       <div class="exbody"><div class="exinn">
@@ -543,16 +498,6 @@ body{
   </div>
 
 
-  <!-- WEEK STRIP -->
-  <div style="margin:0 12px 8px;display:flex;gap:5px;overflow-x:auto;padding-bottom:2px">
-    <div style="flex-shrink:0;background:rgba(57,255,122,0.12);border:1.5px solid rgba(57,255,122,0.4);border-radius:8px;padding:5px 10px;text-align:center;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:800;color:#39FF7A">ПН<br><span style="font-size:9px;opacity:0.8">ТОЛЧОК</span></div>
-    <div style="flex-shrink:0;background:rgba(255,255,255,0.03);border:1px solid var(--b1);border-radius:8px;padding:5px 10px;text-align:center;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:800;color:var(--sub)">ВТ<br><span style="font-size:9px;opacity:0.8">ОТДЫХ</span></div>
-    <div style="flex-shrink:0;background:rgba(0,212,255,0.1);border:1.5px solid rgba(0,212,255,0.35);border-radius:8px;padding:5px 10px;text-align:center;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:800;color:#00D4FF">СР<br><span style="font-size:9px;opacity:0.8">ТЯГА</span></div>
-    <div style="flex-shrink:0;background:rgba(255,215,0,0.07);border:1px solid rgba(255,215,0,0.25);border-radius:8px;padding:5px 10px;text-align:center;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:800;color:#FFD700">ЧТ<br><span style="font-size:9px;opacity:0.8">⚡НАВЫК</span></div>
-    <div style="flex-shrink:0;background:rgba(255,98,0,0.1);border:1.5px solid rgba(255,98,0,0.35);border-radius:8px;padding:5px 10px;text-align:center;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:800;color:#FF6200">ПТ<br><span style="font-size:9px;opacity:0.8">НОГИ</span></div>
-    <div style="flex-shrink:0;background:rgba(255,215,0,0.1);border:1.5px solid rgba(255,215,0,0.35);border-radius:8px;padding:5px 10px;text-align:center;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:800;color:#FFD700">СБ<br><span style="font-size:9px;opacity:0.8">⚡НАВЫК</span></div>
-    <div style="flex-shrink:0;background:rgba(255,255,255,0.03);border:1px solid var(--b1);border-radius:8px;padding:5px 10px;text-align:center;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:800;color:var(--sub)">ВС<br><span style="font-size:9px;opacity:0.8">ОТДЫХ</span></div>
-  </div>
   <div class="finbanner" id="fin-wed"><div class="fbt">💪 Среда закрыта!</div><div class="fbs">Спина и бицепс получили всё что нужно</div></div>
   <div class="exlist" id="list-wed">
 
@@ -609,25 +554,9 @@ body{
       </div></div>
     </div>
 
-    <div class="excard" data-sets="3" data-rest="67" data-day="wed" data-name="Разведения в наклоне">
-      <div class="exhd" onclick="toggleCard(this)"><div class="exnum">04</div><div class="exmain"><div class="extit">Разведения в наклоне</div><div class="exmus">Задняя дельта</div></div><div class="exbadge">✓ ГОТОВО</div><div class="exarr">▾</div></div>
-      <div class="exstats"><div class="exstat"><div class="sv">3</div><div class="sk">Подходы</div></div><div class="exstat"><div class="sv">12→16</div><div class="sk">Повторы</div></div><div class="exstat"><div class="sv">1:07</div><div class="sk">Отдых</div></div></div>
-      <div class="stw"><div class="sthint">Нажми на подход после завершения — таймер запустится автоматически</div><div class="stdots"></div></div>
-      <div class="exbody"><div class="exinn">
-        <div class="blk"><div class="blbl" style="color:var(--wed)">Техника</div><ul class="steps">
-          <li><span class="sd" style="background:rgba(0,212,255,.1);border-color:rgba(0,212,255,.25);color:var(--wed)">1</span>Наклон до параллели с полом. Спина прямая, взгляд в пол</li>
-          <li><span class="sd" style="background:rgba(0,212,255,.1);border-color:rgba(0,212,255,.25);color:var(--wed)">2</span>Мизинец чуть <b>выше большого пальца</b>. Пауза <b>1 сек</b> вверху. Опускай <b>3 сек</b></li>
-        </ul></div>
-        <div class="blk"><div class="blbl" style="color:var(--wed)">Ошибки</div><ul class="errs">
-          <li><span class="eb">!</span>Слишком тяжёлый вес → трапеция перехватывает всё</li>
-          <li><span class="eb">!</span>Недостаточный наклон — работает боковая дельта, не задняя</li>
-        </ul></div>
-        <div class="blk"><div class="blbl" style="color:var(--wed)">Прогрессия</div><div class="pp" style="background:rgba(0,212,255,.05);border-color:rgba(0,212,255,.15)">16 повт → <b>+1–2 кг</b> или пауза 2 сек вверху</div></div>
-      </div></div>
-    </div>
 
     <div class="excard" data-sets="3" data-rest="60" data-day="wed" data-name="Гиперэкстензия">
-      <div class="exhd" onclick="toggleCard(this)"><div class="exnum">05</div><div class="exmain"><div class="extit">Гиперэкстензия</div><div class="exmus">Поясница + Ягодицы + Бицепс бедра</div></div><div class="exbadge">✓ ГОТОВО</div><div class="exarr">▾</div></div>
+      <div class="exhd" onclick="toggleCard(this)"><div class="exnum">04</div><div class="exmain"><div class="extit">Гиперэкстензия</div><div class="exmus">Поясница + Ягодицы + Бицепс бедра</div></div><div class="exbadge">✓ ГОТОВО</div><div class="exarr">▾</div></div>
       <div class="exstats"><div class="exstat"><div class="sv">3</div><div class="sk">Подходы</div></div><div class="exstat"><div class="sv">15→20</div><div class="sk">Повторы</div></div><div class="exstat"><div class="sv">1:00</div><div class="sk">Отдых</div></div></div>
       <div class="stw"><div class="sthint">Нажми на подход после завершения — таймер запустится автоматически</div><div class="stdots"></div></div>
       <div class="exbody"><div class="exinn">
@@ -644,7 +573,7 @@ body{
     </div>
 
     <div class="excard" data-sets="3" data-rest="40" data-day="wed" data-name="Русский твист">
-      <div class="exhd" onclick="toggleCard(this)"><div class="exnum">06</div><div class="exmain"><div class="extit">Русский твист</div><div class="exmus">Косые мышцы живота</div></div><div class="exbadge">✓ ГОТОВО</div><div class="exarr">▾</div></div>
+      <div class="exhd" onclick="toggleCard(this)"><div class="exnum">05</div><div class="exmain"><div class="extit">Русский твист</div><div class="exmus">Косые мышцы живота</div></div><div class="exbadge">✓ ГОТОВО</div><div class="exarr">▾</div></div>
       <div class="exstats"><div class="exstat"><div class="sv">3</div><div class="sk">Подходы</div></div><div class="exstat"><div class="sv">15→20</div><div class="sk">На сторону</div></div><div class="exstat"><div class="sv">0:40</div><div class="sk">Отдых</div></div></div>
       <div class="stw"><div class="sthint">Нажми на подход после завершения — таймер запустится автоматически</div><div class="stdots"></div></div>
       <div class="exbody"><div class="exinn">
@@ -696,16 +625,6 @@ body{
   </div>
 
 
-  <!-- WEEK STRIP -->
-  <div style="margin:0 12px 8px;display:flex;gap:5px;overflow-x:auto;padding-bottom:2px">
-    <div style="flex-shrink:0;background:rgba(57,255,122,0.12);border:1.5px solid rgba(57,255,122,0.4);border-radius:8px;padding:5px 10px;text-align:center;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:800;color:#39FF7A">ПН<br><span style="font-size:9px;opacity:0.8">ТОЛЧОК</span></div>
-    <div style="flex-shrink:0;background:rgba(255,255,255,0.03);border:1px solid var(--b1);border-radius:8px;padding:5px 10px;text-align:center;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:800;color:var(--sub)">ВТ<br><span style="font-size:9px;opacity:0.8">ОТДЫХ</span></div>
-    <div style="flex-shrink:0;background:rgba(0,212,255,0.1);border:1.5px solid rgba(0,212,255,0.35);border-radius:8px;padding:5px 10px;text-align:center;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:800;color:#00D4FF">СР<br><span style="font-size:9px;opacity:0.8">ТЯГА</span></div>
-    <div style="flex-shrink:0;background:rgba(255,215,0,0.07);border:1px solid rgba(255,215,0,0.25);border-radius:8px;padding:5px 10px;text-align:center;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:800;color:#FFD700">ЧТ<br><span style="font-size:9px;opacity:0.8">⚡НАВЫК</span></div>
-    <div style="flex-shrink:0;background:rgba(255,98,0,0.1);border:1.5px solid rgba(255,98,0,0.35);border-radius:8px;padding:5px 10px;text-align:center;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:800;color:#FF6200">ПТ<br><span style="font-size:9px;opacity:0.8">НОГИ</span></div>
-    <div style="flex-shrink:0;background:rgba(255,215,0,0.1);border:1.5px solid rgba(255,215,0,0.35);border-radius:8px;padding:5px 10px;text-align:center;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:800;color:#FFD700">СБ<br><span style="font-size:9px;opacity:0.8">⚡НАВЫК</span></div>
-    <div style="flex-shrink:0;background:rgba(255,255,255,0.03);border:1px solid var(--b1);border-radius:8px;padding:5px 10px;text-align:center;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:800;color:var(--sub)">ВС<br><span style="font-size:9px;opacity:0.8">ОТДЫХ</span></div>
-  </div>
   <div class="finbanner" id="fin-fri"><div class="fbt">🏆 Неделя закрыта!</div><div class="fbs">3 из 3. Ты сделал всё. Отдыхай — заслужил</div></div>
   <div class="exlist" id="list-fri">
 
@@ -796,241 +715,9 @@ body{
 
 </div>
 
-<!-- ══════ НАВЫК: MUSCLE-UP ══════ -->
-<div class="daypanel" id="dp-skill">
 
-<div class="hero">
-  <div class="hs-d" style="font-size:clamp(36px,9vw,48px)"><em style="color:#FFD700">МЫШ</em><br>АП</div>
-  <div class="hs-m">
-    <div class="hs-f">Чт (лёгко) + Сб (основное)</div>
-    <div class="hs-chips">
-      <div class="hchip">4 этапа</div>
-      <div class="hchip">~3–5 мес</div>
-      <div class="hchip">Чт + Сб</div>
-    </div>
-  </div>
-</div>
 
-<div style="margin:0 12px 10px;background:rgba(255,215,0,0.06);border:1px solid rgba(255,215,0,0.2);border-radius:14px;padding:14px">
-  <div style="font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:900;letter-spacing:1px;color:#FFD700;text-transform:uppercase;margin-bottom:7px">Расписание недели</div>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;font-size:13px;color:var(--sub2);line-height:1.6">
-    <div style="background:rgba(57,255,122,0.08);border:1.5px solid rgba(57,255,122,0.25);border-radius:10px;padding:9px 11px"><b style="color:#39FF7A">Пн</b> Толчок</div>
-    <div style="background:rgba(255,255,255,0.03);border:1px solid var(--b1);border-radius:10px;padding:9px 11px"><b style="color:var(--sub)">Вт</b> 😴 Отдых</div>
-    <div style="background:rgba(0,212,255,0.08);border:1.5px solid rgba(0,212,255,0.25);border-radius:10px;padding:9px 11px"><b style="color:#00D4FF">Ср</b> Тяга</div>
-    <div style="background:rgba(255,215,0,0.06);border:1px solid rgba(255,215,0,0.2);border-radius:10px;padding:9px 11px"><b style="color:#FFD700">Чт ⚡</b> Навык лёгкий 15 мин</div>
-    <div style="background:rgba(255,98,0,0.08);border:1.5px solid rgba(255,98,0,0.25);border-radius:10px;padding:9px 11px"><b style="color:#FF6200">Пт</b> Ноги</div>
-    <div style="background:rgba(255,215,0,0.1);border:1.5px solid rgba(255,215,0,0.3);border-radius:10px;padding:9px 11px"><b style="color:#FFD700">Сб ⚡</b> Навык основной 20 мин</div>
-  </div>
-  <div style="margin-top:7px;background:rgba(255,255,255,0.03);border:1px solid var(--b1);border-radius:10px;padding:10px 12px;font-size:12px;color:var(--sub);line-height:1.65">
-    <b style="color:var(--text)">Почему Чт + Сб:</b> 2 раза в неделю ускоряет прогресс вдвое. Чт — лёгкая сессия только взрывы (15 мин), Сб — полная. Пт ноги между ними — тяговые успевают восстановиться. Ср тяга → Чт навык → Пт ноги → Сб навык — везде минимум 1 день, нигде нет подряд одних мышц.
-  </div>
-</div>
 
-<div style="padding:0 12px 8px">
-  <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--sub);margin-bottom:9px;font-family:'JetBrains Mono',monospace">Выбери свой этап</div>
-  <div style="display:flex;gap:7px;flex-wrap:wrap" id="stabs">
-    <button class="skill-stage-btn active" id="stab-0" onclick="gotoStage(0)">Этап 1</button>
-    <button class="skill-stage-btn" id="stab-1" onclick="gotoStage(1)">Этап 2</button>
-    <button class="skill-stage-btn" id="stab-2" onclick="gotoStage(2)">Этап 3</button>
-    <button class="skill-stage-btn" id="stab-3" onclick="gotoStage(3)">Этап 4 🏆</button>
-  </div>
-</div>
-
-<!-- ЭТАП 1 -->
-<div id="sp-0" style="margin:0 12px 8px">
-  <div style="background:var(--s1);border:1.5px solid rgba(255,215,0,0.35);border-radius:14px;overflow:hidden">
-    <div style="padding:16px 14px 14px">
-      <div style="font-family:'Barlow Condensed',sans-serif;font-size:21px;font-weight:900;letter-spacing:1px;color:#FFD700;text-transform:uppercase">Этап 1 — Силовая база</div>
-      <div style="font-size:11px;color:var(--sub);font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin:3px 0 10px">~4 недели · Цель: 3×12 чистых подтягиваний</div>
-      <div style="font-size:13px;color:var(--sub2);line-height:1.7;background:rgba(255,215,0,0.06);border:1px solid rgba(255,215,0,0.15);border-radius:10px;padding:11px 13px">Muscle-up требует минимум <b style="color:var(--text)">12–15 чистых подтягиваний</b>. Сейчас 9–12 — первый этап строит этот фундамент. Плюс учим тело <b style="color:var(--text)">взрывному усилию</b> — без него перекидка через перекладину невозможна физически.</div>
-    </div>
-    <div style="border-top:1px solid var(--b1);padding:14px">
-      <div style="font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:800;letter-spacing:1.5px;color:#FFD700;text-transform:uppercase;margin-bottom:10px">📅 СУББОТА — Тренировка навыка</div>
-      <div style="font-size:13px;color:var(--sub2);line-height:1.8;margin-bottom:12px">
-        <b style="color:var(--text)">1. Взрывные подтягивания — 5 подходов × 3 повтора</b><br>Хват чуть уже плеч. Взрывной рывок вверх — тяни грудь к перекладине. Медленно вниз 3 сек. Только 3 повтора — нужна максимальная мощь каждого.<br><br>
-        <b style="color:var(--text)">2. Обычные подтягивания — 4 подхода × макс</b><br>Останавливайся за 1–2 до отказа. Записывай повторы каждого подхода.
-      </div>
-      <div style="display:flex;gap:8px">
-        <button onclick="startTimer(180,'Взрывные — отдых','⚡ НАВЫК')" style="flex:1;padding:13px 6px;border-radius:11px;border:1.5px solid rgba(255,215,0,0.3);background:rgba(255,215,0,0.08);color:#FFD700;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:800;letter-spacing:1px;text-transform:uppercase;cursor:pointer">⏱ 3:00<br><span style="font-size:10px;opacity:0.7">взрывные</span></button>
-        <button onclick="startTimer(150,'Подтягивания — отдых','⚡ НАВЫК')" style="flex:1;padding:13px 6px;border-radius:11px;border:1.5px solid rgba(255,215,0,0.3);background:rgba(255,215,0,0.08);color:#FFD700;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:800;letter-spacing:1px;text-transform:uppercase;cursor:pointer">⏱ 2:30<br><span style="font-size:10px;opacity:0.7">объём</span></button>
-      </div>
-    </div>
-    <div style="border-top:1px solid var(--b1);padding:14px">
-      <div style="font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:800;letter-spacing:1.5px;color:#FFD700;text-transform:uppercase;margin-bottom:10px"></div>
-      <div style="font-size:13px;color:var(--sub2);line-height:1.8;margin-bottom:12px">
-        <b style="color:var(--text)">1. Медленные негативы — 4 подхода × 5 повторов</b><br>Запрыгни в верхнюю точку. Опускайся максимально медленно — <b style="color:var(--text)">5–7 секунд</b>. Укрепляет сухожилия и готовит к переходу.<br><br>
-        <b style="color:var(--text)">2. Вис на максимум — 3 подхода × максимальное время</b><br>Просто виси как можно дольше. Укрепляет хват и плечевой пояс.
-      </div>
-      <div style="display:flex;gap:8px">
-        <button onclick="startTimer(150,'Негативы — отдых','⚡ НАВЫК')" style="flex:1;padding:13px 6px;border-radius:11px;border:1.5px solid rgba(255,215,0,0.3);background:rgba(255,215,0,0.08);color:#FFD700;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:800;letter-spacing:1px;text-transform:uppercase;cursor:pointer">⏱ 2:30<br><span style="font-size:10px;opacity:0.7">негативы</span></button>
-        <button onclick="startTimer(120,'Вис — отдых','⚡ НАВЫК')" style="flex:1;padding:13px 6px;border-radius:11px;border:1.5px solid rgba(255,215,0,0.3);background:rgba(255,215,0,0.08);color:#FFD700;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:800;letter-spacing:1px;text-transform:uppercase;cursor:pointer">⏱ 2:00<br><span style="font-size:10px;opacity:0.7">вис</span></button>
-      </div>
-    </div>
-    
-    <div style="border-top:1px solid var(--b1);padding:14px;background:rgba(255,215,0,0.03)">
-      <div style="font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:800;letter-spacing:1.5px;color:#FFD700;text-transform:uppercase;margin-bottom:10px">📅 ЧЕТВЕРГ — Лёгкая (15 мин)</div>
-      <div style="font-size:13px;color:var(--sub2);line-height:1.7;margin-bottom:12px">
-        <b style="color:var(--text)">Только взрывные подтягивания — 4 × 3</b><br>
-        Максимальный взрыв вверх, грудью к перекладине. Медленно вниз 3 сек. Отдых 3 мин. <b style="color:var(--text)">Всё</b> — больше ничего не делаешь. Цель четверга — закрепить нейронный паттерн, не утомить мышцы перед пятницей.
-      </div>
-      <button onclick="startTimer(180,'Четверг лёгкий — отдых','⚡ НАВЫК · ЧТ')" style="width:100%;padding:13px;border-radius:11px;border:1px solid rgba(255,215,0,0.2);background:rgba(255,215,0,0.06);color:#FFD700;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:800;letter-spacing:1px;text-transform:uppercase;cursor:pointer">⏱ 3:00 — отдых между подходами</button>
-    </div>
-<div style="border-top:1px solid var(--b1);padding:14px">
-      <div style="font-size:12.5px;color:var(--sub2);line-height:1.65;margin-bottom:12px">✅ <b style="color:var(--text)">Переход к этапу 2:</b> делаешь 3 подхода × 12 чистых подтягиваний без особых усилий</div>
-      <button onclick="gotoStage(1);saveSkillStage(1)" style="width:100%;padding:14px;border-radius:12px;border:1.5px solid rgba(255,215,0,0.35);background:rgba(255,215,0,0.1);color:#FFD700;font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:900;letter-spacing:1px;text-transform:uppercase;cursor:pointer;min-height:52px">✓ Готово → Этап 2</button>
-    </div>
-  </div>
-</div>
-
-<!-- ЭТАП 2 -->
-<div id="sp-1" style="margin:0 12px 8px;display:none">
-  <div style="background:var(--s1);border:1.5px solid rgba(255,215,0,0.35);border-radius:14px;overflow:hidden">
-    <div style="padding:16px 14px 14px">
-      <div style="font-family:'Barlow Condensed',sans-serif;font-size:21px;font-weight:900;letter-spacing:1px;color:#FFD700;text-transform:uppercase">Этап 2 — Грудь к турнику</div>
-      <div style="font-size:11px;color:var(--sub);font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin:3px 0 10px">~3–4 недели · Цель: 5 взрывных подтягиваний грудью</div>
-      <div style="font-size:13px;color:var(--sub2);line-height:1.7;background:rgba(255,215,0,0.06);border:1px solid rgba(255,215,0,0.15);border-radius:10px;padding:11px 13px">Обычное подтягивание = подбородок над турником. Для muscle-up нужно <b style="color:var(--text)">грудь к перекладине</b> — принципиально другой взрыв. Добавляем <b style="color:var(--text)">лучника (Archer pull-up)</b> — учит несимметричной силе, нужной для перехода.</div>
-    </div>
-    <div style="border-top:1px solid var(--b1);padding:14px">
-      <div style="font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:800;letter-spacing:1.5px;color:#FFD700;text-transform:uppercase;margin-bottom:10px">📅 СУББОТА — Тренировка навыка</div>
-      <div style="font-size:13px;color:var(--sub2);line-height:1.8;margin-bottom:12px">
-        <b style="color:var(--text)">1. Подтягивания грудью к перекладине — 6 × 3</b><br>Взрыв вверх пока грудь не коснётся. Если не достаёт — лёгкий прыжок. Медленно вниз 3 сек. Отдых 3 мин.<br><br>
-        <b style="color:var(--text)">2. Лучник (Archer pull-up) — 3 × 4 на каждую руку</b><br>Широкий хват. Тянись к одной руке — она согнута, другая прямая. Меняй стороны. Отдых 2.5 мин.
-      </div>
-      <div style="display:flex;gap:8px">
-        <button onclick="startTimer(180,'Грудью — отдых','⚡ НАВЫК')" style="flex:1;padding:13px 6px;border-radius:11px;border:1.5px solid rgba(255,215,0,0.3);background:rgba(255,215,0,0.08);color:#FFD700;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:800;letter-spacing:1px;text-transform:uppercase;cursor:pointer">⏱ 3:00<br><span style="font-size:10px;opacity:0.7">грудью</span></button>
-        <button onclick="startTimer(150,'Лучник — отдых','⚡ НАВЫК')" style="flex:1;padding:13px 6px;border-radius:11px;border:1.5px solid rgba(255,215,0,0.3);background:rgba(255,215,0,0.08);color:#FFD700;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:800;letter-spacing:1px;text-transform:uppercase;cursor:pointer">⏱ 2:30<br><span style="font-size:10px;opacity:0.7">лучник</span></button>
-      </div>
-    </div>
-    <div style="border-top:1px solid var(--b1);padding:14px">
-      <div style="font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:800;letter-spacing:1.5px;color:#FFD700;text-transform:uppercase;margin-bottom:10px"></div>
-      <div style="font-size:13px;color:var(--sub2);line-height:1.8;margin-bottom:12px">
-        <b style="color:var(--text)">1. Негативный muscle-up — 5 × 3</b><br>Запрыгни в упор сверху. Медленно опускайся через точку перехода — <b style="color:var(--text)">6–8 секунд</b>. Почувствуй и запомни момент перехода. Отдых 3 мин.<br><br>
-        <b style="color:var(--text)">2. Лучник — 3 × 5 на руку</b><br>Меньше помощи прямой рукой, чем во вторник. Отдых 2.5 мин.
-      </div>
-      <div style="display:flex;gap:8px">
-        <button onclick="startTimer(180,'Негативный выход — отдых','⚡ НАВЫК')" style="flex:1;padding:13px 6px;border-radius:11px;border:1.5px solid rgba(255,215,0,0.3);background:rgba(255,215,0,0.08);color:#FFD700;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:800;letter-spacing:1px;text-transform:uppercase;cursor:pointer">⏱ 3:00<br><span style="font-size:10px;opacity:0.7">негатив</span></button>
-        <button onclick="startTimer(150,'Лучник — отдых','⚡ НАВЫК')" style="flex:1;padding:13px 6px;border-radius:11px;border:1.5px solid rgba(255,215,0,0.3);background:rgba(255,215,0,0.08);color:#FFD700;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:800;letter-spacing:1px;text-transform:uppercase;cursor:pointer">⏱ 2:30<br><span style="font-size:10px;opacity:0.7">лучник</span></button>
-      </div>
-    </div>
-    
-    <div style="border-top:1px solid var(--b1);padding:14px;background:rgba(255,215,0,0.03)">
-      <div style="font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:800;letter-spacing:1.5px;color:#FFD700;text-transform:uppercase;margin-bottom:10px">📅 ЧЕТВЕРГ — Лёгкая (15 мин)</div>
-      <div style="font-size:13px;color:var(--sub2);line-height:1.7;margin-bottom:12px">
-        <b style="color:var(--text)">Только взрывные подтягивания — 4 × 3</b><br>
-        Максимальный взрыв вверх, грудью к перекладине. Медленно вниз 3 сек. Отдых 3 мин. <b style="color:var(--text)">Всё</b> — больше ничего не делаешь. Цель четверга — закрепить нейронный паттерн, не утомить мышцы перед пятницей.
-      </div>
-      <button onclick="startTimer(180,'Четверг лёгкий — отдых','⚡ НАВЫК · ЧТ')" style="width:100%;padding:13px;border-radius:11px;border:1px solid rgba(255,215,0,0.2);background:rgba(255,215,0,0.06);color:#FFD700;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:800;letter-spacing:1px;text-transform:uppercase;cursor:pointer">⏱ 3:00 — отдых между подходами</button>
-    </div>
-<div style="border-top:1px solid var(--b1);padding:14px">
-      <div style="font-size:12.5px;color:var(--sub2);line-height:1.65;margin-bottom:12px">✅ <b style="color:var(--text)">Переход к этапу 3:</b> 5 подтягиваний грудью без прыжка + контролируешь негатив 6+ сек</div>
-      <button onclick="gotoStage(2);saveSkillStage(2)" style="width:100%;padding:14px;border-radius:12px;border:1.5px solid rgba(255,215,0,0.35);background:rgba(255,215,0,0.1);color:#FFD700;font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:900;letter-spacing:1px;text-transform:uppercase;cursor:pointer;min-height:52px">✓ Готово → Этап 3</button>
-    </div>
-  </div>
-</div>
-
-<!-- ЭТАП 3 -->
-<div id="sp-2" style="margin:0 12px 8px;display:none">
-  <div style="background:var(--s1);border:1.5px solid rgba(255,215,0,0.35);border-radius:14px;overflow:hidden">
-    <div style="padding:16px 14px 14px">
-      <div style="font-family:'Barlow Condensed',sans-serif;font-size:21px;font-weight:900;letter-spacing:1px;color:#FFD700;text-transform:uppercase">Этап 3 — Переход</div>
-      <div style="font-size:11px;color:var(--sub);font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin:3px 0 10px">~3–4 недели · Цель: выход с минимальной помощью ног</div>
-      <div style="font-size:13px;color:var(--sub2);line-height:1.7;background:rgba(255,215,0,0.06);border:1px solid rgba(255,215,0,0.15);border-radius:10px;padding:11px 13px">Самый технически сложный момент. Нужно в верхней точке <b style="color:var(--text)">повернуть запястья вперёд</b> и перебросить тело через перекладину. Первые разы с помощью ног — нормально. Мозг учит паттерн, а не силу.</div>
-    </div>
-    <div style="border-top:1px solid var(--b1);padding:14px">
-      <div style="font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:800;letter-spacing:1.5px;color:#FFD700;text-transform:uppercase;margin-bottom:10px">📅 СУББОТА — Тренировка навыка</div>
-      <div style="font-size:13px;color:var(--sub2);line-height:1.8;margin-bottom:12px">
-        <b style="color:var(--text)">1. Muscle-up с помощью ног — 6 × 2 попытки</b><br>Небольшой мах вперёд → взрыв → наклоняй запястья → переход → выжимай в упор. Помогай ногами сколько нужно. Отдых <b style="color:var(--text)">4 мин</b> — каждая попытка должна быть максимальной.<br><br>
-        <b style="color:var(--text)">2. Негативы — 4 × 3 медленных (7–8 сек)</b><br>Закрепляет паттерн перехода. Отдых 3 мин.
-      </div>
-      <div style="display:flex;gap:8px">
-        <button onclick="startTimer(240,'Попытки выхода — отдых','⚡ НАВЫК')" style="flex:1;padding:13px 6px;border-radius:11px;border:1.5px solid rgba(255,215,0,0.3);background:rgba(255,215,0,0.08);color:#FFD700;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:800;letter-spacing:1px;text-transform:uppercase;cursor:pointer">⏱ 4:00<br><span style="font-size:10px;opacity:0.7">попытки</span></button>
-        <button onclick="startTimer(180,'Негативы — отдых','⚡ НАВЫК')" style="flex:1;padding:13px 6px;border-radius:11px;border:1.5px solid rgba(255,215,0,0.3);background:rgba(255,215,0,0.08);color:#FFD700;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:800;letter-spacing:1px;text-transform:uppercase;cursor:pointer">⏱ 3:00<br><span style="font-size:10px;opacity:0.7">негативы</span></button>
-      </div>
-    </div>
-    <div style="border-top:1px solid var(--b1);padding:14px">
-      <div style="font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:800;letter-spacing:1.5px;color:#FFD700;text-transform:uppercase;margin-bottom:10px"></div>
-      <div style="font-size:13px;color:var(--sub2);line-height:1.8;margin-bottom:12px">
-        <b style="color:var(--text)">1. Muscle-up — 5 × 2 попытки</b><br>Каждую неделю помогай ногами немного меньше. Записывай — нужна ли была помощь. Отдых 4 мин.<br><br>
-        <b style="color:var(--text)">2. Взрывные подтягивания — 3 × 4</b><br>Поддерживаем силу тяги. Отдых 2.5 мин.
-      </div>
-      <div style="display:flex;gap:8px">
-        <button onclick="startTimer(240,'Попытки четверг — отдых','⚡ НАВЫК')" style="flex:1;padding:13px 6px;border-radius:11px;border:1.5px solid rgba(255,215,0,0.3);background:rgba(255,215,0,0.08);color:#FFD700;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:800;letter-spacing:1px;text-transform:uppercase;cursor:pointer">⏱ 4:00<br><span style="font-size:10px;opacity:0.7">попытки</span></button>
-        <button onclick="startTimer(150,'Взрывные — отдых','⚡ НАВЫК')" style="flex:1;padding:13px 6px;border-radius:11px;border:1.5px solid rgba(255,215,0,0.3);background:rgba(255,215,0,0.08);color:#FFD700;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:800;letter-spacing:1px;text-transform:uppercase;cursor:pointer">⏱ 2:30<br><span style="font-size:10px;opacity:0.7">взрывные</span></button>
-      </div>
-    </div>
-    
-    <div style="border-top:1px solid var(--b1);padding:14px;background:rgba(255,215,0,0.03)">
-      <div style="font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:800;letter-spacing:1.5px;color:#FFD700;text-transform:uppercase;margin-bottom:10px">📅 ЧЕТВЕРГ — Лёгкая (15 мин)</div>
-      <div style="font-size:13px;color:var(--sub2);line-height:1.7;margin-bottom:12px">
-        <b style="color:var(--text)">Только взрывные подтягивания — 4 × 3</b><br>
-        Максимальный взрыв вверх, грудью к перекладине. Медленно вниз 3 сек. Отдых 3 мин. <b style="color:var(--text)">Всё</b> — больше ничего не делаешь. Цель четверга — закрепить нейронный паттерн, не утомить мышцы перед пятницей.
-      </div>
-      <button onclick="startTimer(180,'Четверг лёгкий — отдых','⚡ НАВЫК · ЧТ')" style="width:100%;padding:13px;border-radius:11px;border:1px solid rgba(255,215,0,0.2);background:rgba(255,215,0,0.06);color:#FFD700;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:800;letter-spacing:1px;text-transform:uppercase;cursor:pointer">⏱ 3:00 — отдых между подходами</button>
-    </div>
-<div style="border-top:1px solid var(--b1);padding:14px">
-      <div style="font-size:12.5px;color:var(--sub2);line-height:1.65;margin-bottom:12px">✅ <b style="color:var(--text)">Переход к этапу 4:</b> muscle-up стабильно получается с минимальной помощью ног</div>
-      <button onclick="gotoStage(3);saveSkillStage(3)" style="width:100%;padding:14px;border-radius:12px;border:1.5px solid rgba(255,215,0,0.35);background:rgba(255,215,0,0.1);color:#FFD700;font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:900;letter-spacing:1px;text-transform:uppercase;cursor:pointer;min-height:52px">✓ Готово → Этап 4</button>
-    </div>
-  </div>
-</div>
-
-<!-- ЭТАП 4 -->
-<div id="sp-3" style="margin:0 12px 8px;display:none">
-  <div style="background:var(--s1);border:1.5px solid rgba(255,215,0,0.5);border-radius:14px;overflow:hidden">
-    <div style="padding:16px 14px 14px">
-      <div style="font-family:'Barlow Condensed',sans-serif;font-size:21px;font-weight:900;letter-spacing:1px;color:#FFD700;text-transform:uppercase">Этап 4 — Чистый Muscle-up 🏆</div>
-      <div style="font-size:11px;color:var(--sub);font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin:3px 0 10px">Финал · Цель: 3 чистых повтора подряд</div>
-      <div style="font-size:13px;color:var(--sub2);line-height:1.7;background:rgba(255,215,0,0.06);border:1px solid rgba(255,215,0,0.15);border-radius:10px;padding:11px 13px">Первый чистый muscle-up — только начало. Теперь доводишь до <b style="color:var(--text)">3–5 повторов подряд</b>. Небольшой мах разрешён — это правильная техника, не читинг. Как сделаешь 3 чистых стабильно — напиши мне.</div>
-    </div>
-    <div style="border-top:1px solid var(--b1);padding:14px">
-      <div style="font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:800;letter-spacing:1.5px;color:#FFD700;text-transform:uppercase;margin-bottom:10px">📅 СУББОТА — Тренировка навыка</div>
-      <div style="font-size:13px;color:var(--sub2);line-height:1.8;margin-bottom:12px">
-        <b style="color:var(--text)">1. Muscle-up — 5 подходов × макс без ног</b><br>Записывай количество. Отдых <b style="color:var(--text)">5 мин</b> — полное восстановление.<br><br>
-        <b style="color:var(--text)">2. Негативы — 3 × 3 (8 сек каждый)</b><br>Поддерживает силу и контроль. Отдых 3 мин.
-      </div>
-      <div style="display:flex;gap:8px">
-        <button onclick="startTimer(300,'Muscle-up — отдых','⚡ НАВЫК')" style="flex:1;padding:13px 6px;border-radius:11px;border:1.5px solid rgba(255,215,0,0.3);background:rgba(255,215,0,0.08);color:#FFD700;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:800;letter-spacing:1px;text-transform:uppercase;cursor:pointer">⏱ 5:00<br><span style="font-size:10px;opacity:0.7">muscle-up</span></button>
-        <button onclick="startTimer(180,'Негативы — отдых','⚡ НАВЫК')" style="flex:1;padding:13px 6px;border-radius:11px;border:1.5px solid rgba(255,215,0,0.3);background:rgba(255,215,0,0.08);color:#FFD700;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:800;letter-spacing:1px;text-transform:uppercase;cursor:pointer">⏱ 3:00<br><span style="font-size:10px;opacity:0.7">негативы</span></button>
-      </div>
-    </div>
-    <div style="border-top:1px solid var(--b1);padding:14px">
-      <div style="font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:800;letter-spacing:1.5px;color:#FFD700;text-transform:uppercase;margin-bottom:10px"></div>
-      <div style="font-size:13px;color:var(--sub2);line-height:1.8;margin-bottom:12px">
-        <b style="color:var(--text)">1. Muscle-up — 4 подхода × 2–3 повтора</b><br>Фокус на идеальную технику, не количество. Медленный переход, чёткий упор. Отдых 4 мин.<br><br>
-        <b style="color:var(--text)">2. Взрывные подтягивания — 3 × 5</b><br>Поддерживаем базу. Отдых 2.5 мин.
-      </div>
-      <div style="display:flex;gap:8px">
-        <button onclick="startTimer(240,'Четверг — отдых','⚡ НАВЫК')" style="flex:1;padding:13px 6px;border-radius:11px;border:1.5px solid rgba(255,215,0,0.3);background:rgba(255,215,0,0.08);color:#FFD700;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:800;letter-spacing:1px;text-transform:uppercase;cursor:pointer">⏱ 4:00<br><span style="font-size:10px;opacity:0.7">muscle-up</span></button>
-        <button onclick="startTimer(150,'Взрывные — отдых','⚡ НАВЫК')" style="flex:1;padding:13px 6px;border-radius:11px;border:1.5px solid rgba(255,215,0,0.3);background:rgba(255,215,0,0.08);color:#FFD700;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:800;letter-spacing:1px;text-transform:uppercase;cursor:pointer">⏱ 2:30<br><span style="font-size:10px;opacity:0.7">взрывные</span></button>
-      </div>
-    </div>
-    
-    <div style="border-top:1px solid var(--b1);padding:14px;background:rgba(255,215,0,0.03)">
-      <div style="font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:800;letter-spacing:1.5px;color:#FFD700;text-transform:uppercase;margin-bottom:10px">📅 ЧЕТВЕРГ — Лёгкая (15 мин)</div>
-      <div style="font-size:13px;color:var(--sub2);line-height:1.7;margin-bottom:12px">
-        <b style="color:var(--text)">Только взрывные подтягивания — 4 × 3</b><br>
-        Максимальный взрыв вверх, грудью к перекладине. Медленно вниз 3 сек. Отдых 3 мин. <b style="color:var(--text)">Всё</b> — больше ничего не делаешь. Цель четверга — закрепить нейронный паттерн, не утомить мышцы перед пятницей.
-      </div>
-      <button onclick="startTimer(180,'Четверг лёгкий — отдых','⚡ НАВЫК · ЧТ')" style="width:100%;padding:13px;border-radius:11px;border:1px solid rgba(255,215,0,0.2);background:rgba(255,215,0,0.06);color:#FFD700;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:800;letter-spacing:1px;text-transform:uppercase;cursor:pointer">⏱ 3:00 — отдых между подходами</button>
-    </div>
-<div style="border-top:1px solid var(--b1);padding:16px;text-align:center;background:rgba(255,215,0,0.04)">
-      <div style="font-size:32px;margin-bottom:8px">🏆</div>
-      <div style="font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:900;letter-spacing:1px;color:#FFD700;text-transform:uppercase">3+ чистых повтора?</div>
-      <div style="font-size:13px;color:var(--sub2);margin-top:5px">Напиши мне — обновлю план под следующий навык</div>
-    </div>
-  </div>
-</div>
-
-<div style="margin:10px 12px 20px;background:var(--s1);border:1px solid var(--b1);border-radius:14px;padding:14px;display:flex;align-items:center;justify-content:space-between">
-  <div>
-    <div style="font-size:10px;color:var(--sub);font-weight:700;letter-spacing:1.5px;text-transform:uppercase">Текущий этап</div>
-    <div id="saved-stage-display" style="font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:900;color:#FFD700;letter-spacing:1px;margin-top:2px">Этап 1</div>
-  </div>
-  <div style="font-size:11px;color:var(--sub);text-align:right">Сохраняется<br>автоматически</div>
-</div>
-
-</div>
-<!-- /НАВЫК -->
 
 
 <div class="infsec">
@@ -1087,7 +774,7 @@ let tTotal=0, tLeft=0, tPaused=false, tInt=null, dayColor='#39FF7A';
 // ─── SWITCH DAY ───
 function switchDay(day, btn) {
   haptic('light');
-  const colMap = {mon:'#39FF7A',wed:'#00D4FF',fri:'#FF6200',skill:'#FFD700'};
+  const colMap = {mon:'#39FF7A',wed:'#00D4FF',fri:'#FF6200'};
   const rawCol = colMap[day]||'#39FF7A';
   document.documentElement.style.setProperty('--dayc', rawCol);
   document.querySelectorAll('.daypanel').forEach(p=>p.classList.remove('active'));
@@ -1339,41 +1026,10 @@ function loadState(){
 }
 
 
-// ─── SKILL STAGES ───
-const SKILL_KEY = 'skill_v2';
-let curStage = 0;
-
-function initSkill() {
-  try { curStage = parseInt(localStorage.getItem(SKILL_KEY)||'0'); } catch(e){}
-  gotoStage(curStage, false);
-}
-
-function gotoStage(idx, doHaptic=true) {
-  if (doHaptic) haptic('light');
-  curStage = idx;
-  for (let i=0;i<4;i++) {
-    const el = document.getElementById('sp-'+i);
-    if (el) el.style.display = i===idx ? 'block' : 'none';
-    const tb = document.getElementById('stab-'+i);
-    if (tb) tb.classList.toggle('active', i===idx);
-  }
-  const names = ['Этап 1','Этап 2','Этап 3','Этап 4 🏆'];
-  const disp = document.getElementById('saved-stage-display');
-  if (disp) disp.textContent = names[idx]||'Этап 1';
-}
-
-function saveSkillStage(idx) {
-  curStage = idx;
-  try { localStorage.setItem(SKILL_KEY, idx); } catch(e){}
-  gotoStage(idx);
-  haptic('success');
-}
-
 // ─── INIT ───
 buildTrackers();
 loadState();
 updateProgress();
-initSkill();
 // Apply initial color
 document.documentElement.style.setProperty('--dayc', '#39FF7A');
 </script>
